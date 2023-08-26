@@ -51,8 +51,8 @@ rotation = 1.5708
 shape = SubResource("2")
 
 [node name="Wall8" type="StaticBody2D" parent="WallContainer"]
-position = Vector2(585.534, 221.147)
-rotation = 1.07416
+position = Vector2(700, 241)
+rotation = 2.09439
 physics_material_override = SubResource("4")
 
 [node name="Sprite2D" type="Sprite2D" parent="WallContainer/Wall8"]
@@ -133,14 +133,17 @@ rotation = 1.5708
 shape = SubResource("2")
 
 [node name="Ball" parent="." instance=ExtResource("2")]
-position = Vector2(87, 37)
+position = Vector2(50, 37)
 
 [node name="Ball2" parent="." instance=ExtResource("2")]
-position = Vector2(413, 55)
+position = Vector2(107, 220)
 
 [node name="Ball3" parent="." instance=ExtResource("2")]
-position = Vector2(227, 37)
+position = Vector2(107, 135)
 gravity_scale = 10.0
 
 [node name="Ball4" parent="." instance=ExtResource("2")]
-position = Vector2(920, 37)
+position = Vector2(684, 37)
+
+[node name="Ball5" parent="." instance=ExtResource("2")]
+position = Vector2(532, 98)
