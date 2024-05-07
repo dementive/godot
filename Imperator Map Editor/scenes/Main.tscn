@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://noosguotc438"]
+
+[ext_resource type="Script" path="res://scenes/Main.gd" id="1_eh0rh"]
+[ext_resource type="Texture2D" uid="uid://c4dt7e2d7o1so" path="res://map_data/provinces_test.png" id="2_kxx1b"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_eh0rh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_kxx1b")
+centered = false
+
+[node name="Provinces" type="Node2D" parent="."]
