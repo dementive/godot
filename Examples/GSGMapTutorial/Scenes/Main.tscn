@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyqh5guovipt2"]
+
+[ext_resource type="Script" path="res://Scenes/Main.gd" id="1_4vqlq"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0fw5r"]
+load_path = "res://.godot/imported/provinces_test.png-d75f1cecaad5f9acbb2b1b86d6c02e74.ctex"
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_4vqlq")
+
+[node name="MapTexture" type="Sprite2D" parent="."]
+texture = SubResource("CompressedTexture2D_0fw5r")
+
+[node name="Regions" type="Node2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
