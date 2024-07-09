@@ -48,7 +48,7 @@ func _move_forward(delta):
 	
 	velocity = forward * speed;
 	if fast_as_fuck:
-		velocity *= 25.0
+		velocity *= 100.0
 	move_and_slide();
 
 # Get a vector for the mouse relative to the center of the screen

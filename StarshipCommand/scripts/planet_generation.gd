@@ -7,14 +7,28 @@ func _ready():
 	var big_scale = Vector3(190.92, 190.92, 190.92)
 	var massive_scale = Vector3(250.92, 250.92, 250.92)
 	
-	#generate_planet(0.0, get_star_material(), get_star_material(), massive_scale)
-	#generate_planet(525.0, get_lava_material(), get_lava_atmosphere_material(), mid_scale)
-	#generate_planet(825.0, get_sand_material(), get_sand_atmosphere_material(), small_scale)
-	#generate_planet(1225.0, get_terrestrial_material(), get_terrestrial_atmosphere_material(), mid_scale)
-	#generate_planet_no_atmosphere(1525.0, get_no_atmosphere_material(), mid_scale)
-	#generate_planet_no_atmosphere(1825.0, get_no_atmosphere_material(), small_scale)
-	#generate_planet(2825.0, get_gas_material(), get_gas_atmosphere_material(), big_scale)
-	#generate_planet_no_atmosphere(3620.0, get_ice_material(), mid_scale)
+	var star: Node3D = generate_star(get_star_material(), get_star_material(), massive_scale)
+	star.add_child(
+		generate_planet(525.0, get_lava_material(), get_lava_atmosphere_material(), small_scale)
+	)
+	star.add_child(
+		generate_planet(1200.0, get_sand_material(), get_sand_atmosphere_material(), small_scale)
+	)
+	star.add_child(
+		generate_planet(2325.0, get_terrestrial_material(), get_terrestrial_atmosphere_material(), mid_scale)
+	)
+	star.add_child(
+		generate_planet_no_atmosphere(2925.0, get_no_atmosphere_material(), mid_scale)
+	)
+	star.add_child(
+		generate_planet_no_atmosphere(4225.0, get_no_atmosphere_material(), small_scale)
+	)
+	star.add_child(
+		generate_planet(5825.0, get_gas_material(), get_gas_atmosphere_material(), big_scale)
+	)
+	star.add_child(
+		generate_planet_no_atmosphere(7620.0, get_ice_material(), mid_scale)
+	)
 
 func get_lava_atmosphere_material() -> ShaderMaterial:
 	var shader: Shader = load("res://gfx/shaders/atmosphere.gdshader")
@@ -273,31 +287,49 @@ func get_no_atmosphere_material() -> ShaderMaterial:
 
 	return shader_mat
 
-func generate_planet_no_atmosphere(offset: float, shader_material: ShaderMaterial, planet_scale: Vector3):
-	var sphere_mesh: SphereMesh = SphereMesh.new()
+func generate_planet_no_atmosphere(
+	distance_from_star: float,
+	shader_material: ShaderMaterial,
+	planet_scale: Vector3
+	) -> StaticBody3D:
+	# Planet that does not use the atmosphere shader
+	var static_body: StaticBody3D = StaticBody3D.new()
+	static_body.position.x = distance_from_star
+	static_body.position.z = randf_range(0, 5000)
+	var collision_shape: CollisionShape3D = CollisionShape3D.new()
+	static_body.add_child(collision_shape)
+	collision_shape.scale = planet_scale + Vector3(100, 100, 100)
+	collision_shape.shape = SphereShape3D.new()
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	
-	mesh_instance.mesh = sphere_mesh
+	mesh_instance.mesh = SphereMesh.new()
 	mesh_instance.mesh.set_material(shader_material)
 	mesh_instance.scale = planet_scale
-	mesh_instance.position.x = offset
+	#mesh_instance.position.x = offset
 	
-	add_child(mesh_instance)
+	static_body.add_child(mesh_instance)
+	return static_body
 	
 func generate_planet(
-	offset: float,
+	distance_from_star: float,
 	shader_material: ShaderMaterial,
 	atmosphere_material: ShaderMaterial,
 	planet_scale: Vector3
-	):
-	var sphere_mesh: SphereMesh = SphereMesh.new()
-	var atmosphere_sphere_mesh: SphereMesh = SphereMesh.new()
+	) -> StaticBody3D:
+	var static_body: StaticBody3D = StaticBody3D.new()
+	static_body.position.x = distance_from_star
+	static_body.position.z = randf_range(0, 5000)
+	
+	var collision_shape: CollisionShape3D = CollisionShape3D.new()
+	static_body.add_child(collision_shape)
+	collision_shape.scale = planet_scale + Vector3(100, 100, 100)
+	collision_shape.shape = SphereShape3D.new()
 	
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	var atmosphere_mesh: MeshInstance3D = MeshInstance3D.new()
 	
-	mesh_instance.mesh = sphere_mesh
-	atmosphere_mesh.mesh = atmosphere_sphere_mesh
+	mesh_instance.mesh = SphereMesh.new()
+	atmosphere_mesh.mesh = SphereMesh.new()
 	
 	mesh_instance.mesh.set_material(shader_material)
 	atmosphere_mesh.mesh.set_material(atmosphere_material)
@@ -305,7 +337,38 @@ func generate_planet(
 	mesh_instance.scale = planet_scale
 	atmosphere_mesh.scale = Vector3(1.01, 1.01, 1.01)
 	
-	mesh_instance.position.x = offset
+	mesh_instance.add_child(atmosphere_mesh)
+	static_body.add_child(mesh_instance)
+	return static_body
+
+func generate_star(
+	shader_material: ShaderMaterial,
+	atmosphere_material: ShaderMaterial,
+	star_scale: Vector3
+	) -> Node3D:
+	# Star generation, same as generate_planet except stars do not move through space.
+	var star_node: Node3D = Node3D.new()
+	var static_body: StaticBody3D = StaticBody3D.new()
+	var collision_shape: CollisionShape3D = CollisionShape3D.new()
+	static_body.add_child(collision_shape)
+	collision_shape.scale = star_scale + Vector3(200, 200, 200)
+	collision_shape.shape = SphereShape3D.new()
+	
+	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
+	var atmosphere_mesh: MeshInstance3D = MeshInstance3D.new()
+	star_node.set_script(load("res://scripts/orbit.gd"))
+	
+	mesh_instance.mesh = SphereMesh.new()
+	atmosphere_mesh.mesh = SphereMesh.new()
+	
+	mesh_instance.mesh.set_material(shader_material)
+	atmosphere_mesh.mesh.set_material(atmosphere_material)
+	
+	mesh_instance.scale = star_scale
+	atmosphere_mesh.scale = Vector3(1.01, 1.01, 1.01)
 	
 	mesh_instance.add_child(atmosphere_mesh)
-	add_child(mesh_instance)
+	static_body.add_child(mesh_instance)
+	star_node.add_child(static_body)
+	add_child(star_node)
+	return star_node
