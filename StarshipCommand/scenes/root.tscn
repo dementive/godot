@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://c4icstrmcyb2a"]
+[gd_scene load_steps=11 format=3 uid="uid://c4icstrmcyb2a"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_n8s1f"]
-[ext_resource type="Script" path="res://scenes/PlanetGeneration.gd" id="2_7hh21"]
+[ext_resource type="Script" path="res://scripts/PlanetGeneration.gd" id="2_7hh21"]
 [ext_resource type="Shader" path="res://gfx/shaders/skybox.gdshader" id="3_yuha5"]
 [ext_resource type="PackedScene" uid="uid://df2twgr1xbl8g" path="res://scenes/player.tscn" id="4_x4ull"]
+[ext_resource type="Script" path="res://scripts/orbit_test.gd" id="5_k2q36"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gd352"]
 shader = ExtResource("3_yuha5")
@@ -26,6 +27,10 @@ glow_normalized = true
 glow_bloom = 0.2
 glow_blend_mode = 0
 
+[sub_resource type="SphereMesh" id="SphereMesh_na3s8"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_76thc"]
+
 [node name="Root" type="Node3D"]
 script = ExtResource("1_n8s1f")
 
@@ -44,3 +49,17 @@ script = ExtResource("2_7hh21")
 
 [node name="Player" parent="." instance=ExtResource("4_x4ull")]
 transform = Transform3D(-0.732341, 0, 0.680938, 0, 1, 0, -0.680938, 0, -0.732341, 252.277, 0, 412.456)
+
+[node name="Node3D" type="Node3D" parent="."]
+script = ExtResource("5_k2q36")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 300, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/StaticBody3D"]
+transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, 0, 0, 0)
+mesh = SubResource("SphereMesh_na3s8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/StaticBody3D"]
+transform = Transform3D(300, 0, 0, 0, 300, 0, 0, 0, 300, 0, 0, 0)
+shape = SubResource("SphereShape3D_76thc")

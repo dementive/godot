@@ -7,14 +7,14 @@ func _ready():
 	var big_scale = Vector3(190.92, 190.92, 190.92)
 	var massive_scale = Vector3(250.92, 250.92, 250.92)
 	
-	generate_planet(0.0, get_star_material(), get_star_material(), massive_scale)
-	generate_planet(525.0, get_lava_material(), get_lava_atmosphere_material(), mid_scale)
-	generate_planet(825.0, get_sand_material(), get_sand_atmosphere_material(), small_scale)
-	generate_planet(1225.0, get_terrestrial_material(), get_terrestrial_atmosphere_material(), mid_scale)
-	generate_planet_no_atmosphere(1525.0, get_no_atmosphere_material(), mid_scale)
-	generate_planet_no_atmosphere(1825.0, get_no_atmosphere_material(), small_scale)
-	generate_planet(2825.0, get_gas_material(), get_gas_atmosphere_material(), big_scale)
-	generate_planet_no_atmosphere(3620.0, get_ice_material(), mid_scale)
+	#generate_planet(0.0, get_star_material(), get_star_material(), massive_scale)
+	#generate_planet(525.0, get_lava_material(), get_lava_atmosphere_material(), mid_scale)
+	#generate_planet(825.0, get_sand_material(), get_sand_atmosphere_material(), small_scale)
+	#generate_planet(1225.0, get_terrestrial_material(), get_terrestrial_atmosphere_material(), mid_scale)
+	#generate_planet_no_atmosphere(1525.0, get_no_atmosphere_material(), mid_scale)
+	#generate_planet_no_atmosphere(1825.0, get_no_atmosphere_material(), small_scale)
+	#generate_planet(2825.0, get_gas_material(), get_gas_atmosphere_material(), big_scale)
+	#generate_planet_no_atmosphere(3620.0, get_ice_material(), mid_scale)
 
 func get_lava_atmosphere_material() -> ShaderMaterial:
 	var shader: Shader = load("res://gfx/shaders/atmosphere.gdshader")
