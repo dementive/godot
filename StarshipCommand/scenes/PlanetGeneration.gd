@@ -1,8 +1,23 @@
 class_name PlanetGeneration
 extends Node3D
 
+func _ready():
+	var small_scale = Vector3(85.0, 85.0, 85.0)
+	var mid_scale = Vector3(111.92, 111.92, 111.92)
+	var big_scale = Vector3(190.92, 190.92, 190.92)
+	var massive_scale = Vector3(250.92, 250.92, 250.92)
+	
+	generate_planet(0.0, get_star_material(), get_star_material(), massive_scale)
+	generate_planet(525.0, get_lava_material(), get_lava_atmosphere_material(), mid_scale)
+	generate_planet(825.0, get_sand_material(), get_sand_atmosphere_material(), small_scale)
+	generate_planet(1225.0, get_terrestrial_material(), get_terrestrial_atmosphere_material(), mid_scale)
+	generate_planet_no_atmosphere(1525.0, get_no_atmosphere_material(), mid_scale)
+	generate_planet_no_atmosphere(1825.0, get_no_atmosphere_material(), small_scale)
+	generate_planet(2825.0, get_gas_material(), get_gas_atmosphere_material(), big_scale)
+	generate_planet_no_atmosphere(3620.0, get_ice_material(), mid_scale)
+
 func get_lava_atmosphere_material() -> ShaderMaterial:
-	var shader: Shader = load("res://addons/naejimer_3d_planet_generator/shaders/atmosphere.gdshader")
+	var shader: Shader = load("res://gfx/shaders/atmosphere.gdshader")
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = shader
 
@@ -16,7 +31,7 @@ func get_lava_atmosphere_material() -> ShaderMaterial:
 	return shader_mat
 
 func get_sand_atmosphere_material() -> ShaderMaterial:
-	var shader: Shader = load("res://addons/naejimer_3d_planet_generator/shaders/atmosphere.gdshader")
+	var shader: Shader = load("res://gfx/shaders/atmosphere.gdshader")
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = shader
 
@@ -30,7 +45,7 @@ func get_sand_atmosphere_material() -> ShaderMaterial:
 	return shader_mat
 	
 func get_terrestrial_atmosphere_material() -> ShaderMaterial:
-	var shader: Shader = load("res://addons/naejimer_3d_planet_generator/shaders/atmosphere.gdshader")
+	var shader: Shader = load("res://gfx/shaders/atmosphere.gdshader")
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = shader
 
@@ -44,7 +59,7 @@ func get_terrestrial_atmosphere_material() -> ShaderMaterial:
 	return shader_mat
 	
 func get_gas_atmosphere_material() -> ShaderMaterial:
-	var shader: Shader = load("res://addons/naejimer_3d_planet_generator/shaders/atmosphere.gdshader")
+	var shader: Shader = load("res://gfx/shaders/atmosphere.gdshader")
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = shader
 
@@ -58,7 +73,7 @@ func get_gas_atmosphere_material() -> ShaderMaterial:
 	return shader_mat
 
 func get_star_atmosphere_material() -> ShaderMaterial:
-	var shader: Shader = load("res://addons/naejimer_3d_planet_generator/shaders/atmosphere.gdshader")
+	var shader: Shader = load("res://gfx/shaders/atmosphere.gdshader")
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = shader
 
@@ -72,7 +87,7 @@ func get_star_atmosphere_material() -> ShaderMaterial:
 	return shader_mat
 
 func get_star_material() -> ShaderMaterial:
-	var shader = load("res://addons/naejimer_3d_planet_generator/shaders/body.gdshader")
+	var shader = load("res://gfx/shaders/body.gdshader")
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = shader
 	
@@ -92,12 +107,12 @@ func get_star_material() -> ShaderMaterial:
 	shader_mat.set_shader_parameter("noise_gaseous", true)
 	shader_mat.set_shader_parameter("noise_gaseous_speed", 0.05)
 	shader_mat.set_shader_parameter("noise_scale", 3.0)
-	shader_mat.set_shader_parameter("noise", load("res://addons/naejimer_3d_planet_generator/noises/star.tres"))
+	shader_mat.set_shader_parameter("noise", load("res://gfx/noises/star.tres"))
 	
 	return shader_mat
 
 func get_gas_material() -> ShaderMaterial:
-	var shader = load("res://addons/naejimer_3d_planet_generator/shaders/body.gdshader")
+	var shader = load("res://gfx/shaders/body.gdshader")
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = shader
 	
@@ -117,12 +132,12 @@ func get_gas_material() -> ShaderMaterial:
 	shader_mat.set_shader_parameter("noise_gaseous", true)
 	shader_mat.set_shader_parameter("noise_gaseous_speed", 0.0025)
 	shader_mat.set_shader_parameter("noise_scale", 1.425)
-	shader_mat.set_shader_parameter("noise", load("res://addons/naejimer_3d_planet_generator/noises/planet_gaseous.tres"))
+	shader_mat.set_shader_parameter("noise", load("res://gfx/noises/planet_gaseous.tres"))
 
 	return shader_mat
 
 func get_terrestrial_material() -> ShaderMaterial:
-	var shader = load("res://addons/naejimer_3d_planet_generator/shaders/body.gdshader")
+	var shader = load("res://gfx/shaders/body.gdshader")
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = shader
 	
@@ -142,12 +157,12 @@ func get_terrestrial_material() -> ShaderMaterial:
 	shader_mat.set_shader_parameter("noise_gaseous", false)
 	shader_mat.set_shader_parameter("noise_gaseous_speed", 0.0025)
 	shader_mat.set_shader_parameter("noise_scale", 1.0)
-	shader_mat.set_shader_parameter("noise", load("res://addons/naejimer_3d_planet_generator/noises/planet_terrestrial.tres"))
+	shader_mat.set_shader_parameter("noise", load("res://gfx/noises/planet_terrestrial.tres"))
 
 	return shader_mat
 
 func get_sand_material() -> ShaderMaterial:
-	var shader = load("res://addons/naejimer_3d_planet_generator/shaders/body.gdshader")
+	var shader = load("res://gfx/shaders/body.gdshader")
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = shader
 	
@@ -167,12 +182,12 @@ func get_sand_material() -> ShaderMaterial:
 	shader_mat.set_shader_parameter("noise_gaseous", false)
 	shader_mat.set_shader_parameter("noise_gaseous_speed", 0.0025)
 	shader_mat.set_shader_parameter("noise_scale", 1.283)
-	shader_mat.set_shader_parameter("noise", load("res://addons/naejimer_3d_planet_generator/noises/planet_sand.tres"))
+	shader_mat.set_shader_parameter("noise", load("res://gfx/noises/planet_sand.tres"))
 
 	return shader_mat
 
 func get_lava_material() -> ShaderMaterial:
-	var shader = load("res://addons/naejimer_3d_planet_generator/shaders/body.gdshader")
+	var shader = load("res://gfx/shaders/body.gdshader")
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = shader
 	
@@ -192,14 +207,14 @@ func get_lava_material() -> ShaderMaterial:
 	shader_mat.set_shader_parameter("noise_gaseous", false)
 	shader_mat.set_shader_parameter("noise_gaseous_speed", 0.0025)
 	shader_mat.set_shader_parameter("noise_scale", 1.0)
-	shader_mat.set_shader_parameter("noise", load("res://addons/naejimer_3d_planet_generator/noises/planet_lava.tres"))
+	shader_mat.set_shader_parameter("noise", load("res://gfx/noises/planet_lava.tres"))
 
 	return shader_mat
 
 func get_ice_material() -> ShaderMaterial:
-	var shader = load("res://addons/naejimer_3d_planet_generator/shaders/body.gdshader")
-	var cloud_shader = load("res://addons/naejimer_3d_planet_generator/shaders/clouds.gdshader")
-	var noise_texture = load("res://addons/naejimer_3d_planet_generator/noises/planet_ice.tres")
+	var shader = load("res://gfx/shaders/body.gdshader")
+	var cloud_shader = load("res://gfx/shaders/clouds.gdshader")
+	var noise_texture = load("res://gfx/noises/planet_ice.tres")
 	
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	var cloud_shader_mat: ShaderMaterial = ShaderMaterial.new()
@@ -234,7 +249,7 @@ func get_ice_material() -> ShaderMaterial:
 	return shader_mat
 
 func get_no_atmosphere_material() -> ShaderMaterial:
-	var shader = load("res://addons/naejimer_3d_planet_generator/shaders/body.gdshader")
+	var shader = load("res://gfx/shaders/body.gdshader")
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = shader
 	
@@ -254,35 +269,20 @@ func get_no_atmosphere_material() -> ShaderMaterial:
 	shader_mat.set_shader_parameter("noise_gaseous", false)
 	shader_mat.set_shader_parameter("noise_gaseous_speed", 0.0025)
 	shader_mat.set_shader_parameter("noise_scale", 1.0)
-	shader_mat.set_shader_parameter("noise", load("res://addons/naejimer_3d_planet_generator/noises/planet_no_atmosphere.tres"))
+	shader_mat.set_shader_parameter("noise", load("res://gfx/noises/planet_no_atmosphere.tres"))
 
 	return shader_mat
 
-func _ready():
-	var small_scale = Vector3(85.0, 85.0, 85.0)
-	var mid_scale = Vector3(111.92, 111.92, 111.92)
-	var big_scale = Vector3(190.92, 190.92, 190.92)
-	var massive_scale = Vector3(250.92, 250.92, 250.92)
-	
-	generate_planet(0.0, get_star_material(), get_star_material(), massive_scale)
-	generate_planet(525.0, get_lava_material(), get_lava_atmosphere_material(), mid_scale)
-	generate_planet(825.0, get_sand_material(), get_sand_atmosphere_material(), small_scale)
-	generate_planet(1225.0, get_terrestrial_material(), get_terrestrial_atmosphere_material(), mid_scale)
-	generate_planet_no_atmosphere(1525.0, get_no_atmosphere_material(), mid_scale)
-	generate_planet_no_atmosphere(1825.0, get_no_atmosphere_material(), small_scale)
-	generate_planet(2825.0, get_gas_material(), get_gas_atmosphere_material(), big_scale)
-	generate_planet_no_atmosphere(3620.0, get_ice_material(), mid_scale)
-
 func generate_planet_no_atmosphere(offset: float, shader_material: ShaderMaterial, planet_scale: Vector3):
 	var sphere_mesh: SphereMesh = SphereMesh.new()
+	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	
-	var mesh: MeshInstance3D = MeshInstance3D.new()
-	mesh.mesh = sphere_mesh
-	mesh.mesh.set_material(shader_material)
-	mesh.scale = planet_scale
-	mesh.position.x = offset
+	mesh_instance.mesh = sphere_mesh
+	mesh_instance.mesh.set_material(shader_material)
+	mesh_instance.scale = planet_scale
+	mesh_instance.position.x = offset
 	
-	add_child(mesh)
+	add_child(mesh_instance)
 	
 func generate_planet(
 	offset: float,
@@ -293,19 +293,19 @@ func generate_planet(
 	var sphere_mesh: SphereMesh = SphereMesh.new()
 	var atmosphere_sphere_mesh: SphereMesh = SphereMesh.new()
 	
-	var mesh: MeshInstance3D = MeshInstance3D.new()
+	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	var atmosphere_mesh: MeshInstance3D = MeshInstance3D.new()
 	
-	mesh.mesh = sphere_mesh
+	mesh_instance.mesh = sphere_mesh
 	atmosphere_mesh.mesh = atmosphere_sphere_mesh
 	
-	mesh.mesh.set_material(shader_material)
+	mesh_instance.mesh.set_material(shader_material)
 	atmosphere_mesh.mesh.set_material(atmosphere_material)
 	
-	mesh.scale = planet_scale
+	mesh_instance.scale = planet_scale
 	atmosphere_mesh.scale = Vector3(1.01, 1.01, 1.01)
 	
-	mesh.position.x = offset
+	mesh_instance.position.x = offset
 	
-	mesh.add_child(atmosphere_mesh)
-	add_child(mesh)
+	mesh_instance.add_child(atmosphere_mesh)
+	add_child(mesh_instance)
