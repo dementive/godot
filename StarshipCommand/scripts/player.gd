@@ -6,7 +6,7 @@ extends CharacterBody3D
 @export var enable_rotation = true;
 @export var enable_movement = true;
 
-@onready var ship_body : Node3D = $ShipBody;
+@onready var ship_body : Node3D = $Destroyer_01.get_child(0)
 const BACKWARD_RATIO = 0.5;
 var fast_as_fuck: bool = true
 
@@ -18,6 +18,7 @@ func _process(delta):
 	if enable_rotation:
 		# Rotate Player
 		var relative_mouse = _get_relative_mouse();
+		relative_mouse.y *= -1
 		var player_basis = transform.basis;
 		player_basis = player_basis.rotated(player_basis.x, relative_mouse.y * rotation_speed * delta);
 		player_basis = player_basis.rotated(player_basis.y, -relative_mouse.x * rotation_speed * delta);
@@ -38,17 +39,17 @@ func _process(delta):
 		_move_forward(delta);
 
 func _move_forward(delta):
-	var forward = ship_body.global_transform.basis.z.normalized();
+	var forward = ship_body.global_transform.basis.x.normalized();
 	if Input.is_action_pressed("ui_up"):
-		speed = min(speed + acceleration * delta, max_speed);
+		speed = min(speed - acceleration * delta, max_speed);
 	elif Input.is_action_pressed("ui_down"):
-		speed = max(speed - acceleration * delta, -max_speed * BACKWARD_RATIO);
+		speed = max(speed + acceleration * delta, -max_speed * BACKWARD_RATIO);
 	else:
 		speed -= speed * delta;
 	
 	velocity = forward * speed;
 	if fast_as_fuck:
-		velocity *= 100.0
+		velocity *= 50.0
 	move_and_slide();
 
 # Get a vector for the mouse relative to the center of the screen
@@ -61,5 +62,3 @@ func _get_relative_mouse() -> Vector2:
 	
 	var size = max(viewport.size.x, viewport.size.y);
 	return mouse_direction / size;
-
-# Created by Ryan Remer

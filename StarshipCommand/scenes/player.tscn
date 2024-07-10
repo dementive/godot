@@ -1,10 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://df2twgr1xbl8g"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_gd5us"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_d2lkb"]
-radius = 1.49
-height = 6.94
+[ext_resource type="PackedScene" uid="uid://5u7g8pemuohf" path="res://scenes/destroyer_01.tscn" id="2_eo1pa"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_v33p8"]
 radius = 1.5
@@ -27,16 +24,15 @@ size = Vector3(0.1, 0.1, 0.1)
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_gd5us")
 
-[node name="ShipBody" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.17, 0, 0, 0, 0.17, 0, 0, 0, 0.17, 0, 0, 0)
-mesh = SubResource("CapsuleMesh_d2lkb")
-skeleton = NodePath("../..")
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 20)
+far = 20000.0
+
+[node name="Destroyer_01" parent="." instance=ExtResource("2_eo1pa")]
+transform = Transform3D(-8.74228e-11, 0, -0.002, 0, 0.002, 0, 0.002, 0, -8.74228e-11, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_v33p8")
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 2, -6)
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)

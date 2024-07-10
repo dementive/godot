@@ -2,32 +2,32 @@ class_name PlanetGeneration
 extends Node3D
 
 func _ready():
-	var small_scale = Vector3(85.0, 85.0, 85.0)
-	var mid_scale = Vector3(111.92, 111.92, 111.92)
-	var big_scale = Vector3(190.92, 190.92, 190.92)
-	var massive_scale = Vector3(250.92, 250.92, 250.92)
+	var small_scale = Vector3(1300.0, 1300.0, 1300.0)
+	var mid_scale = Vector3(1500.0, 1500.0, 1500.0)
+	var big_scale = Vector3(2000.0, 2000.0, 2000.0)
+	var massive_scale = Vector3(3500.0, 3500.0, 3500.0)
 	
 	var star: Node3D = generate_star(get_star_material(), get_star_material(), massive_scale)
 	star.add_child(
-		generate_planet(525.0, get_lava_material(), get_lava_atmosphere_material(), small_scale)
+		generate_planet(6000.0, get_lava_material(), get_lava_atmosphere_material(), small_scale)
 	)
 	star.add_child(
-		generate_planet(1200.0, get_sand_material(), get_sand_atmosphere_material(), small_scale)
+		generate_planet(11000.0, get_sand_material(), get_sand_atmosphere_material(), small_scale)
 	)
 	star.add_child(
-		generate_planet(2325.0, get_terrestrial_material(), get_terrestrial_atmosphere_material(), mid_scale)
+		generate_planet(18500.0, get_terrestrial_material(), get_terrestrial_atmosphere_material(), mid_scale)
 	)
 	star.add_child(
-		generate_planet_no_atmosphere(2925.0, get_no_atmosphere_material(), mid_scale)
+		generate_planet_no_atmosphere(25000.0, get_no_atmosphere_material(), mid_scale)
 	)
 	star.add_child(
-		generate_planet_no_atmosphere(4225.0, get_no_atmosphere_material(), small_scale)
+		generate_planet_no_atmosphere(31000.0, get_no_atmosphere_material(), small_scale)
 	)
 	star.add_child(
-		generate_planet(5825.0, get_gas_material(), get_gas_atmosphere_material(), big_scale)
+		generate_planet(39000.0, get_gas_material(), get_gas_atmosphere_material(), big_scale)
 	)
 	star.add_child(
-		generate_planet_no_atmosphere(7620.0, get_ice_material(), mid_scale)
+		generate_planet_no_atmosphere(48000.0, get_ice_material(), mid_scale)
 	)
 
 func get_lava_atmosphere_material() -> ShaderMaterial:
@@ -295,7 +295,7 @@ func generate_planet_no_atmosphere(
 	# Planet that does not use the atmosphere shader
 	var static_body: StaticBody3D = StaticBody3D.new()
 	static_body.position.x = distance_from_star
-	static_body.position.z = randf_range(0, 5000)
+	static_body.position.z = randf_range(0, 10000)
 	var collision_shape: CollisionShape3D = CollisionShape3D.new()
 	static_body.add_child(collision_shape)
 	collision_shape.scale = planet_scale + Vector3(100, 100, 100)
@@ -318,7 +318,7 @@ func generate_planet(
 	) -> StaticBody3D:
 	var static_body: StaticBody3D = StaticBody3D.new()
 	static_body.position.x = distance_from_star
-	static_body.position.z = randf_range(0, 5000)
+	static_body.position.z = randf_range(0, 10000)
 	
 	var collision_shape: CollisionShape3D = CollisionShape3D.new()
 	static_body.add_child(collision_shape)
