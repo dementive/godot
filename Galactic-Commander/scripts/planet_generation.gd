@@ -19,7 +19,7 @@ func _ready():
 	
 	var star_size: float = randf_range(3000, 6000)
 	var star_material: Array[ShaderMaterial] 
-	var massive_scale = Vector3(star_size, star_size, star_size)
+	var star_scale = Vector3(star_size, star_size, star_size)
 	
 	# Star color is directly correlated with the star's mass
 	if star_size < 3500:
@@ -31,8 +31,7 @@ func _ready():
 	else:
 		star_material = PlanetMaterial.get_star_material(star_colors["red"])
 	
-	
-	var star: Node3D = generate_star(star_material, massive_scale)
+	var star: Node3D = generate_star(star_material, star_scale)
 	star.add_child(
 		generate_planet(8000.0, PlanetMaterial.get_lava_material(lava_colors.pick_random()), small_scale)
 	)
@@ -53,7 +52,7 @@ func _ready():
 		generate_planet(39000.0, PlanetMaterial.get_gas_material(gas_colors.pick_random()), big_scale)
 	)
 	star.add_child(
-		generate_planet_no_atmosphere(48000.0, PlanetMaterial.get_ice_material(ice_colors.pick_random()), mid_scale)
+		generate_planet(53000.0, PlanetMaterial.get_ice_material(ice_colors.pick_random()), mid_scale)
 	)
 
 func generate_planet_no_atmosphere(

@@ -3,7 +3,7 @@
 
 extends Node3D
 
-const SOLAR_SYSTEM_MAX_SIZE = 50000.0
+const SOLAR_SYSTEM_MAX_SIZE = 60000.0
 
 func lerp(a, b, t):
 	return (1 - t) * a + t * b

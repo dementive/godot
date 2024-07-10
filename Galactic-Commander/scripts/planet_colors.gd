@@ -47,7 +47,7 @@ func get_base_color_array(c1: Color, c2: Color, c3: Color, c4: Color, c5: Color)
 func get_lava_planet_colors() -> Array[PackedColorArray]:
 	return [
 		get_planet_color_array(
-			get_color(1, 0.52, 0.2),
+			get_color_html("d86a00", 0.175),
 			get_color(0.89, 0.28, 0.25),
 			get_color(0.68, 0.18, 0.27),
 			get_color(0.32, 0.2, 0.25),
@@ -67,6 +67,19 @@ func get_lava_planet_colors() -> Array[PackedColorArray]:
 	]
 
 func get_sand_planet_colors() -> Array[PackedColorArray]:
+	var regular_sand: PackedColorArray = get_planet_color_array(
+			get_color_html("f2be6e"),
+			get_color_html("c16d34"),
+			get_color_html("4d3119"),
+			get_color_html("efd6c6"),
+			get_color_html("332921"),
+			get_color_html("7a502d"),
+			get_color_html("cf9363")
+		)
+	var darker_sand = regular_sand
+	darker_sand[0] = get_color_html("362507")
+	darker_sand[6] = get_color_html("94623a")
+
 	return [
 		get_planet_color_array(
 			get_color(0.98, 0.88, 0.73),
@@ -76,16 +89,18 @@ func get_sand_planet_colors() -> Array[PackedColorArray]:
 			get_color(0.33, 0.27, 0.22),
 			get_color(0.55, 0.39, 0.23),
 			get_color(0.88, 0.68, 0.51)
-		)
+		),
+		regular_sand,
+		darker_sand
 	]
 
 func get_terrestrial_planet_colors() -> Array[PackedColorArray]:
 	return [
 		get_planet_color_array(
-			get_color(0.17, 0.55, 1),
-			get_color(1, 0.94, 0.76),
-			get_color(0.34, 0.74, 0.5),
-			get_color(0.27, 0.62, 0.42),
+			get_color_html("0072e2", 0.25),
+			get_color(1, 0.94, 0.76, 0.2),
+			get_color_html("f7e6cd", 0.15),
+			get_color(0.27, 0.62, 0.42, 0.15),
 			get_color(1, 1, 1),
 			get_color(0, 0.12, 0.27),
 			get_color(0.63, 0.78, 1)
@@ -107,13 +122,33 @@ func get_gas_planet_colors() -> Array[PackedColorArray]:
 
 func get_ice_planet_colors() -> Array[PackedColorArray]:
 	return [
-		get_base_color_array(
+		get_planet_color_array(
 			get_color(0.31, 0.61, 0.78),
 			get_color(0.47, 0.68, 0.81),
 			get_color(0.62, 0.75, 0.83),
 			get_color(0.93, 0.94, 0.97),
-			get_color(0.82, 0.85, 0.89)
-		)
+			get_color(0.82, 0.85, 0.89),
+			get_color(0.11, 0.29, 0.38),
+			get_color(0.63, 0.82, 0.94)
+		),
+		get_planet_color_array(
+			get_color_html("1c4962"),
+			get_color_html("4c7e9c"),
+			get_color_html("6d94ad"),
+			get_color_html("95a3d2"),
+			get_color_html("dce2e9"),
+			get_color(0.11, 0.29, 0.38),
+			get_color(0.63, 0.82, 0.94)
+		),
+		get_planet_color_array(
+			get_color_html("316878"),
+			get_color_html("4c7e9c"),
+			get_color_html("6d94ad"),
+			get_color_html("ffffff"),
+			get_color_html("161b22"),
+			get_color(0.11, 0.29, 0.38),
+			get_color(0.63, 0.82, 0.94)
+		),
 	]
 
 func get_no_atmosphere_colors() -> Array[PackedColorArray]:
