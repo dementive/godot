@@ -1,4 +1,5 @@
-# Script to attach to the star in a solar system so all it's children can orbit it.
+# Script to attach to the object in a solar system
+# Makes it so all it's children that are StaticBody3D's can orbit this node.
 
 extends Node3D
 
