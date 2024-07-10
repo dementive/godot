@@ -7,7 +7,7 @@ const SOLAR_SYSTEM_MAX_SIZE = 50000.0
 func lerp(a, b, t):
 	return (1 - t) * a + t * b
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	for child in get_children():
 		if not child is StaticBody3D:
 			continue

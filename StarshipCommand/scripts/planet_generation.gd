@@ -1,6 +1,48 @@
 class_name PlanetGeneration
 extends Node3D
 
+
+var lava_planet_color = [
+	[
+		Color(randf_range(0.9, 1), randf_range(0.477255, 0.567255), randf_range(0.18, 0.21)),
+		Color(randf_range(0.851961, 0.931961), randf_range(0.250588, 0.300588), randf_range(0.193529, 0.293529)),
+		Color(0.678431, 0.184314, 0.270588),
+		Color(0.321569, 0.2, 0.247059),
+		Color(0.239216, 0.160784, 0.211765)
+	],
+]
+
+var lava_atmosphere_color = [
+	[
+		Color(randf_range(0.158627, 0.178627), randf_range(0.0527451, 0.0727451), 0),
+		Color(randf_range(0.925, 1), randf_range(0.481569, 0.591569), randf_range(0.136863, 0.176863))
+	],
+	[
+		Color(randf_range(0.8, 1), randf_range(0.8, 1), 0),
+		Color(randf_range(0.925, 1), randf_range(0.481569, 0.591569), randf_range(0.136863, 0.176863))
+	]
+]
+
+var sand_atmosphere_color = [
+	[
+		Color(randf_range(0.512549, 0.602549), randf_range(0.360392, 0.420392), randf_range(0.203529, 0.263529)),
+		Color(randf_range(0.872353, 0.902353), randf_range(0.660588, 0.690588), randf_range(0.495882, 0.535882))
+	]
+]
+
+
+#shader_mat.set_shader_parameter("color_1", Color(1, 0.537255, 0.2))
+#shader_mat.set_shader_parameter("color_1_treshold", 0.253)
+#shader_mat.set_shader_parameter("color_1_roughness", 0.0)
+#shader_mat.set_shader_parameter("color_1_emit", true)
+#shader_mat.set_shader_parameter("color_2", Color(0.901961, 0.270588, 0.223529))
+#shader_mat.set_shader_parameter("color_2_treshold", 0.303)
+#shader_mat.set_shader_parameter("color_3", Color(0.678431, 0.184314, 0.270588))
+#shader_mat.set_shader_parameter("color_3_treshold", 0.402)
+#shader_mat.set_shader_parameter("color_4", Color(0.321569, 0.2, 0.247059))
+#shader_mat.set_shader_parameter("color_4_treshold", 0.653)
+#shader_mat.set_shader_parameter("color_5", Color(0.239216, 0.160784, 0.211765))
+
 func _ready():
 	var small_scale = Vector3(1300.0, 1300.0, 1300.0)
 	var mid_scale = Vector3(1500.0, 1500.0, 1500.0)
@@ -9,7 +51,10 @@ func _ready():
 	
 	var star: Node3D = generate_star(get_star_material(), get_star_material(), massive_scale)
 	star.add_child(
-		generate_planet(6000.0, get_lava_material(), get_lava_atmosphere_material(), small_scale)
+		generate_planet(5000.0, get_lava_material(), get_lava_atmosphere_material(), small_scale)
+	)
+	star.add_child(
+		generate_planet(8000.0, get_lava_material(), get_lava_atmosphere_material(), small_scale)
 	)
 	star.add_child(
 		generate_planet(11000.0, get_sand_material(), get_sand_atmosphere_material(), small_scale)
@@ -35,8 +80,9 @@ func get_lava_atmosphere_material() -> ShaderMaterial:
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = shader
 
-	shader_mat.set_shader_parameter("color_1", Color(0.168627, 0.0627451, 0))
-	shader_mat.set_shader_parameter("color_2", Color(1, 0.521569, 0.156863))
+	var color = lava_atmosphere_color.pick_random()
+	shader_mat.set_shader_parameter("color_1", color[0])
+	shader_mat.set_shader_parameter("color_2", color[1])
 	shader_mat.set_shader_parameter("alpha", 0.3)
 	shader_mat.set_shader_parameter("amount", 5.366)
 	shader_mat.set_shader_parameter("intensity", 0.167)
@@ -49,8 +95,9 @@ func get_sand_atmosphere_material() -> ShaderMaterial:
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = shader
 
-	shader_mat.set_shader_parameter("color_1", Color(0.572549, 0.380392, 0.223529))
-	shader_mat.set_shader_parameter("color_2", Color(0.882353, 0.670588, 0.505882))
+	var color = sand_atmosphere_color.pick_random()
+	shader_mat.set_shader_parameter("color_1", color[0])
+	shader_mat.set_shader_parameter("color_2", color[1])
 	shader_mat.set_shader_parameter("alpha", 0.513)
 	shader_mat.set_shader_parameter("amount", 4.5)
 	shader_mat.set_shader_parameter("intensity", 4.0)
