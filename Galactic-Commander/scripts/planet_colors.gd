@@ -13,13 +13,7 @@ func get_color_html(html_color: String, offset: float = 0.1) -> Color:
 	color.g = randf_range(color.g-offset, color.g+offset)
 	color.b = randf_range(color.b-offset, color.b+offset)
 	return color
-	
 
-func get_atmosphere_color_array(c1: Color, c2: Color) -> PackedColorArray:
-	var color_array: PackedColorArray = PackedColorArray()
-	color_array.append(c1)
-	color_array.append(c2)
-	return color_array
 
 func get_planet_color_array(c1: Color, c2: Color, c3: Color, c4: Color, c5: Color, c6: Color, c7: Color) -> PackedColorArray:
 	# Colors 1-5 are the planet base color.
@@ -117,6 +111,42 @@ func get_gas_planet_colors() -> Array[PackedColorArray]:
 			get_color(0.25, 0.27, 0.21),
 			get_color(0.4, 0.26, 0.2),
 			get_color(0.76, 0.56, 0.47)
+		),
+		get_planet_color_array(
+			get_color_html("8c9eb0"),
+			get_color_html("596e98"),
+			get_color_html("525b65"),
+			get_color_html("4046ae"),
+			get_color_html("404436"),
+			get_color_html("003671"),
+			get_color_html("005fcd"),
+		),
+		get_planet_color_array(
+			get_color_html("47108a"),
+			get_color_html("594998"),
+			get_color_html("486d86"),
+			get_color_html("4046ae"),
+			get_color_html("320049"),
+			get_color_html("003671"),
+			get_color_html("4e035e"),
+		),
+		get_planet_color_array(
+			get_color_html("bf7056"),
+			get_color_html("90614d"),
+			get_color_html("d39c7e"),
+			get_color_html("a79c86"),
+			get_color_html("70251e"),
+			get_color_html("674127"),
+			get_color_html("62222b"),
+		),
+		get_planet_color_array(
+			get_color_html("50a088"),
+			get_color_html("388043"),
+			get_color_html("1e3770"),
+			get_color_html("092a1b"),
+			get_color_html("254d24"),
+			get_color_html("315800"),
+			get_color_html("5a9248"),
 		)
 	]
 
@@ -162,7 +192,7 @@ func get_no_atmosphere_colors() -> Array[PackedColorArray]:
 		),
 		get_base_color_array(
 			get_color_html("741905"),
-			get_color_html("fadde9"),
+			get_color_html("955f6b"),
 			get_color_html("695557"),
 			get_color_html("bf7356"),
 			get_color_html("bd4b52")
