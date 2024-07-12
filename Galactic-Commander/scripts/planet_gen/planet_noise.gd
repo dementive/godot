@@ -1,23 +1,19 @@
 @tool
 extends Resource
-class_name PlanetData
 
-@export var radius := 5 : set = set_radius
-@export var resolution := 25 : set = set_resolution
+class_name PlanetNoise
+
 @export var noise_map := FastNoiseLite.new() : set = set_noise_map
 @export var amplitude := 1.0 : set = set_amplitude
 @export var min_height := 0.0 : set = set_min_height
+@export var use_first_layer_as_mask := false : set = set_first_layer_as_mask
 
 func set_min_height(val):
 	min_height = val
 	emit_signal("changed")
-
-func set_radius(val):
-	radius = val
-	emit_signal("changed")
-
-func set_resolution(val):
-	resolution = val
+	
+func set_first_layer_as_mask(val):
+	use_first_layer_as_mask = val
 	emit_signal("changed")
 
 func set_amplitude(val):
@@ -32,9 +28,3 @@ func set_noise_map(val):
 
 func on_data_changed():
 	emit_signal("changed")
-
-func point_on_planet(point_on_sphere : Vector3) -> Vector3:
-	var elevation = noise_map.get_noise_3dv(point_on_sphere)
-	elevation = elevation + 1 / 2.0 * amplitude
-	elevation = max(0.0, elevation - min_height)
-	return point_on_sphere * radius * (elevation+1.0)

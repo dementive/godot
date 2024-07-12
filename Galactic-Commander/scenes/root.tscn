@@ -1,11 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://c4icstrmcyb2a"]
+[gd_scene load_steps=8 format=3 uid="uid://c4icstrmcyb2a"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_n8s1f"]
 [ext_resource type="Script" path="res://scripts/planet_generation.gd" id="2_7hh21"]
 [ext_resource type="Shader" path="res://gfx/shaders/skybox.gdshader" id="3_yuha5"]
 [ext_resource type="PackedScene" uid="uid://df2twgr1xbl8g" path="res://scenes/player.tscn" id="4_x4ull"]
-[ext_resource type="PackedScene" uid="uid://dslnhaqhnttp7" path="res://scenes/planet_mesh_gen_test.tscn" id="5_cfs18"]
-[ext_resource type="Script" path="res://scripts/planet_data.gd" id="6_75spt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gd352"]
 shader = ExtResource("3_yuha5")
@@ -28,14 +26,6 @@ glow_normalized = true
 glow_bloom = 0.2
 glow_blend_mode = 0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_m4a7l"]
-
-[sub_resource type="Resource" id="Resource_f614a"]
-script = ExtResource("6_75spt")
-radius = 2.7
-resolution = 25
-noise_map = SubResource("FastNoiseLite_m4a7l")
-
 [node name="Root" type="Node3D"]
 script = ExtResource("1_n8s1f")
 
@@ -55,7 +45,3 @@ script = ExtResource("2_7hh21")
 
 [node name="Player" parent="." instance=ExtResource("4_x4ull")]
 transform = Transform3D(-0.732341, 0, 0.680938, 0, 1, 0, -0.680938, 0, -0.732341, 252.277, 0, 412.456)
-
-[node name="PlanetMeshGenTest" parent="." instance=ExtResource("5_cfs18")]
-transform = Transform3D(500, 0, 0, 0, 500, 0, 0, 0, 500, 0, 0, 0)
-planet_data = SubResource("Resource_f614a")
