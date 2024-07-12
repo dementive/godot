@@ -12,6 +12,16 @@ class_name PlanetData
 			if n != null and not n.is_connected("changed", on_data_changed):
 				n.connect("changed", on_data_changed)
 
+@export var planet_color := GradientTexture1D.new() :
+	set(val):
+		planet_color = val
+		emit_changed()
+		if planet_color != null and not planet_color.is_connected("changed", on_data_changed):
+			planet_color.connect("changed", on_data_changed)
+
+var min_height = 99999.0
+var max_height = 0.0
+
 func set_radius(val):
 	radius = val
 	emit_signal("changed")
