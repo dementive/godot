@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://dea02pbvtxcft"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_aaefl"]
+font_size = 55
+
+[node name="MainMenu" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 413.0
+offset_top = 36.0
+offset_right = 745.0
+offset_bottom = 191.0
+text = "    Galactic
+Commander"
+label_settings = SubResource("LabelSettings_aaefl")

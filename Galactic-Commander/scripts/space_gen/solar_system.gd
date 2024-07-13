@@ -1,8 +1,8 @@
 extends Node3D
 
-var PlanetColors = preload("res://scripts/planet_colors.gd").new()
-var PlanetMaterial = preload("res://scripts/planet_materials.gd").new()
-var Planet = preload("res://scripts/planet.gd").new()
+var PlanetColors = preload("res://scripts/space_gen/planet_colors.gd").new()
+var PlanetMaterial = preload("res://scripts/space_gen/planet_materials.gd").new()
+var Planet = preload("res://scripts/space_gen/planet.gd").new()
 
 var ice_colors: Array[PackedColorArray] = PlanetColors.get_ice_planet_colors()
 var gas_colors: Array[PackedColorArray] = PlanetColors.get_gas_planet_colors()

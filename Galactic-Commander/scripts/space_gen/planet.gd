@@ -66,7 +66,7 @@ func generate_star(
 	
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	var atmosphere_mesh: MeshInstance3D = MeshInstance3D.new()
-	star_node.set_script(load("res://scripts/orbit.gd"))
+	star_node.set_script(load("res://scripts/space_gen/orbit.gd"))
 	
 	mesh_instance.mesh = SphereMesh.new()
 	atmosphere_mesh.mesh = SphereMesh.new()

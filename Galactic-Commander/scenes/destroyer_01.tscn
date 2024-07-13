@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://5u7g8pemuohf"]
-
-[ext_resource type="PackedScene" uid="uid://bppe3p0bj1rgv" path="res://gfx/models/ships/Destroyer_01.gltf" id="1_qs4xx"]
-
-[node name="Destroyer_01" instance=ExtResource("1_qs4xx")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
