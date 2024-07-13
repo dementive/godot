@@ -1,4 +1,5 @@
 extends Node3D
+class_name SolarSystem
 
 var PlanetColors = preload("res://scripts/space_gen/planet_colors.gd").new()
 var PlanetMaterial = preload("res://scripts/space_gen/planet_materials.gd").new()
@@ -11,6 +12,11 @@ var terrestrial_colors: Array[PackedColorArray] = PlanetColors.get_terrestrial_p
 var sand_colors: Array[PackedColorArray] = PlanetColors.get_sand_planet_colors()
 var lava_colors: Array[PackedColorArray] = PlanetColors.get_lava_planet_colors()
 var star_colors: Dictionary = PlanetColors.get_star_colors()
+
+var _bodies : Array[Planet] = []
+
+func get_stellar_body_count() -> int:
+	return len(_bodies)
 
 func generate_solar_system() -> Node3D:
 	var small_scale = Vector3(1300.0, 1300.0, 1300.0)
@@ -56,5 +62,5 @@ func generate_solar_system() -> Node3D:
 	)
 
 	add_child(star)
-	
+
 	return self

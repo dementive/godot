@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dea02pbvtxcft"]
+[gd_scene load_steps=3 format=3 uid="uid://dea02pbvtxcft"]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_wn384"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_aaefl"]
 font_size = 55
@@ -7,9 +9,20 @@ font_size = 55
 
 [node name="Label" type="Label" parent="."]
 offset_left = 413.0
-offset_top = 36.0
+offset_top = 48.0
 offset_right = 745.0
-offset_bottom = 191.0
+offset_bottom = 203.0
+size_flags_vertical = 0
 text = "    Galactic
 Commander"
 label_settings = SubResource("LabelSettings_aaefl")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 484.0
+offset_top = 334.0
+offset_right = 668.0
+offset_bottom = 383.0
+text = "Start Game"
+script = ExtResource("1_wn384")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://cu25cg4a6uom4"]
+
+[ext_resource type="Script" path="res://scripts/loading_screen.gd" id="1_moowv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_n0dn5"]
+font_size = 50
+
+[node name="LoadingScreen" type="CanvasLayer"]
+script = ExtResource("1_moowv")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="."]
+offset_left = 510.0
+offset_top = 289.0
+offset_right = 613.0
+offset_bottom = 358.0
+size_flags_horizontal = 4
+text = " 0%"
+label_settings = SubResource("LabelSettings_n0dn5")

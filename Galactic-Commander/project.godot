@@ -14,8 +14,8 @@ config/name="GalacticCommander"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/bg_color=Color(0.156423, 0.226326, 0.203894, 1)
-boot_splash/image="res://gfx/loadingscreens/logo.png"
-config/icon="res://icon.png"
+boot_splash/image="res://gfx/interface/loadingscreens/logo.png"
+config/icon="res://gfx/interface/loadingscreens/icon.png"
 
 [filesystem]
 

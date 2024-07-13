@@ -1,4 +1,5 @@
 extends Node3D
+class_name Planet
 
 func generate_planet_no_atmosphere(
 	distance_from_star: float,
