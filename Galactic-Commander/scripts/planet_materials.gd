@@ -88,7 +88,7 @@ func get_terrestrial_material(color: PackedColorArray) -> Array[ShaderMaterial]:
 	shader_mat.set_shader_parameter("emit", 0.0)
 	shader_mat.set_shader_parameter("color_1", color[0])
 	shader_mat.set_shader_parameter("color_1_treshold", randf_range(0.51, 0.59))
-	shader_mat.set_shader_parameter("color_1_roughness", 0.1)
+	shader_mat.set_shader_parameter("color_1_roughness", 0.9)
 	shader_mat.set_shader_parameter("color_1_emit", false)
 	shader_mat.set_shader_parameter("color_2", color[1])
 	shader_mat.set_shader_parameter("color_2_treshold", 0.56)
@@ -110,7 +110,7 @@ func get_terrestrial_material(color: PackedColorArray) -> Array[ShaderMaterial]:
 	atmosphere_shader_mat.set_shader_parameter("intensity", 4.0)
 	atmosphere_shader_mat.set_shader_parameter("emit", false)
 
-	shader_mat.next_pass = cloud_shader_mat
+	atmosphere_shader_mat.next_pass = cloud_shader_mat
 	return [shader_mat, atmosphere_shader_mat]
 
 func get_sand_material(color: PackedColorArray) -> Array[ShaderMaterial]:
@@ -215,11 +215,11 @@ func get_ice_material(color: PackedColorArray) -> Array[ShaderMaterial]:
 	atmosphere_shader_mat.set_shader_parameter("color_1", color[5])
 	atmosphere_shader_mat.set_shader_parameter("color_2", color[6])
 	atmosphere_shader_mat.set_shader_parameter("alpha", 0.5)
-	atmosphere_shader_mat.set_shader_parameter("amount", 4.5)
-	atmosphere_shader_mat.set_shader_parameter("intensity", 4.0)
+	atmosphere_shader_mat.set_shader_parameter("amount", 4.0)
+	atmosphere_shader_mat.set_shader_parameter("intensity", 2.0)
 	atmosphere_shader_mat.set_shader_parameter("emit", true)
 	
-	shader_mat.next_pass = cloud_shader_mat
+	atmosphere_shader_mat.next_pass = cloud_shader_mat
 	return [shader_mat, atmosphere_shader_mat]
 
 func get_no_atmosphere_material(color: PackedColorArray) -> ShaderMaterial:

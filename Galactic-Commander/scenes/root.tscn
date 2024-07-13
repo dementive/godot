@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://c4icstrmcyb2a"]
+[gd_scene load_steps=7 format=3 uid="uid://c4icstrmcyb2a"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_n8s1f"]
-[ext_resource type="Script" path="res://scripts/planet_generation.gd" id="2_7hh21"]
 [ext_resource type="Shader" path="res://gfx/shaders/skybox.gdshader" id="3_yuha5"]
 [ext_resource type="PackedScene" uid="uid://df2twgr1xbl8g" path="res://scenes/player.tscn" id="4_x4ull"]
 
@@ -38,10 +37,6 @@ environment = SubResource("Environment_iulye")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1000, 0)
 light_cull_mask = 4294967293
 sky_mode = 1
-
-[node name="PlanetGeneration" type="Node3D" parent="."]
-visible = false
-script = ExtResource("2_7hh21")
 
 [node name="Player" parent="." instance=ExtResource("4_x4ull")]
 transform = Transform3D(-0.732341, 0, 0.680938, 0, 1, 0, -0.680938, 0, -0.732341, 252.277, 0, 412.456)
