@@ -222,7 +222,7 @@ func get_ice_material(color: PackedColorArray) -> Array[ShaderMaterial]:
 	atmosphere_shader_mat.next_pass = cloud_shader_mat
 	return [shader_mat, atmosphere_shader_mat]
 
-func get_no_atmosphere_material(color: PackedColorArray) -> ShaderMaterial:
+func get_no_atmosphere_material(color: PackedColorArray) -> Array[ShaderMaterial]:
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = body_shader
 	
@@ -244,4 +244,4 @@ func get_no_atmosphere_material(color: PackedColorArray) -> ShaderMaterial:
 	shader_mat.set_shader_parameter("noise_scale", randf_range(1.0, 2.3))
 	shader_mat.set_shader_parameter("noise", load("res://gfx/noises/planet_no_atmosphere.tres"))
 
-	return shader_mat
+	return [shader_mat]
