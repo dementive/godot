@@ -13,12 +13,19 @@ var sand_colors: Array[PackedColorArray] = PlanetColors.get_sand_planet_colors()
 var lava_colors: Array[PackedColorArray] = PlanetColors.get_lava_planet_colors()
 var star_colors: Dictionary = PlanetColors.get_star_colors()
 
-var _bodies : Array[Planet] = []
+var _bodies : Array
+
+func _init(system_name: String):
+	set_name(system_name)
+	generate_solar_system()
 
 func get_stellar_body_count() -> int:
 	return len(_bodies)
 
-func generate_solar_system() -> Node3D:
+func get_stellar_body(idx: int) -> StaticBody3D:
+	return _bodies[idx]
+
+func generate_solar_system():
 	var small_scale = Vector3(1300.0, 1300.0, 1300.0)
 	var mid_scale = Vector3(1500.0, 1500.0, 1500.0)
 	var big_scale = Vector3(2000.0, 2000.0, 2000.0)
@@ -60,7 +67,7 @@ func generate_solar_system() -> Node3D:
 	star.add_child(
 		Planet.generate_planet(53000.0, PlanetMaterial.get_ice_material(ice_colors.pick_random()), mid_scale)
 	)
-
 	add_child(star)
 
-	return self
+	for planet in star.get_children():
+		_bodies.append(planet)

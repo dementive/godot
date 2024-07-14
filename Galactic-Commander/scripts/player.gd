@@ -18,6 +18,19 @@ func _process(delta):
 	var mouse_position = viewport.get_mouse_position()
 	var is_mouse_inside = mouse_position.x >= 0 and mouse_position.y >= 0 and mouse_position.x <= viewport.size.x and mouse_position.y <= viewport.size.y
 	
+	#var ray_length : int = 3000
+	#var from : Vector3 = get_global_transform().origin
+	#var to : Vector3  = from + get_global_transform().basis.z * -ray_length
+	#var space_state : PhysicsDirectSpaceState3D = get_world_3d().direct_space_state
+	#var result = space_state.intersect_ray(PhysicsRayQueryParameters3D.create(from, to))
+#
+	#if result:
+		#var collider = result.collider
+		#if collider is StaticBody3D:
+			#var distance_to_planet = (collider.global_transform.origin - from).length()
+			#if distance_to_planet <= ray_length:
+				#print("PLANET DETECTED!!!!!")
+	
 	if enable_rotation and is_mouse_inside:
 		# Rotate Player
 		var relative_mouse = _get_relative_mouse();
