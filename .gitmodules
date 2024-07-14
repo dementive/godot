@@ -1,0 +1,4 @@
+[submodule "Galactic-Commander/godot-cpp"]
+	path = Galactic-Commander/godot-cpp
+	url = https://github.com/godotengine/godot-cpp
+	branch = 4.2

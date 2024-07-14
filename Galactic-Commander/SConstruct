@@ -1,0 +1,28 @@
+# GALACTIC COMMANDER - IMPORTANT NOTE:
+# If this file is ever changes afterwards "bear -- scons platform=linux" (or whatever the build command is) has to be run in order to generate the compile_commands.json so clangd can find the godot-cpp includes.
+
+#!/usr/bin/env python
+import os
+import sys
+
+env = SConscript("godot-cpp/SConstruct")
+
+# For reference:
+# - CCFLAGS are compilation flags shared between C and C++
+# - CFLAGS are for C-specific compilation flags
+# - CXXFLAGS are for C++-specific compilation flags
+# - CPPFLAGS are for pre-processor flags
+# - CPPDEFINES are for pre-processor defines
+# - LINKFLAGS are for linking flags
+
+# tweak this if you want to use different folders, or more folders, to store your source code in.
+env.Append(CPPPATH=["src/"])
+sources = Glob("src/*.cpp")
+
+
+library = env.SharedLibrary(
+    "demo/bin/libgdexample{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+    source=sources,
+)
+
+Default(library)
