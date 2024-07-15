@@ -42,7 +42,7 @@ light_cull_mask = 4294967293
 sky_mode = 1
 
 [node name="Player" parent="." instance=ExtResource("3_r6thw")]
-transform = Transform3D(-0.732341, 0, 0.680938, 0, 1, 0, -0.680938, 0, -0.732341, 252.277, 0, 412.456)
+transform = Transform3D(-0.732341, 0, 0.680938, 0, 1, 0, -0.680938, 0, -0.732341, 252.277, 0, 2051.01)
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3

@@ -3,12 +3,24 @@ extends Object
 var body_shader: Shader = load("res://gfx/shaders/body.gdshader")
 var atmosphere_shader: Shader = load("res://gfx/shaders/atmosphere.gdshader")
 var cloud_shader = load("res://gfx/shaders/clouds.gdshader")
+var star_colors: Dictionary = PlanetColors.new().get_star_colors()
 
-func get_star_material(color: PackedColorArray) -> Array[ShaderMaterial]:
+func get_star_material(star_size) -> Array[ShaderMaterial]:
+	var color : PackedColorArray
 	var shader_mat: ShaderMaterial = ShaderMaterial.new()
 	var atmosphere_shader_mat: ShaderMaterial = ShaderMaterial.new()
 	shader_mat.shader = body_shader
 	atmosphere_shader_mat.shader = atmosphere_shader
+	
+	# Star color is directly correlated with the star's mass
+	if star_size < 3500:
+		color = star_colors["white"]
+	elif star_size >= 3500 and star_size >= 4250:
+		color = star_colors["yellow"]
+	elif star_size >= 4250 and star_size >= 5000:
+		color = star_colors["blue"]
+	else:
+		color = star_colors["red"]
 	
 	shader_mat.set_shader_parameter("emit", 3.0)
 	shader_mat.set_shader_parameter("color_1", color[0])

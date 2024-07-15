@@ -1,4 +1,5 @@
 extends Object
+class_name PlanetColors
 
 func get_color(r: float, g: float, b: float, offset: float = 0.1) -> Color:
 	return Color(

@@ -10,7 +10,6 @@ var no_atmosphere_colors: Array[PackedColorArray] = PlanetColors.get_no_atmosphe
 var terrestrial_colors: Array[PackedColorArray] = PlanetColors.get_terrestrial_planet_colors()
 var sand_colors: Array[PackedColorArray] = PlanetColors.get_sand_planet_colors()
 var lava_colors: Array[PackedColorArray] = PlanetColors.get_lava_planet_colors()
-var star_colors: Dictionary = PlanetColors.get_star_colors()
 
 var _bodies : Array
 
@@ -30,54 +29,30 @@ func generate_solar_system():
 	var big_scale = Vector3(2000.0, 2000.0, 2000.0)
 	
 	var star_size: float = randf_range(3000, 6000)
-	var star_material: Array[ShaderMaterial] 
 	var star_scale = Vector3(star_size, star_size, star_size)
 	
-	# Star color is directly correlated with the star's mass
-	if star_size < 3500:
-		star_material= PlanetMaterial.get_star_material(star_colors["red"])
-	elif star_size >= 3500 and star_size >= 4250:
-		star_material = PlanetMaterial.get_star_material(star_colors["red"])
-	elif star_size >= 4250 and star_size >= 5000:
-		star_material = PlanetMaterial.get_star_material(star_colors["red"])
-	else:
-		star_material = PlanetMaterial.get_star_material(star_colors["red"])
-
-	var star : StellarBody = StellarBody.new(StellarBody.type.STAR, 0.0, star_material, star_scale, "Sun")
-	#star.add_child(Orbit.new())
-	add_child(
-		star
-	)
-	star.add_child(
-		StellarBody.new(StellarBody.type.PLANET, 8000.0, PlanetMaterial.get_lava_material(lava_colors.pick_random()), small_scale, "Lavatus")
-	)
-	star.add_child(
-		StellarBody.new(StellarBody.type.PLANET, 11000.0, PlanetMaterial.get_sand_material(sand_colors.pick_random()), small_scale, "Sandicus")
-	)
+	var star : StellarBody = StellarBody.new(StellarBody.type.STAR, 0.0, PlanetMaterial.get_star_material(star_size), star_scale, "Sun")
+	add_child(star)
+	
+	var lavatus : StellarBody = StellarBody.new(StellarBody.type.PLANET, 8000.0, PlanetMaterial.get_lava_material(lava_colors.pick_random()), small_scale, "Lavatus")
+	star.add_body(lavatus)
+	
+	var sandicus : StellarBody = StellarBody.new(StellarBody.type.PLANET, 11000.0, PlanetMaterial.get_sand_material(sand_colors.pick_random()), small_scale, "Sandicus")
+	star.add_body(sandicus)
 	
 	var earth : StellarBody = StellarBody.new(StellarBody.type.PLANET, 18500.0, PlanetMaterial.get_terrestrial_material(terrestrial_colors.pick_random()), mid_scale, "Earth")
-	var moon : StellarBody = StellarBody.new(StellarBody.type.PLANET_NO_ATMOSPHERE, 150.0, PlanetMaterial.get_no_atmosphere_material(no_atmosphere_colors.pick_random()), small_scale, "Moon")
-	moon.set_is_orbiting_star(false)
-	earth.add_child(
-		moon
-	)
-	earth.create_orbit(100.0)
-	star.add_child(
-		earth
-	)
+	var moon : StellarBody = StellarBody.new(StellarBody.type.PLANET, 400.0, PlanetMaterial.get_no_atmosphere_material(no_atmosphere_colors.pick_random()), small_scale, "Moon", false)
+	earth.add_body(moon)
+	earth.create_orbit(500.0)
 	
-	#star.add_child(
-		#Planet.generate_planet_no_atmosphere(25000.0, PlanetMaterial.get_no_atmosphere_material(no_atmosphere_colors.pick_random()), mid_scale)
-	#)
-	#star.add_child(
-		#Planet.generate_planet_no_atmosphere(31000.0, PlanetMaterial.get_no_atmosphere_material(no_atmosphere_colors.pick_random()), small_scale)
-	#)
-	star.add_child(
-		StellarBody.new(StellarBody.type.PLANET, 39000.0, PlanetMaterial.get_gas_material(gas_colors.pick_random()), big_scale, "Yupiter")
-	)
-	star.add_child(
-		StellarBody.new(StellarBody.type.PLANET, 53000.0, PlanetMaterial.get_ice_material(ice_colors.pick_random()), mid_scale, "Veptune")
-	)
+	star.add_body(earth)
 
-	#for planet in star.get_children():
-	#	_bodies.append(planet)
+	var yupiter : StellarBody = StellarBody.new(StellarBody.type.PLANET, 39000.0, PlanetMaterial.get_gas_material(gas_colors.pick_random()), big_scale, "Yupiter")
+	star.add_body(yupiter)
+	
+	var veptune : StellarBody = StellarBody.new(StellarBody.type.PLANET, 53000.0, PlanetMaterial.get_ice_material(ice_colors.pick_random()), mid_scale, "Veptune")
+	star.add_body(veptune)
+
+	for body in get_children():
+		if body is StellarBody:
+			_bodies.append(body)
