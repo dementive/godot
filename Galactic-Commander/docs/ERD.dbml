@@ -1,0 +1,67 @@
+Table GalacticCommander {
+  id integer [pk]
+  name varchar
+  active_ship Ship [ref: > SpaceShip.id]
+  ships array [ref: > SpaceShip.id]
+  location varchar
+  owned_stellar_bodies array [ref: > StellarBody.id]
+  resources dictionary [ref: > Resource.name]
+  diplomatic_relations array
+  trade_routes array
+}
+
+Table Colony {
+  id integer [pk]
+  name string
+  owner integer [ref: > GalacticCommander.id]
+  stellar_body_id integer
+  pops integer
+  structures array
+}
+
+Table StellarBody {
+  id integer [pk]
+  name string
+  type varchar
+  owner integer [ref: > GalacticCommander.id]
+  habitable boolean
+  resources array
+  structures array
+}
+
+Table Resource {
+  name string [pk]
+  value integer
+  sub_resources array
+}
+
+Table SubResource {
+  name string [pk, ref: < Resource.sub_resources, ref: < StellarBody.resources]
+  value integer
+}
+
+Table Structure {
+  id integer [pk, ref: < Colony.structures, ref: < StellarBody.structures]
+  name string
+  value integer
+  location varchar [ref: > StellarBody.id]
+  required_resources array [ref: > SubResource.name]
+  resource_usage array [ref: > SubResource.name]
+  required_pops integer
+}
+
+
+Table SpaceShip {
+  id integer
+  name string
+  location varchar
+  attack integer
+  defense integer
+  speed integer
+  required_resources array [ref: > SubResource.name]
+}
+
+Table DiplomaticRelation {
+  type enum [ref: > GalacticCommander.diplomatic_relations]
+}
+
