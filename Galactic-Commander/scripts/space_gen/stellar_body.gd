@@ -4,6 +4,7 @@ class_name StellarBody
 enum type {STAR, PLANET}
 var planet_collision_size = 800.0
 var orbiting_bodies : Array[StellarBody]
+@onready var info_panel = get_tree().root.get_node("GameWorld").get_node("HUD").get_node("PlanetInfoPanel")
 
 func _init(
 		body_type: type,
@@ -21,12 +22,25 @@ func _init(
 	elif body_type == type.PLANET:
 		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere)
 
+func _input_event(camera: Camera3D, event: InputEvent, position: Vector3, normal: Vector3, shape_idx: int):
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			on_click()
+
+func on_click():
+	info_panel.visible = true
+	var label : Label = info_panel.get_node("PlanetNameLabel")
+	label.set_text(get_name())
+	
+func _mouse_exit():
+	info_panel.visible = false
+
 func add_body(body: StellarBody):
 	add_child(body)
 	orbiting_bodies.append(body)
 	get_parent()
 
-func create_orbit(orbit_size=60000.0,):
+func create_orbit(orbit_size=60000.0):
 	var orbit : GCOrbit = GCOrbit.new()
 	orbit.set_max_orbit_size(orbit_size)
 	orbit.set_name("Orbit")
