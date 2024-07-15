@@ -5,7 +5,6 @@ extends Node3D
 class_name Orbit
 
 var MAX_ORBIT_SIZE = 60000.0
-var orbit_speed_mod = 0.0
 
 func lerp(a, b, t):
 	return (1 - t) * a + t * b
@@ -18,5 +17,4 @@ func _physics_process(_delta):
 	for child in parent.orbiting_bodies:
 		var normalized_distance = clamp(child.position.x / MAX_ORBIT_SIZE, 0.0, 1.0)
 		var rotation_speed = lerp(0.00001, 0.003, normalized_distance)
-		rotation_speed += orbit_speed_mod
 		parent.rotate_y(deg_to_rad(float(rotation_speed)))

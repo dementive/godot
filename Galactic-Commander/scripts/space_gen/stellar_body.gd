@@ -25,10 +25,9 @@ func add_body(body: StellarBody):
 	orbiting_bodies.append(body)
 	get_parent()
 
-func create_orbit(orbit_size=60000.0, orbit_speed_mod=0.0):
-	var orbit : Orbit = Orbit.new()
-	orbit.MAX_ORBIT_SIZE = orbit_size
-	orbit.orbit_speed_mod = orbit_speed_mod
+func create_orbit(orbit_size=60000.0,):
+	var orbit : GCOrbit = GCOrbit.new()
+	orbit.set_max_orbit_size(orbit_size)
 	orbit.set_name("Orbit")
 	add_child(orbit)
 	

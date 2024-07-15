@@ -7,5 +7,5 @@ compatibility_minimum = "4.2"
 
 #windows.debug.x86_64 = "res://demo/bin/libgdexample.windows.template_debug.x86_64.dll"
 #windows.release.x86_64 = "res://demo/bin/libgdexample.windows.template_release.x86_64.dll"
-linux.debug.x86_64 = "res://demo/bin/libgdexample.linux.template_debug.x86_64.so"
+linux.debug.x86_64 = "res://demo/bin/lib-galactic-commander.linux.template_debug.x86_64.so"
 #linux.release.x86_64 = "res://demo/bin/libgdexample.linux.template_release.x86_64.so"
