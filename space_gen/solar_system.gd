@@ -1,15 +1,15 @@
 extends Node3D
 class_name SolarSystem
 
-var PlanetColors = preload("res://scripts/space_gen/planet_colors.gd").new()
+var PlanetColor = preload("res://scripts/space_gen/planet_colors.gd").new()
 var PlanetMaterial = preload("res://scripts/space_gen/planet_materials.gd").new()
 
-var ice_colors: Array[PackedColorArray] = PlanetColors.get_ice_planet_colors()
-var gas_colors: Array[PackedColorArray] = PlanetColors.get_gas_planet_colors()
-var no_atmosphere_colors: Array[PackedColorArray] = PlanetColors.get_no_atmosphere_colors()
-var terrestrial_colors: Array[PackedColorArray] = PlanetColors.get_terrestrial_planet_colors()
-var sand_colors: Array[PackedColorArray] = PlanetColors.get_sand_planet_colors()
-var lava_colors: Array[PackedColorArray] = PlanetColors.get_lava_planet_colors()
+var ice_colors: Array[PackedColorArray] = PlanetColor.get_ice_planet_colors()
+var gas_colors: Array[PackedColorArray] = PlanetColor.get_gas_planet_colors()
+var no_atmosphere_colors: Array[PackedColorArray] = PlanetColor.get_no_atmosphere_colors()
+var terrestrial_colors: Array[PackedColorArray] = PlanetColor.get_terrestrial_planet_colors()
+var sand_colors: Array[PackedColorArray] = PlanetColor.get_sand_planet_colors()
+var lava_colors: Array[PackedColorArray] = PlanetColor.get_lava_planet_colors()
 
 var _bodies : Array
 

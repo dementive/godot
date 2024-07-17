@@ -18,37 +18,24 @@ func _process(delta):
 	var mouse_position = viewport.get_mouse_position()
 	var is_mouse_inside = mouse_position.x >= 0 and mouse_position.y >= 0 and mouse_position.x <= viewport.size.x and mouse_position.y <= viewport.size.y
 	
-	#var ray_length : int = 3000
-	#var from : Vector3 = get_global_transform().origin
-	#var to : Vector3  = from + get_global_transform().basis.z * -ray_length
-	#var space_state : PhysicsDirectSpaceState3D = get_world_3d().direct_space_state
-	#var result = space_state.intersect_ray(PhysicsRayQueryParameters3D.create(from, to))
-#
-	#if result:
-		#var collider = result.collider
-		#if collider is StaticBody3D:
-			#var distance_to_planet = (collider.global_transform.origin - from).length()
-			#if distance_to_planet <= ray_length:
-				#print("PLANET DETECTED!!!!!")
-	
 	if enable_rotation and is_mouse_inside:
 		# Rotate Player
 		var relative_mouse = _get_relative_mouse();
-		var basis = transform.basis;
-		basis = basis.rotated(basis.x, relative_mouse.y * rotation_speed * delta);
-		basis = basis.rotated(basis.y, -relative_mouse.x * rotation_speed * delta);
-		basis = basis.orthonormalized();
-		transform.basis = basis;
+		var player_basis = transform.basis;
+		player_basis = player_basis.rotated(basis.x, relative_mouse.y * rotation_speed * delta);
+		player_basis = player_basis.rotated(basis.y, -relative_mouse.x * rotation_speed * delta);
+		player_basis = player_basis.orthonormalized();
+		transform.basis = player_basis;
 		
 		# Rotate Ship
 		var ship_basis = Basis.IDENTITY;
-		var scale = ship_body.scale;
+		var ship_scale = ship_body.scale;
 		ship_basis = ship_basis.rotated(Vector3.UP, -relative_mouse.x * rotation_speed / 2.0);
 		ship_basis = ship_basis.rotated(Vector3.RIGHT, relative_mouse.y * rotation_speed);
 		ship_basis = ship_basis.rotated(ship_basis.z, relative_mouse.x * rotation_speed);
 		ship_basis = ship_basis.orthonormalized();
 		ship_body.basis = ship_basis;
-		ship_body.scale = scale;
+		ship_body.scale = ship_scale;
 	
 	if enable_movement:
 		_move_forward(delta);

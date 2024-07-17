@@ -1,10 +1,11 @@
-#include "register_types.h"
-
-#include "orbit.h"
-
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
+
+#include "register_types.hpp"
+#include "Orbit.hpp"
+#include "StellarBody.hpp"
+#include "SolarSystem.hpp"
 
 using namespace godot;
 
@@ -13,7 +14,9 @@ void initialize_galactic_commander_module(ModuleInitializationLevel p_level) {
 		return;
 	}
 
-	ClassDB::register_class<GCOrbit>();
+	ClassDB::register_class<Orbit>();
+	ClassDB::register_class<StellarBody>();
+	ClassDB::register_class<SolarSystem>();
 }
 
 void uninitialize_galactic_commander_module(ModuleInitializationLevel p_level) {

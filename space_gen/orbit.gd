@@ -2,7 +2,7 @@
 # Makes it so all it's children that are StaticBody3D's can orbit this node.
 
 extends Node3D
-class_name Orbit
+class_name GDOrbit
 
 var MAX_ORBIT_SIZE = 60000.0
 

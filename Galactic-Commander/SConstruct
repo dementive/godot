@@ -15,10 +15,11 @@ env = SConscript("godot-cpp/SConstruct")
 # - CPPDEFINES are for pre-processor defines
 # - LINKFLAGS are for linking flags
 
-# tweak this if you want to use different folders, or more folders, to store your source code in.
-env.Append(CPPPATH=["src/"])
-sources = Glob("src/*.cpp")
+# Tell compiler where header files are
+env.Append(CPPPATH=["src/", "src/space_gen"])
 
+# Tell compiler where cpp files are
+sources = Glob("src/*.cpp") + Glob("src/space_gen/*.cpp")
 
 library = env.SharedLibrary(
     "demo/bin/lib-galactic-commander{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),

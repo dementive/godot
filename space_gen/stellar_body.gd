@@ -1,8 +1,7 @@
 extends StaticBody3D
-class_name StellarBody
+class_name StellarBodyTwo
 
 enum type {STAR, PLANET}
-var planet_collision_size = 800.0
 var orbiting_bodies : Array[StellarBody]
 @onready var info_panel = get_tree().root.get_node("GameWorld").get_node("HUD").get_node("PlanetInfoPanel")
 
@@ -16,13 +15,12 @@ func _init(
 	):
 	set_name(body_name)
 	if body_type == type.STAR:
-		planet_collision_size = 1500.0
 		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere)
 		create_orbit()
 	elif body_type == type.PLANET:
 		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere)
 
-func _input_event(camera: Camera3D, event: InputEvent, position: Vector3, normal: Vector3, shape_idx: int):
+func _input_event(_camera: Camera3D, event: InputEvent, _position: Vector3, _normal: Vector3, _shape_idx: int):
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			on_click()
@@ -38,10 +36,9 @@ func _mouse_exit():
 func add_body(body: StellarBody):
 	add_child(body)
 	orbiting_bodies.append(body)
-	get_parent()
 
 func create_orbit(orbit_size=60000.0):
-	var orbit : GCOrbit = GCOrbit.new()
+	var orbit : Orbit = Orbit.new()
 	orbit.set_max_orbit_size(orbit_size)
 	orbit.set_name("Orbit")
 	add_child(orbit)
@@ -57,7 +54,7 @@ func generate_body(
 		self.position.z = randf_range(0, 10000)
 
 	var sphere_shape = SphereShape3D.new()
-	sphere_shape.radius = (max(planet_scale.x, planet_scale.y, planet_scale.z) / 2) + planet_collision_size
+	sphere_shape.radius = (max(planet_scale.x, planet_scale.y, planet_scale.z) / 2) + planet_scale.x / 2.0
 	self.shape_owner_add_shape(self.create_shape_owner(self), sphere_shape)
 	
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
