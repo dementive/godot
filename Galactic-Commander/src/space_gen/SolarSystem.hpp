@@ -29,6 +29,7 @@ namespace godot {
 
 		int get_stellar_body_count();
 		StellarBody* get_stellar_body(int index);
+		void generate_solar_system();
 	};
 
 }

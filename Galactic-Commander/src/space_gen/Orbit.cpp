@@ -21,30 +21,17 @@ Orbit::Orbit() {
 Orbit::~Orbit() {}
 
 void Orbit::_physics_process(double delta) {
-	// StellarBody* parent = Object::cast_to<StellarBody>(get_parent());
-	// if (!parent) {
-	// 	return;
-	// }
+	StellarBody* parent = Object::cast_to<StellarBody>(get_parent());
+	if (!parent) {
+		return;
+	}
 
-	// for (auto& body : parent->orbiting_bodies) {
-	// 	if (!body) {
-	// 		continue;
-	// 	}
+	for (auto& body : parent->orbiting_bodies) {
+		if (!body) {
+			continue;
+		}
 
-	// 	float normalized_distance = Math::clamp(body->get_position().x / get_max_orbit_size(), 0.0, 1.0);
-	// 	float rotation_speed = Math::lerp(0.00001f, 0.003f, normalized_distance);
-	// 	parent->rotate_y(Math::deg_to_rad(rotation_speed));
-	// }
-	StaticBody3D* parent = Object::cast_to<StaticBody3D>(get_parent());
-	if (!parent) return;
-
-	TypedArray<Node> children = parent->get_children();
-	for (int i = 0; i < children.size(); ++i)
-	{
-		StaticBody3D* child = Object::cast_to<StaticBody3D>(children[i]);
-		if (!child) continue;
-		
-		float normalized_distance = Math::clamp(child->get_position().x / get_max_orbit_size(), 0.0, 1.0);
+		float normalized_distance = Math::clamp(body->get_position().x / get_max_orbit_size(), 0.0, 1.0);
 		float rotation_speed = Math::lerp(0.00001f, 0.003f, normalized_distance);
 		parent->rotate_y(Math::deg_to_rad(rotation_speed));
 	}

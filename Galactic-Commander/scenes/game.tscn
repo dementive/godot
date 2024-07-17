@@ -73,7 +73,7 @@ mouse_filter = 2
 texture = ExtResource("4_t1cyf")
 stretch_mode = 4
 
-[node name="PlanetInfoPanel" type="Panel" parent="HUD"]
+[node name="PlanetInfoPanel" type="Panel" parent="HUD" groups=["ui_panels"]]
 visible = false
 layout_mode = 0
 offset_top = 75.0

@@ -11,6 +11,7 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
+#include "Galaxy.hpp"
 #include "Orbit.hpp"
 #include "godot_cpp/variant/string_name.hpp"
 #include "godot_cpp/variant/vector3.hpp"
@@ -36,44 +37,40 @@ void StellarBody::create_body(
 	}
 }
 
+Control* StellarBody::get_planet_info_panel() {
+	Array ui_panels = get_tree()->get_nodes_in_group("ui_panels");
+    Control* panel = Object::cast_to<Control>(ui_panels[0]);
+    return panel;
+}
+
 void StellarBody::_input_event(
 	Camera3D* camera, const Ref<InputEvent>& event, const Vector3& position, const Vector3& normal, int32_t shape_idx
 ) {
-
 	if (event->is_class("InputEventMouseButton")) {
 		InputEventMouseButton* input_event_mouse_button = static_cast<InputEventMouseButton*>(*event);
 		if (input_event_mouse_button->is_pressed() && input_event_mouse_button->get_button_index() == MOUSE_BUTTON_LEFT) {
-			SceneTree* tree = get_tree();
-			Window* window = tree->get_root();
-			window->get_node<Label>("PlanetNameLabel")
-				->get_node<Control>("HUD")
-				->get_node<Panel>("PlanetInfoPanel")
-				->set_visible(true);
-
-			Label* label = window->get_node<Label>("PlanetNameLabel")
-							   ->get_node<Control>("HUD")
-							   ->get_node<Panel>("PlanetInfoPanel")
-							   ->get_node<Label>("PlanetNameLabel");
-			label->set_text(get_name());
+			UtilityFunctions::print(get_name(), "has been clicked!");
+			Control* panel = get_planet_info_panel();
+			if (panel) {
+			    panel->set_visible(true);
+			    panel->get_node<Label>("PlanetNameLabel")->set_text(get_name());
+			}
 		}
 	}
 }
 
 void StellarBody::_mouse_exit() {
-	// TODO - replace this bullshit with a singleton for the panel
-	SceneTree* tree = get_tree();
-	Window* window = tree->get_root();
-	window->get_node<Label>("PlanetNameLabel")
-		->get_node<Control>("HUD")
-		->get_node<Panel>("PlanetInfoPanel")
-		->set_visible(false);
+	Control* panel = get_planet_info_panel();
+	if (panel) {
+	    panel->set_visible(false);
+	}
 }
 
 void StellarBody::create_orbit(float orbit_size) {
-	Orbit orbit = Orbit();
-	orbit.set_max_orbit_size(orbit_size);
-	orbit.set_name(get_name() + StringName("Orbit"));
-	add_child(&orbit);
+	Orbit* orbit = memnew(Orbit());
+	orbit->set_max_orbit_size(orbit_size);
+	orbit->set_name(get_name() + StringName("Orbit"));
+	add_child(orbit);
 }
 
 void StellarBody::add_body(StellarBody* body) {

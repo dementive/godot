@@ -5,6 +5,7 @@
 #include <godot_cpp/classes/input_event.hpp>
 #include <godot_cpp/classes/static_body3d.hpp>
 
+#include "godot_cpp/classes/control.hpp"
 #include <StellarBodyMaterials.hpp>
 
 namespace godot {
@@ -26,9 +27,7 @@ namespace godot {
 
 		std::vector<StellarBody*> orbiting_bodies;
 
-		void _input_event(
-			Camera3D* camera, const Ref<InputEvent>& event, const Vector3& position, const Vector3& normal, int32_t shape_idx
-		) override;
+        void _input_event(Camera3D *camera, const Ref<InputEvent> &event, const Vector3 &position, const Vector3 &normal, int32_t shape_idx) override;
 		void _mouse_exit() override;
 
 		void create_body(
@@ -38,6 +37,8 @@ namespace godot {
 		void add_body(StellarBody* body);
 		void create_orbit(float orbit_size = 60000.0);
 		void generate_body(float distance_from_star, StellarBodyMaterial materials, Vector3 planet_scale, bool has_atmosphere);
+
+        Control* get_planet_info_panel();
 	};
 
 }
