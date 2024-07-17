@@ -1,6 +1,7 @@
+#include "Galaxy.hpp"
+
 #include <godot_cpp/classes/engine.hpp>
 
-#include "Galaxy.hpp"
 #include "SolarSystem.hpp"
 
 using namespace godot;

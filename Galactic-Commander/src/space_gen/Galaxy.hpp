@@ -11,7 +11,7 @@ namespace godot {
 	This is the root node of the game.
 	*/
 	class Galaxy : public Node {
-		GDCLASS(Galaxy, Node)
+		GDCLASS(Galaxy, Node);
 
 	protected:
 		static void _bind_methods();

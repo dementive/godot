@@ -11,7 +11,6 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
-#include "Galaxy.hpp"
 #include "Orbit.hpp"
 #include "godot_cpp/variant/string_name.hpp"
 #include "godot_cpp/variant/vector3.hpp"
@@ -39,8 +38,8 @@ void StellarBody::create_body(
 
 Control* StellarBody::get_planet_info_panel() {
 	Array ui_panels = get_tree()->get_nodes_in_group("ui_panels");
-    Control* panel = Object::cast_to<Control>(ui_panels[0]);
-    return panel;
+	Control* panel = Object::cast_to<Control>(ui_panels[0]);
+	return panel;
 }
 
 void StellarBody::_input_event(
@@ -49,11 +48,10 @@ void StellarBody::_input_event(
 	if (event->is_class("InputEventMouseButton")) {
 		InputEventMouseButton* input_event_mouse_button = static_cast<InputEventMouseButton*>(*event);
 		if (input_event_mouse_button->is_pressed() && input_event_mouse_button->get_button_index() == MOUSE_BUTTON_LEFT) {
-			UtilityFunctions::print(get_name(), "has been clicked!");
 			Control* panel = get_planet_info_panel();
 			if (panel) {
-			    panel->set_visible(true);
-			    panel->get_node<Label>("PlanetNameLabel")->set_text(get_name());
+				panel->set_visible(true);
+				panel->get_node<Label>("PlanetNameLabel")->set_text(get_name());
 			}
 		}
 	}
@@ -62,7 +60,7 @@ void StellarBody::_input_event(
 void StellarBody::_mouse_exit() {
 	Control* panel = get_planet_info_panel();
 	if (panel) {
-	    panel->set_visible(false);
+		panel->set_visible(false);
 	}
 }
 

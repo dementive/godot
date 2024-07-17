@@ -8,7 +8,7 @@
 namespace godot {
 
 	class SolarSystem : public Node3D {
-		GDCLASS(SolarSystem, Node3D)
+		GDCLASS(SolarSystem, Node3D);
 
 	private:
 		Array ice_colors = StellarBodyColors::get_ice_planet_colors();

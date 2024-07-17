@@ -16,10 +16,10 @@ env = SConscript("godot-cpp/SConstruct")
 # - LINKFLAGS are for linking flags
 
 # Tell compiler where header files are
-env.Append(CPPPATH=["src/", "src/space_gen"])
+env.Append(CPPPATH=["src/", "src/space_gen", "src/gui"])
 
 # Tell compiler where cpp files are
-sources = Glob("src/*.cpp") + Glob("src/space_gen/*.cpp")
+sources = Glob("src/*.cpp") + Glob("src/space_gen/*.cpp") + Glob("src/gui/*.cpp")
 
 library = env.SharedLibrary(
     "demo/bin/lib-galactic-commander{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
