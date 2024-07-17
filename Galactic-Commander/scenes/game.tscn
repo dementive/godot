@@ -1,6 +1,5 @@
-[gd_scene load_steps=10 format=3 uid="uid://c4icstrmcyb2a"]
+[gd_scene load_steps=9 format=3 uid="uid://c4icstrmcyb2a"]
 
-[ext_resource type="Script" path="res://scripts/galaxy.gd" id="1_op0ls"]
 [ext_resource type="Shader" path="res://gfx/shaders/skybox.gdshader" id="2_mpbjh"]
 [ext_resource type="PackedScene" uid="uid://df2twgr1xbl8g" path="res://scenes/player.tscn" id="3_r6thw"]
 [ext_resource type="Texture2D" uid="uid://bwjriu6u82xwo" path="res://gfx/interface/hud/crosshair.png" id="4_t1cyf"]
@@ -30,8 +29,7 @@ glow_blend_mode = 0
 [sub_resource type="LabelSettings" id="LabelSettings_hkxnw"]
 font_size = 25
 
-[node name="GameWorld" type="Node"]
-script = ExtResource("1_op0ls")
+[node name="GameWorld" type="Galaxy"]
 
 [node name="SpaceEnvironment" type="Node3D" parent="."]
 

@@ -23,13 +23,14 @@
       "-Igodot-cpp/include",
       "-Igodot-cpp/gen/include",
       "-Isrc",
+      "-Isrc/space_gen",
       "-o",
-      "src/gdexample.os",
-      "src/gdexample.cpp"
+      "src/register_types.os",
+      "src/register_types.cpp"
     ],
     "directory": "/home/dm/Documents/GameDev/Godot/Galactic-Commander",
-    "file": "/home/dm/Documents/GameDev/Godot/Galactic-Commander/src/gdexample.cpp",
-    "output": "/home/dm/Documents/GameDev/Godot/Galactic-Commander/src/gdexample.os"
+    "file": "/home/dm/Documents/GameDev/Godot/Galactic-Commander/src/register_types.cpp",
+    "output": "/home/dm/Documents/GameDev/Godot/Galactic-Commander/src/register_types.os"
   },
   {
     "arguments": [
@@ -55,12 +56,46 @@
       "-Igodot-cpp/include",
       "-Igodot-cpp/gen/include",
       "-Isrc",
+      "-Isrc/space_gen",
       "-o",
-      "src/register_types.os",
-      "src/register_types.cpp"
+      "src/space_gen/Orbit.os",
+      "src/space_gen/Orbit.cpp"
     ],
     "directory": "/home/dm/Documents/GameDev/Godot/Galactic-Commander",
-    "file": "/home/dm/Documents/GameDev/Godot/Galactic-Commander/src/register_types.cpp",
-    "output": "/home/dm/Documents/GameDev/Godot/Galactic-Commander/src/register_types.os"
+    "file": "/home/dm/Documents/GameDev/Godot/Galactic-Commander/src/space_gen/Orbit.cpp",
+    "output": "/home/dm/Documents/GameDev/Godot/Galactic-Commander/src/space_gen/Orbit.os"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++17",
+      "-fno-exceptions",
+      "-fPIC",
+      "-Wwrite-strings",
+      "-m64",
+      "-march=x86-64",
+      "-fvisibility=hidden",
+      "-O2",
+      "-fPIC",
+      "-DLINUX_ENABLED",
+      "-DUNIX_ENABLED",
+      "-DHOT_RELOAD_ENABLED",
+      "-DDEBUG_ENABLED",
+      "-DDEBUG_METHODS_ENABLED",
+      "-DNDEBUG",
+      "-DGDEXTENSION",
+      "-Igodot-cpp/gdextension",
+      "-Igodot-cpp/include",
+      "-Igodot-cpp/gen/include",
+      "-Isrc",
+      "-Isrc/space_gen",
+      "-o",
+      "src/space_gen/StellarBody.os",
+      "src/space_gen/StellarBody.cpp"
+    ],
+    "directory": "/home/dm/Documents/GameDev/Godot/Galactic-Commander",
+    "file": "/home/dm/Documents/GameDev/Godot/Galactic-Commander/src/space_gen/StellarBody.cpp",
+    "output": "/home/dm/Documents/GameDev/Godot/Galactic-Commander/src/space_gen/StellarBody.os"
   }
 ]
