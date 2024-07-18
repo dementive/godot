@@ -1,6 +1,6 @@
 #/usr/bin/env bash
 
-echo "\n\nFormatting galactic-commander-extension with clang-format:\n"
+echo "Formatting galactic-commander-extension with clang-format:"
 find ./src/ -iname *.hpp -o -iname *.cpp | xargs clang-format --verbose -i
 
 if [ -d ./src ]; then

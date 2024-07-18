@@ -18,10 +18,10 @@ void MainMenu::_bind_methods() {
 
 MainMenu::MainMenu() {
 	if (!Engine::get_singleton()->is_editor_hint()) {
-
 		// Create widgets
 		Label* game_title = memnew(Label());
 		LabelSettings* game_title_settings = memnew(LabelSettings());
+		Button* new_game_button = memnew(Button());
 
 		// Set widget properties
 		game_title_settings->set_font_size(55);
@@ -29,7 +29,6 @@ MainMenu::MainMenu() {
 		game_title->set_label_settings(game_title_settings);
 		add_child(game_title);
 
-		Button* new_game_button = memnew(Button());
 		new_game_button->set_text("New Game");
 		new_game_button->set_size(Vector2(142, 41));
 		add_child(new_game_button);
@@ -40,7 +39,8 @@ MainMenu::MainMenu() {
 		new_game_button->set_anchors_and_offsets_preset(LayoutPreset(PRESET_CENTER), LayoutPresetMode(PRESET_MODE_KEEP_SIZE));
 
 		// Connect callbacks
-		new_game_button->connect("pressed", { this, "on_new_game_pressed" });
+		//new_game_button->connect("pressed", { this, "on_new_game_pressed" });
+		new_game_button->connect("pressed", Callable(this, "on_new_game_pressed"));
 	}
 }
 
