@@ -4,6 +4,8 @@
 #include <godot_cpp/core/class_db.hpp>
 
 #include "StellarBody.hpp"
+#include "godot_cpp/classes/mesh_instance3d.hpp"
+#include "godot_cpp/variant/utility_functions.hpp"
 
 using namespace godot;
 
@@ -35,7 +37,7 @@ void SolarSystem::generate_solar_system() {
 	StellarBody* moon = memnew(StellarBody());
 
 	earth->create_body(StellarBodyType(PLANET), 18500.0, materials.get_terrestrial_material(), mid_scale, "Urth");
-	moon->create_body(StellarBodyType(PLANET), 300.0, materials.get_no_atmosphere_material(), small_scale, "Woon", false);
+	moon->create_body(StellarBodyType(PLANET), 250.0, materials.get_no_atmosphere_material(), small_scale, "Woon", false);
 
 	earth->add_body(moon);
 	earth->create_orbit(300.0);
@@ -49,12 +51,13 @@ void SolarSystem::generate_solar_system() {
 	veptune->create_body(StellarBodyType(PLANET), 53000.0, materials.get_ice_material(), mid_scale, "Veptune");
 	star->add_body(veptune);
 
-	for (int i = 0; i < get_child_count(); ++i) {
-		StellarBody* child = Object::cast_to<StellarBody>(get_child(i));
-		if (child) {
-			stellar_bodies.push_back(child);
-		}
-	}
+	stellar_bodies.push_back(star);
+	stellar_bodies.push_back(lavatus);
+	stellar_bodies.push_back(sandicus);
+	stellar_bodies.push_back(earth);
+	stellar_bodies.push_back(moon);
+	stellar_bodies.push_back(yupiter);
+	stellar_bodies.push_back(veptune);
 }
 
 int SolarSystem::get_stellar_body_count() {

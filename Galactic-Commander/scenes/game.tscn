@@ -46,7 +46,7 @@ light_cull_mask = 4294967293
 sky_mode = 1
 
 [node name="Player" parent="." instance=ExtResource("3_r6thw")]
-transform = Transform3D(-0.732341, 0, 0.680938, 0, 1, 0, -0.680938, 0, -0.732341, 252.277, 0, 2051.01)
+transform = Transform3D(-0.732341, 0, 0.680938, 0, 1, 0, -0.680938, 0, -0.732341, 7500, 0, 0)
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -115,6 +115,21 @@ texture = ExtResource("5_purci")
 expand_mode = 2
 stretch_mode = 4
 
+[node name="CameraButton" type="Button" parent="HUD"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.5
+offset_top = -74.0
+offset_right = 34.5
+offset_bottom = -43.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Camera"
+
 [node name="PausePanel" type="Panel" parent="HUD"]
 visible = false
 layout_mode = 1
@@ -170,6 +185,8 @@ text = "Main Menu"
 layout_mode = 2
 text = "Quit Game"
 
+[connection signal="gui_input" from="HUD" to="Player" method="_on_hud_gui_input"]
+[connection signal="pressed" from="HUD/CameraButton" to="Player" method="_on_camera_button_pressed"]
 [connection signal="gui_input" from="HUD/PausePanel" to="HUD/PausePanel" method="_on_gui_input"]
 [connection signal="pressed" from="HUD/PausePanel/ButtonsVbox/ResumeButton" to="HUD/PausePanel" method="_on_resume_button_pressed"]
 [connection signal="pressed" from="HUD/PausePanel/ButtonsVbox/MainMenuButton" to="HUD/PausePanel" method="_on_main_menu_button_pressed"]

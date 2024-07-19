@@ -1,19 +1,16 @@
-#include "StellarBody.hpp"
-
+#include "godot_cpp/variant/string_name.hpp"
+#include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/input_event_mouse_button.hpp>
 #include <godot_cpp/classes/label.hpp>
-#include <godot_cpp/classes/mesh_instance3d.hpp>
 #include <godot_cpp/classes/panel.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
 #include <godot_cpp/classes/sphere_mesh.hpp>
 #include <godot_cpp/classes/sphere_shape3d.hpp>
 #include <godot_cpp/classes/window.hpp>
 #include <godot_cpp/core/class_db.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
 
 #include "Orbit.hpp"
-#include "godot_cpp/variant/string_name.hpp"
-#include "godot_cpp/variant/vector3.hpp"
+#include "StellarBody.hpp"
 
 using namespace godot;
 
@@ -34,12 +31,6 @@ void StellarBody::create_body(
 	} else if (body_type == PLANET) {
 		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere);
 	}
-}
-
-Control* StellarBody::get_planet_info_panel() {
-	Array ui_panels = get_tree()->get_nodes_in_group("ui_panels");
-	Control* panel = Object::cast_to<Control>(ui_panels[0]);
-	return panel;
 }
 
 void StellarBody::_input_event(
@@ -77,7 +68,7 @@ void StellarBody::add_body(StellarBody* body) {
 }
 
 void StellarBody::generate_body(
-	float distance_from_star, StellarBodyMaterial materials, Vector3 planet_scale, bool has_atmosphere
+	float distance_from_star, StellarBodyMaterial materials, Vector3 body_scale, bool body_has_atmosphere
 ) {
 	if (distance_from_star > 0) {
 		Vector3 position = get_position();
@@ -87,7 +78,7 @@ void StellarBody::generate_body(
 	}
 
 	SphereShape3D sphere_shape = SphereShape3D();
-	sphere_shape.set_radius((planet_scale.x / 2) + planet_scale.x / 2.0);
+	sphere_shape.set_radius((body_scale.x / 2) + body_scale.x / 2.0);
 	Ref<SphereShape3D> sphere_ref(&sphere_shape);
 	shape_owner_add_shape(create_shape_owner(this), sphere_ref);
 
@@ -97,10 +88,10 @@ void StellarBody::generate_body(
 	Ref<SphereMesh> instance_ref(&sphere);
 
 	mesh_instance.set_mesh(instance_ref);
-	mesh_instance.set_name(get_name() + StringName("Mesh"));
-	mesh_instance.set_scale(planet_scale);
+	mesh_instance.set_scale(body_scale);
 
-	if (has_atmosphere) {
+	if (body_has_atmosphere) {
+		has_atmosphere = true;
 		MeshInstance3D atmosphere_mesh = MeshInstance3D();
 
 		SphereMesh a_sphere = SphereMesh();
@@ -108,10 +99,32 @@ void StellarBody::generate_body(
 		Ref<SphereMesh> a_sphere_ref(&a_sphere);
 		atmosphere_mesh.set_mesh(a_sphere_ref);
 
-		atmosphere_mesh.set_name(get_name() + StringName("AtmosphereMesh"));
 		atmosphere_mesh.set_scale(Vector3(1.01, 1.01, 1.01));
 		mesh_instance.add_child(&atmosphere_mesh);
 	}
 
-	add_child(&mesh_instance);
+	scale = body_scale;
+	add_child(&mesh_instance); // Be careful this is the first child so it doesn't break get_mesh()
+}
+
+void StellarBody::serialize(FileAccess file) {
+	file.store_pascal_string(get_name());
+}
+
+void StellarBody::deserialize(FileAccess file) {
+	file.get_pascal_string();
+}
+
+Control* StellarBody::get_planet_info_panel() {
+	Array ui_panels = get_tree()->get_nodes_in_group("ui_panels");
+	Control* panel = Object::cast_to<Control>(ui_panels[0]);
+	return panel;
+}
+
+Vector3 StellarBody::get_scale() {
+	return scale;
+}
+
+MeshInstance3D* StellarBody::get_mesh() {
+	return Object::cast_to<MeshInstance3D>(get_child(0));
 }

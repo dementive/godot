@@ -7,12 +7,14 @@
 using namespace godot;
 
 void Galaxy::_bind_methods() {}
+
 Galaxy::Galaxy() {
-	if (!Engine::get_singleton()->is_editor_hint()) { // only run if we are not in the editor
-		SolarSystem solar_system = SolarSystem();
-		solar_system.generate_solar_system();
-		solar_system.set_name("SolarSystem");
-		add_child(&solar_system);
+	if (!Engine::get_singleton()->is_editor_hint()) {
+		SolarSystem* solar_system = memnew(SolarSystem());
+		solar_system->generate_solar_system();
+		solar_system->set_name("SolarSystem");
+		add_child(solar_system);
 	}
 }
+
 Galaxy::~Galaxy() {}

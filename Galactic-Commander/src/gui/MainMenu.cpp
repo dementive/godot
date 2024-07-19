@@ -39,7 +39,6 @@ MainMenu::MainMenu() {
 		new_game_button->set_anchors_and_offsets_preset(LayoutPreset(PRESET_CENTER), LayoutPresetMode(PRESET_MODE_KEEP_SIZE));
 
 		// Connect callbacks
-		//new_game_button->connect("pressed", { this, "on_new_game_pressed" });
 		new_game_button->connect("pressed", Callable(this, "on_new_game_pressed"));
 	}
 }

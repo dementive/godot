@@ -1,11 +1,15 @@
 #ifndef StellarBody_H
 #define StellarBody_H
 
+#include "godot_cpp/classes/control.hpp"
 #include <godot_cpp/classes/camera3d.hpp>
+#include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/input_event.hpp>
 #include <godot_cpp/classes/static_body3d.hpp>
+#include <godot_cpp/templates/vector.hpp>
+#include "godot_cpp/classes/mesh_instance3d.hpp"
 
-#include "godot_cpp/classes/control.hpp"
+#include "godot_cpp/variant/vector3.hpp"
 #include <StellarBodyMaterials.hpp>
 
 namespace godot {
@@ -17,6 +21,8 @@ namespace godot {
 
 	private:
 		float planet_collision_size;
+		bool has_atmosphere = false;
+		Vector3 scale;
 
 	protected:
 		static void _bind_methods();
@@ -25,7 +31,7 @@ namespace godot {
 		StellarBody();
 		~StellarBody();
 
-		std::vector<StellarBody*> orbiting_bodies;
+		Vector<StellarBody*> orbiting_bodies;
 
 		void _input_event(
 			Camera3D* camera, const Ref<InputEvent>& event, const Vector3& position, const Vector3& normal, int32_t shape_idx
@@ -41,6 +47,11 @@ namespace godot {
 		void generate_body(float distance_from_star, StellarBodyMaterial materials, Vector3 planet_scale, bool has_atmosphere);
 
 		Control* get_planet_info_panel();
+		Vector3 get_scale();
+		MeshInstance3D* get_mesh();
+
+		void serialize(FileAccess file);
+		void deserialize(FileAccess file);
 	};
 
 }

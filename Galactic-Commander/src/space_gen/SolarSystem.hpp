@@ -2,6 +2,7 @@
 #define SolarSystem_H
 
 #include <godot_cpp/classes/node3d.hpp>
+#include <godot_cpp/templates/vector.hpp>
 
 #include "StellarBody.hpp"
 
@@ -18,7 +19,7 @@ namespace godot {
 		Array sand_colors = StellarBodyColors::get_sand_planet_colors();
 		StellarBodyMaterials materials = StellarBodyMaterials();
 
-		std::vector<StellarBody*> stellar_bodies;
+		Vector<StellarBody*> stellar_bodies;
 
 	protected:
 		static void _bind_methods();
