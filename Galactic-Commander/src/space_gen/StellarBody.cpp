@@ -24,6 +24,13 @@ void StellarBody::create_body(
 ) {
 	// This code should be in the constructor but this isn't possible currently
 	// https://github.com/godotengine/godot-cpp/issues/953
+
+	// Save shader params so StellarBody can be serialized.
+	cloud_params = materials.cloud_params;
+	body_params = materials.body_params;
+	atmosphere_params = materials.atmosphere_params;
+	type = materials.type;
+
 	set_name(body_name);
 	if (body_type == STAR) {
 		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere);
@@ -108,11 +115,46 @@ void StellarBody::generate_body(
 }
 
 void StellarBody::serialize(Ref<FileAccess> file) {
-	file->store_pascal_string(get_name());
+	// To recreate these objects all we need is the parameters to the generate_body function to get saved.
+	// Also if there are orbiting bodies we have to save that as the orbit needs to be reacreated with create_orbit()
+
+	// float distance_from_star, StellarBodyMaterial materials, Vector3 body_scale, bool body_has_atmosphere
+
+	Vector3 position = get_position();
+	file->store_float(position.x);
+	file->store_8(type);
+	if (type == M_ICE or type == M_TERRESTRIAL) {
+		file->store_var(cloud_params);
+	}
+	if (type != M_NO_ATMOSPHERE) {
+		file->store_var(atmosphere_params);
+	}
+	file->store_var(body_params);
+
+	// file->store_var(scale);
+	// file->store_var(has_atmosphere);
 }
 
 void StellarBody::deserialize(Ref<FileAccess> file) {
-	file->get_pascal_string();
+	// The order objects get deserialized has to be the EXACT SAME as the order they are stored in serialize()
+	float x_pos = file->get_float();
+	UtilityFunctions::print("Position: ", x_pos);
+
+	uint8_t body_type = file->get_8();
+	UtilityFunctions::print("Body Type: ", body_type);
+
+	if (body_type == M_ICE or body_type == M_TERRESTRIAL) {
+		Dictionary c_params = file->get_var();
+		UtilityFunctions::print("Cloud params: ", c_params);
+	}
+
+	if (body_type != M_NO_ATMOSPHERE) {
+		Dictionary a_params = file->get_var();
+		UtilityFunctions::print("Atmosphere params: ", a_params);
+	}
+
+	Dictionary b_params = file->get_var();
+	UtilityFunctions::print("Body params: ", b_params);
 }
 
 Control* StellarBody::get_planet_info_panel() {

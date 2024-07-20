@@ -17,7 +17,6 @@ namespace godot {
 		Array no_atmosphere_colors = StellarBodyColors::get_no_atmosphere_colors();
 		Array terrestrial_colors = StellarBodyColors::get_terrestrial_planet_colors();
 		Array sand_colors = StellarBodyColors::get_sand_planet_colors();
-		StellarBodyMaterials materials = StellarBodyMaterials();
 
 		Vector<StellarBody*> stellar_bodies;
 

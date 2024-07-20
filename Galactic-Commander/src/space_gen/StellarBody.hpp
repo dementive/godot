@@ -23,6 +23,10 @@ namespace godot {
 		float planet_collision_size;
 		bool has_atmosphere = false;
 		Vector3 scale;
+		Dictionary body_params;
+		Dictionary atmosphere_params;
+		Dictionary cloud_params;
+		StellarBodyMaterialType type;
 
 	protected:
 		static void _bind_methods();

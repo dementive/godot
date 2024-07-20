@@ -1,6 +1,3 @@
-#include <map>
-#include <string>
-
 #include <godot_cpp/variant/color.hpp>
 #include <godot_cpp/variant/packed_color_array.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -144,8 +141,8 @@ namespace godot {
 			return array;
 		}
 
-		static std::map<std::string, PackedColorArray> get_star_colors() {
-			std::map<std::string, PackedColorArray> star_colors;
+		static Dictionary get_star_colors() {
+			Dictionary star_colors;
 			star_colors["red"] = get_color_array(
 				get_color_html("a30016"), get_color_html("260000"), get_color_html("61001b"), get_color_html("870e00"),
 				get_color_html("923300"), get_color_html("0b0b0b"), get_color_html("510700")

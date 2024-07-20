@@ -1,3 +1,4 @@
+#include "godot_cpp/variant/dictionary.hpp"
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/shader.hpp>
 #include <godot_cpp/classes/shader_material.hpp>
@@ -7,10 +8,28 @@
 
 namespace godot {
 
+	enum StellarBodyMaterialType {
+		M_STAR,
+		M_TERRESTRIAL,
+		M_ICE,
+		M_LAVA,
+		M_GAS,
+		M_SAND,
+		M_NO_ATMOSPHERE
+	};
+
 	struct StellarBodyMaterial {
+		StellarBodyMaterialType type;
+
 		ShaderMaterial body;
 		ShaderMaterial atmosphere;
+		ShaderMaterial clouds;
+
+		Dictionary body_params;
+		Dictionary atmosphere_params;
+		Dictionary cloud_params;
 	};
+
 
 	class StellarBodyMaterials {
 
@@ -18,12 +37,107 @@ namespace godot {
 		Ref<Resource> body_shader = ResourceLoader::get_singleton()->load("res://gfx/shaders/body.gdshader");
 		Ref<Resource> atmosphere_shader = ResourceLoader::get_singleton()->load("res://gfx/shaders/atmosphere.gdshader");
 		Ref<Resource> cloud_shader = ResourceLoader::get_singleton()->load("res://gfx/shaders/clouds.gdshader");
-		std::map<std::string, PackedColorArray> star_colors = StellarBodyColors::get_star_colors();
+
+		void set_body_and_atmosphere_parms(StellarBodyMaterial& mats, Dictionary body_params, Dictionary atmosphere_params) {
+			mats.body.set_shader(body_shader);
+			mats.atmosphere.set_shader(atmosphere_shader);
+
+			Array body_keys = body_params.keys();
+			for (int i = 0; i < body_params.size(); i++) {
+			    String key = body_keys[i];
+			    if (key == "noise") { // Noise has to be loaded as a resource from a string as it isn't serializable, this is probably fuckin dumb and there's likely a better way to do this, oh well.
+			    	mats.body.set_shader_parameter(key, ResourceLoader::get_singleton()->load(body_params[key]));
+			    } else {
+			    	mats.body.set_shader_parameter(key, body_params[key]);
+			    }
+			}
+
+			Array atmosphere_keys = atmosphere_params.keys();
+			for (int i = 0; i < atmosphere_params.size(); i++) {
+			    String key = atmosphere_keys[i];
+			    mats.atmosphere.set_shader_parameter(key, atmosphere_params[key]);
+			}
+		}
 
 	public:
+
+		void save_params(StellarBodyMaterial& mats, String noise) {
+			mats.body_params["emit"] = mats.body.get_shader_parameter("emit");
+			mats.body_params["color_1"] = mats.body.get_shader_parameter("color_1");
+			mats.body_params["color_1_treshold"] = mats.body.get_shader_parameter("color_1_treshold");
+			mats.body_params["color_1_roughness"] = mats.body.get_shader_parameter("color_1_roughness");
+			mats.body_params["color_1_emit"] = mats.body.get_shader_parameter("color_1_emit");
+			mats.body_params["color_2"] = mats.body.get_shader_parameter("color_2");
+			mats.body_params["color_2_treshold"] = mats.body.get_shader_parameter("color_2_treshold");
+			mats.body_params["color_3"] = mats.body.get_shader_parameter("color_3");
+			mats.body_params["color_3_treshold"] = mats.body.get_shader_parameter("color_3_treshold");
+			mats.body_params["color_4"] = mats.body.get_shader_parameter("color_4");
+			mats.body_params["color_4_treshold"] = mats.body.get_shader_parameter("color_4_treshold");
+			mats.body_params["color_5"] = mats.body.get_shader_parameter("color_5");
+			mats.body_params["color_5_treshold"] = mats.body.get_shader_parameter("color_5_treshold");
+			mats.body_params["noise_gaseous"] = mats.body.get_shader_parameter("noise_gaseous");
+			mats.body_params["noise_gaseous_speed"] = mats.body.get_shader_parameter("noise_gaseous_speed");
+			mats.body_params["noise_scale"] = mats.body.get_shader_parameter("noise_scale");
+			mats.body_params["noise"] = noise; // Noise is stored as String because Resource isn't serializable with store_var.
+
+			mats.atmosphere_params["color_1"] = mats.atmosphere.get_shader_parameter("color_1");
+			mats.atmosphere_params["color_2"] = mats.atmosphere.get_shader_parameter("color_2");
+			mats.atmosphere_params["alpha"] = mats.atmosphere.get_shader_parameter("alpha");
+			mats.atmosphere_params["amount"] = mats.atmosphere.get_shader_parameter("amount");
+			mats.atmosphere_params["intensity"] = mats.atmosphere.get_shader_parameter("intensity");
+			mats.atmosphere_params["emit"] = mats.atmosphere.get_shader_parameter("emit");
+		}
+
+		StellarBodyMaterial get_material_with_clouds_from_dict(Dictionary body_params, Dictionary atmosphere_params, Dictionary cloud_params) {
+			StellarBodyMaterial mats;
+			set_body_and_atmosphere_parms(mats, body_params, atmosphere_params);
+
+			mats.clouds.set_shader(cloud_shader);
+			Array cloud_keys = cloud_params.keys();
+			for (int i = 0; i < cloud_params.size(); i++) {
+			    String key = cloud_keys[i];
+			    if (key == "noise_texture") {
+			    	mats.clouds.set_shader_parameter(key, ResourceLoader::get_singleton()->load(cloud_params[key]));
+			    } else {
+			    	mats.clouds.set_shader_parameter(key, cloud_params[key]);
+			    }
+			}
+
+			save_params(mats, body_params["noise"]);
+			return mats;
+		}
+
+		StellarBodyMaterial get_material_from_dict(Dictionary body_params, Dictionary atmosphere_params) {
+			StellarBodyMaterial mats;
+
+			set_body_and_atmosphere_parms(mats, body_params, atmosphere_params);
+			save_params(mats, body_params["noise"]);
+			return mats;
+		}
+
+		StellarBodyMaterial get_material_from_dict_no_atmosphere(Dictionary body_params) {
+			StellarBodyMaterial mats;
+			mats.body.set_shader(body_shader);
+
+			Array body_keys = body_params.keys();
+			for (int i = 0; i < body_params.size(); i++) {
+			    String key = body_keys[i];
+			    if (key == "noise") {
+			    	mats.body.set_shader_parameter(key, ResourceLoader::get_singleton()->load(body_params[key]));
+			    } else {
+			    	mats.body.set_shader_parameter(key, body_params[key]);
+			    }
+			}
+
+			save_params(mats, body_params["noise"]);
+			return mats;
+		}
+
 		StellarBodyMaterial get_star_material(int star_size) {
 			StellarBodyMaterial mats;
 			PackedColorArray color;
+			String noise = "res://gfx/noises/star.tres";
+			Dictionary star_colors = StellarBodyColors::get_star_colors();
 
 			mats.body.set_shader(body_shader);
 			mats.atmosphere.set_shader(atmosphere_shader);
@@ -55,7 +169,7 @@ namespace godot {
 			mats.body.set_shader_parameter("noise_gaseous", true);
 			mats.body.set_shader_parameter("noise_gaseous_speed", UtilityFunctions::randf_range(0.04, 0.06));
 			mats.body.set_shader_parameter("noise_scale", UtilityFunctions::randf_range(3.0, 5.5));
-			mats.body.set_shader_parameter("noise", ResourceLoader::get_singleton()->load("res://gfx/noises/star.tres"));
+			mats.body.set_shader_parameter("noise", ResourceLoader::get_singleton()->load(noise));
 
 			mats.atmosphere.set_shader_parameter("color_1", color[5]);
 			mats.atmosphere.set_shader_parameter("color_2", color[6]);
@@ -64,24 +178,35 @@ namespace godot {
 			mats.atmosphere.set_shader_parameter("intensity", 10.0);
 			mats.atmosphere.set_shader_parameter("emit", true);
 
+			mats.type = M_STAR;
+			save_params(mats, noise);
 			return mats;
 		}
 
 		StellarBodyMaterial get_terrestrial_material() {
 			StellarBodyMaterial mats;
+			String noise = "res://gfx/noises/planet_terrestrial.tres";
+
 			mats.body.set_shader(body_shader);
 			mats.atmosphere.set_shader(atmosphere_shader);
+			mats.clouds.set_shader(cloud_shader);
+
 			Array color = StellarBodyColors::get_terrestrial_planet_colors();
+			Ref<Resource> noise_texture = ResourceLoader::get_singleton()->load(noise);
 
-			Ref<Resource> noise_texture = ResourceLoader::get_singleton()->load("res://gfx/noises/planet_terrestrial.tres");
-			ShaderMaterial cloud_shader_mat = ShaderMaterial();
-			cloud_shader_mat.set_shader(cloud_shader);
+			Dictionary cloud_parameters;
+			cloud_parameters["speed"] = 0.005;
+			cloud_parameters["brightness"] = 0.728;
+			cloud_parameters["threshold"] = 1.102;
+			cloud_parameters["fluffiness"] = 0.376;
+			cloud_parameters["noise_texture"] = noise;
+			mats.cloud_params = cloud_parameters; // DO NOT change this, setting the paramters for clouds any other way doesn't work for some dumbass reason
 
-			cloud_shader_mat.set_shader_parameter("speed", 0.005);
-			cloud_shader_mat.set_shader_parameter("brightness", 0.728);
-			cloud_shader_mat.set_shader_parameter("threshold", 1.102);
-			cloud_shader_mat.set_shader_parameter("fluffiness", 0.376);
-			cloud_shader_mat.set_shader_parameter("noise_texture", noise_texture);
+			mats.clouds.set_shader_parameter("speed", cloud_parameters["speed"]);
+			mats.clouds.set_shader_parameter("brightness", cloud_parameters["brightness"]);
+			mats.clouds.set_shader_parameter("threshold", cloud_parameters["threshold"]);
+			mats.clouds.set_shader_parameter("fluffiness", cloud_parameters["fluffiness"]);
+			mats.clouds.set_shader_parameter("noise_texture", noise_texture);
 
 			mats.body.set_shader_parameter("emit", 0.0);
 			mats.body.set_shader_parameter("color_1", color[0]);
@@ -108,25 +233,36 @@ namespace godot {
 			mats.atmosphere.set_shader_parameter("intensity", 4.0);
 			mats.atmosphere.set_shader_parameter("emit", false);
 
-			mats.atmosphere.set_next_pass(&cloud_shader_mat);
+			mats.atmosphere.set_next_pass(&mats.clouds);
+			mats.type = M_TERRESTRIAL;
+			save_params(mats, noise);
 			return mats;
 		}
 
 		StellarBodyMaterial get_ice_material() {
 			StellarBodyMaterial mats;
+			String noise = "res://gfx/noises/planet_ice.tres";
+
 			mats.body.set_shader(body_shader);
 			mats.atmosphere.set_shader(atmosphere_shader);
+			mats.clouds.set_shader(cloud_shader);
+
 			Array color = StellarBodyColors::get_ice_planet_colors();
+			Ref<Resource> noise_texture = ResourceLoader::get_singleton()->load(noise);
 
-			Ref<Resource> noise_texture = ResourceLoader::get_singleton()->load("res://gfx/noises/planet_ice.tres");
-			ShaderMaterial cloud_shader_mat = ShaderMaterial();
-			cloud_shader_mat.set_shader(cloud_shader);
+			Dictionary cloud_parameters;
+			cloud_parameters["speed"] = 0.005;
+			cloud_parameters["brightness"] = 0.728;
+			cloud_parameters["threshold"] = 1.102;
+			cloud_parameters["fluffiness"] = 0.376;
+			cloud_parameters["noise_texture"] = noise;
+			mats.cloud_params = cloud_parameters;
 
-			cloud_shader_mat.set_shader_parameter("speed", 0.005);
-			cloud_shader_mat.set_shader_parameter("brightness", 0.728);
-			cloud_shader_mat.set_shader_parameter("threshold", 1.102);
-			cloud_shader_mat.set_shader_parameter("fluffiness", 0.376);
-			cloud_shader_mat.set_shader_parameter("noise_texture", noise_texture);
+			mats.clouds.set_shader_parameter("speed", cloud_parameters["speed"]);
+			mats.clouds.set_shader_parameter("brightness", cloud_parameters["brightness"]);
+			mats.clouds.set_shader_parameter("threshold", cloud_parameters["threshold"]);
+			mats.clouds.set_shader_parameter("fluffiness", cloud_parameters["fluffiness"]);
+			mats.clouds.set_shader_parameter("noise_texture", noise_texture);
 
 			mats.body.set_shader_parameter("emit", 0.0);
 			mats.body.set_shader_parameter("color_1", color[0]);
@@ -153,12 +289,16 @@ namespace godot {
 			mats.atmosphere.set_shader_parameter("intensity", 2.0);
 			mats.atmosphere.set_shader_parameter("emit", true);
 
-			mats.atmosphere.set_next_pass(&cloud_shader_mat);
+			mats.atmosphere.set_next_pass(&mats.clouds);
+			mats.type = M_ICE;
+			save_params(mats, noise);
 			return mats;
 		}
 
 		StellarBodyMaterial get_lava_material() {
 			StellarBodyMaterial mats;
+			String noise = "res://gfx/noises/planet_lava.tres";
+
 			mats.body.set_shader(body_shader);
 			mats.atmosphere.set_shader(atmosphere_shader);
 
@@ -180,7 +320,7 @@ namespace godot {
 			mats.body.set_shader_parameter("noise_gaseous", false);
 			mats.body.set_shader_parameter("noise_gaseous_speed", 0.0025);
 			mats.body.set_shader_parameter("noise_scale", UtilityFunctions::randf_range(1.0, 1.75));
-			mats.body.set_shader_parameter("noise", ResourceLoader::get_singleton()->load("res://gfx/noises/planet_lava.tres"));
+			mats.body.set_shader_parameter("noise", ResourceLoader::get_singleton()->load(noise));
 
 			mats.atmosphere.set_shader_parameter("color_1", color[5]);
 			mats.atmosphere.set_shader_parameter("color_2", color[6]);
@@ -189,11 +329,15 @@ namespace godot {
 			mats.atmosphere.set_shader_parameter("intensity", 0.167);
 			mats.atmosphere.set_shader_parameter("emit", true);
 
+			mats.type = M_LAVA;
+			save_params(mats, noise);
 			return mats;
 		}
 
 		StellarBodyMaterial get_gas_material() {
 			StellarBodyMaterial mats;
+			String noise = "res://gfx/noises/planet_gaseous.tres";
+
 			mats.body.set_shader(body_shader);
 			mats.atmosphere.set_shader(atmosphere_shader);
 			Array color = StellarBodyColors::get_gas_planet_colors();
@@ -215,7 +359,7 @@ namespace godot {
 			mats.body.set_shader_parameter("noise_gaseous_speed", UtilityFunctions::randf_range(0.0022, 0.0029));
 			mats.body.set_shader_parameter("noise_scale", UtilityFunctions::randf_range(1.425, 2.0));
 			mats.body.set_shader_parameter(
-				"noise", ResourceLoader::get_singleton()->load("res://gfx/noises/planet_gaseous.tres")
+				"noise", ResourceLoader::get_singleton()->load(noise)
 			);
 
 			mats.atmosphere.set_shader_parameter("color_1", color[5]);
@@ -225,11 +369,15 @@ namespace godot {
 			mats.atmosphere.set_shader_parameter("intensity", 4.0);
 			mats.atmosphere.set_shader_parameter("emit", false);
 
+			mats.type = M_GAS;
+			save_params(mats, noise);
 			return mats;
 		}
 
 		StellarBodyMaterial get_sand_material() {
 			StellarBodyMaterial mats;
+			String noise = "res://gfx/noises/planet_sand.tres";
+
 			mats.body.set_shader(body_shader);
 			mats.atmosphere.set_shader(atmosphere_shader);
 			Array color = StellarBodyColors::get_sand_planet_colors();
@@ -250,7 +398,7 @@ namespace godot {
 			mats.body.set_shader_parameter("noise_gaseous", false);
 			mats.body.set_shader_parameter("noise_gaseous_speed", 0.0025);
 			mats.body.set_shader_parameter("noise_scale", UtilityFunctions::randf_range(1.283, 1.8));
-			mats.body.set_shader_parameter("noise", ResourceLoader::get_singleton()->load("res://gfx/noises/planet_sand.tres"));
+			mats.body.set_shader_parameter("noise", ResourceLoader::get_singleton()->load(noise));
 
 			mats.atmosphere.set_shader_parameter("color_1", color[5]);
 			mats.atmosphere.set_shader_parameter("color_2", color[6]);
@@ -259,11 +407,15 @@ namespace godot {
 			mats.atmosphere.set_shader_parameter("intensity", 4.0);
 			mats.atmosphere.set_shader_parameter("emit", false);
 
+			mats.type = M_SAND;
+			save_params(mats, noise);
 			return mats;
 		}
 
 		StellarBodyMaterial get_no_atmosphere_material() {
 			StellarBodyMaterial mats;
+			String noise = "res://gfx/noises/planet_no_atmosphere.tres";
+
 			mats.body.set_shader(body_shader);
 			Array color = StellarBodyColors::get_no_atmosphere_colors();
 
@@ -284,9 +436,11 @@ namespace godot {
 			mats.body.set_shader_parameter("noise_gaseous_speed", 0.0025);
 			mats.body.set_shader_parameter("noise_scale", UtilityFunctions::randf_range(1.0, 2.3));
 			mats.body.set_shader_parameter(
-				"noise", ResourceLoader::get_singleton()->load("res://gfx/noises/planet_no_atmosphere.tres")
+				"noise", ResourceLoader::get_singleton()->load(noise)
 			);
 
+			mats.type = M_NO_ATMOSPHERE;
+			save_params(mats, noise);
 			return mats;
 		}
 	};
