@@ -123,6 +123,9 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 	Vector3 position = get_position();
 	file->store_float(position.x);
 	file->store_8(type);
+	file->store_float(scale.x); // Scale is actually a Vector3 but we can store just 1 float because all the values should always be the same.
+	file->store_var(has_atmosphere);
+
 	if (type == M_ICE or type == M_TERRESTRIAL) {
 		file->store_var(cloud_params);
 	}
@@ -130,31 +133,43 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 		file->store_var(atmosphere_params);
 	}
 	file->store_var(body_params);
-
-	// file->store_var(scale);
-	// file->store_var(has_atmosphere);
 }
 
 void StellarBody::deserialize(Ref<FileAccess> file) {
 	// The order objects get deserialized has to be the EXACT SAME as the order they are stored in serialize()
+	StellarBodyMaterials* materials = new StellarBodyMaterials();
+
 	float x_pos = file->get_float();
 	UtilityFunctions::print("Position: ", x_pos);
 
 	uint8_t body_type = file->get_8();
 	UtilityFunctions::print("Body Type: ", body_type);
 
-	if (body_type == M_ICE or body_type == M_TERRESTRIAL) {
-		Dictionary c_params = file->get_var();
-		UtilityFunctions::print("Cloud params: ", c_params);
-	}
+	float body_scale_f = file->get_float();
+	Vector3 body_scale = Vector3(body_scale_f, body_scale_f, body_scale_f);
+	UtilityFunctions::print("Body Scale: ", body_scale);
 
-	if (body_type != M_NO_ATMOSPHERE) {
-		Dictionary a_params = file->get_var();
-		UtilityFunctions::print("Atmosphere params: ", a_params);
-	}
+	bool body_has_atmosphere = file->get_var();
+	UtilityFunctions::print("Atmosphere: ", body_has_atmosphere);
 
 	Dictionary b_params = file->get_var();
 	UtilityFunctions::print("Body params: ", b_params);
+	if (body_type == M_NO_ATMOSPHERE) {
+		StellarBodyMaterial mats = materials->get_material_from_dict_no_atmosphere(b_params);
+	} else {
+		Dictionary a_params = file->get_var();
+		UtilityFunctions::print("Atmosphere params: ", a_params);
+
+		if (body_type == M_ICE or body_type == M_TERRESTRIAL) {
+			Dictionary c_params = file->get_var();
+			UtilityFunctions::print("Cloud params: ", c_params);
+			StellarBodyMaterial mats = materials->get_material_with_clouds_from_dict(b_params, a_params, c_params);
+		} else {
+			StellarBodyMaterial mats = materials->get_material_from_dict(b_params, a_params);
+		}
+	}
+	UtilityFunctions::print("\n\n");
+	delete materials;
 }
 
 Control* StellarBody::get_planet_info_panel() {
