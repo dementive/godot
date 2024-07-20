@@ -5,8 +5,7 @@ extends CharacterBody3D
 @export var rotation_speed = PI;
 @export var enable_rotation = true;
 @export var enable_movement = true;
-enum MODE {SHIP, MAP}
-@export var camera_mode = MODE.SHIP
+var ship_camera_mode = true
 
 @onready var ship_body : Node3D = $ShipBody;
 const BACKWARD_RATIO = 0.5;
@@ -14,22 +13,49 @@ const BACKWARD_RATIO = 0.5;
 var speed = 0;
 var drift_direction = Vector3.FORWARD;
 
+var snap_camera_in = true
+var snap_camera_out = false
+
 func switch_camera_mode():
 	var camera = get_viewport().get_camera_3d()
-	if camera_mode == MODE.MAP:
-		find_child("ShipBody").set_scale(Vector3(25,25,25))
+
+	if !ship_camera_mode:
 		find_child("GPUParticles").visible = false
 		get_tree().get_root().get_node("GameWorld/HUD/Crosshair").visible = false
 		set_rotation(Vector3(0,0,0))
-		camera.set_position(Vector3(0, 6500, 0))
+		var player_position = get_position()
+		var camera_position = Vector3(0, 6500, 0)
+		if player_position.y < 0.0:
+			camera_position.y += abs(player_position.y)
+
+		if snap_camera_out:
+			camera.set_position(camera_position)
+			on_tween_finished()
+		else:
+			var tween : Tween = create_tween()
+			tween.tween_property(camera, "position", camera_position, 1.5)
+			tween.connect("finished", on_tween_finished)		
 		camera.set_rotation_degrees(Vector3(-50, 180, 0))
-	elif camera_mode == MODE.SHIP:
+
+	elif ship_camera_mode:
 		find_child("ShipBody").set_scale(Vector3(1,1,1))
+		find_child("ShipCollisionShape").set_scale(Vector3(1,1,1))
 		find_child("GPUParticles").visible = true
 		get_tree().get_root().get_node("GameWorld/HUD/Crosshair").visible = true
-		camera.set_position(Vector3(0, 5.466, -24.284))
 		camera.set_far(60000)
-		camera.set_rotation_degrees(Vector3(0, 180, 0))
+		
+		if snap_camera_in:
+			camera.set_position(Vector3(0, 5.466, -24.284))
+			camera.set_rotation_degrees(Vector3(0, 180, 0))
+		else:
+			var tween : Tween = create_tween()
+			tween.tween_property(camera, "position", Vector3(0, 5.466, -24.284), 1.5)
+			camera.set_rotation_degrees(Vector3(0, 180, 0))
+
+func on_tween_finished():
+	# Have to do this after so camera doens't clip into the ship :(
+	find_child("ShipBody").set_scale(Vector3(25,25,25))
+	find_child("ShipCollisionShape").set_scale(Vector3(25,25,25))
 
 func _process(delta):
 	var viewport = get_viewport()
@@ -38,7 +64,7 @@ func _process(delta):
 	if !is_mouse_inside:
 		return
 	
-	if camera_mode == MODE.SHIP:
+	if ship_camera_mode:
 		if enable_rotation:
 			# Rotate Player
 			var relative_mouse = _get_relative_mouse();
@@ -61,7 +87,7 @@ func _process(delta):
 		if enable_movement:
 			_move_forward(delta);
 	
-	if camera_mode == MODE.MAP:
+	if !ship_camera_mode:
 		_move_on_map()
 	
 func _move_forward(delta):
@@ -78,10 +104,6 @@ func _move_forward(delta):
 	velocity *= 150
 	
 	move_and_slide();
-	
-var right_click_pressed = false
-var initial_mouse_y = 0
-var rotation_sensitivity = 0.1 # Adjust this value to change rotation speed
 
 func _move_on_map():
 	var camera = get_viewport().get_camera_3d()
@@ -100,29 +122,15 @@ func _move_on_map():
 		camera_position.x += MAP_MOVE_AMOUNT
 
 	var new_y_pos: float
+	
 	if Input.is_action_just_released("mouse_up"):
-		new_y_pos = max(camera_position.y - MOUSE_MOVE_AMOUNT, 3150)
+		new_y_pos = clamp(camera_position.y - MOUSE_MOVE_AMOUNT, 4000, 20000)
 		camera_position.y = new_y_pos
 	if Input.is_action_just_released("mouse_down"):
-		new_y_pos = max(camera_position.y + MOUSE_MOVE_AMOUNT, 3150)
-		camera_position.y = new_y_pos
+		new_y_pos = clamp(camera_position.y + MOUSE_MOVE_AMOUNT, 4000, 20000)
+		camera_position.y = new_y_pos	
 
 	# TODO - Figure out how to get it to tilt like pdx camera...
-	## Detect right click press and release
-	#var viewport = get_viewport()
-	#if Input.is_action_just_pressed("mouse_right_click"):
-		#right_click_pressed = true
-		#initial_mouse_y = _get_relative_mouse().y
-	#elif Input.is_action_just_released("mouse_right_click"):
-		#right_click_pressed = false
-	#
-	## Adjust camera rotation based on mouse movement while right-clicking
-	#if right_click_pressed:
-		#print("RIGHT CLICK PRESSED!!!")
-		#var current_mouse_y = _get_relative_mouse().y
-		#var delta_y = initial_mouse_y - current_mouse_y
-		#camera.rotation.x += delta_y * rotation_sensitivity
-		##initial_mouse_y = current_mouse_y # Update initial Y position for next frame
 
 	camera.set_position(camera_position)
 
@@ -142,8 +150,5 @@ func _get_relative_mouse() -> Vector2:
 
 
 func _on_camera_button_pressed():
-	if camera_mode == MODE.SHIP:
-		camera_mode = MODE.MAP
-	elif camera_mode == MODE.MAP:
-		camera_mode = MODE.SHIP
+	ship_camera_mode = !ship_camera_mode
 	switch_camera_mode()

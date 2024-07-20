@@ -29,7 +29,7 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 5.4
 near = 4.0
 far = 60000.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="ShipCollisionShape" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_v33p8")
 
 [node name="GPUParticles" type="GPUParticles3D" parent="."]
