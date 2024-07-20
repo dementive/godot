@@ -4,7 +4,6 @@
 #include <godot_cpp/core/class_db.hpp>
 
 #include "StellarBody.hpp"
-#include "godot_cpp/classes/mesh_instance3d.hpp"
 #include "godot_cpp/variant/utility_functions.hpp"
 
 using namespace godot;
@@ -60,10 +59,10 @@ void SolarSystem::generate_solar_system() {
 	stellar_bodies.push_back(veptune);
 }
 
-int SolarSystem::get_stellar_body_count() {
-	return stellar_bodies.size();
-}
-
 StellarBody* SolarSystem::get_stellar_body(int index) {
 	return stellar_bodies[index];
+}
+
+Vector<StellarBody*> SolarSystem::get_stellar_bodies() {
+	return stellar_bodies;
 }

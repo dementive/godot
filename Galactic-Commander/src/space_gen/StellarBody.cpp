@@ -107,12 +107,12 @@ void StellarBody::generate_body(
 	add_child(&mesh_instance); // Be careful this is the first child so it doesn't break get_mesh()
 }
 
-void StellarBody::serialize(FileAccess file) {
-	file.store_pascal_string(get_name());
+void StellarBody::serialize(Ref<FileAccess> file) {
+	file->store_pascal_string(get_name());
 }
 
-void StellarBody::deserialize(FileAccess file) {
-	file.get_pascal_string();
+void StellarBody::deserialize(Ref<FileAccess> file) {
+	file->get_pascal_string();
 }
 
 Control* StellarBody::get_planet_info_panel() {

@@ -20,3 +20,9 @@ func _on_main_menu_button_pressed():
 
 func _on_quit_game_button_pressed():
 	get_tree().quit()
+
+func _on_save_button_pressed():
+	get_tree().get_root().get_node("GameWorld").on_save()
+
+func _on_load_button_pressed():
+	get_tree().get_root().get_node("GameWorld").on_load()

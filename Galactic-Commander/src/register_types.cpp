@@ -23,6 +23,7 @@ void initialize_galactic_commander_module(ModuleInitializationLevel p_level) {
 	ClassDB::register_class<SolarSystem>();
 	ClassDB::register_class<Galaxy>();
 	ClassDB::register_class<MainMenu>();
+	ClassDB::register_class<SaveManager>();
 }
 
 void uninitialize_galactic_commander_module(ModuleInitializationLevel p_level) {

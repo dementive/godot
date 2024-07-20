@@ -50,8 +50,8 @@ namespace godot {
 		Vector3 get_scale();
 		MeshInstance3D* get_mesh();
 
-		void serialize(FileAccess file);
-		void deserialize(FileAccess file);
+		void serialize(Ref<FileAccess> file);
+		void deserialize(Ref<FileAccess> file);
 	};
 
 }

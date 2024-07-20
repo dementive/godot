@@ -12,7 +12,7 @@ namespace godot {
 	orbit the parent.
 	*/
 	class Orbit : public Node3D {
-		GDCLASS(Orbit, Node3D)
+		GDCLASS(Orbit, Node3D);
 
 	private:
 		float max_orbit_size;
