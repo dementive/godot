@@ -28,6 +28,8 @@ namespace godot {
 		Dictionary cloud_params;
 		StellarBodyMaterialType type;
 		uint8_t solar_system_id;
+		inline static uint next_id = 0;
+
 
 	protected:
 		static void _bind_methods();
@@ -36,7 +38,8 @@ namespace godot {
 		StellarBody();
 		~StellarBody();
 
-		Vector<StellarBody*> orbiting_bodies;
+		uint32_t id;
+		Dictionary orbiting_bodies; // Dictionary<uint32_t, StellarBody*>
 
 		void _input_event(
 			Camera3D* camera, const Ref<InputEvent>& event, const Vector3& position, const Vector3& normal, int32_t shape_idx
@@ -57,6 +60,9 @@ namespace godot {
 		Control* get_planet_info_panel();
 		Vector3 get_scale();
 		MeshInstance3D* get_mesh();
+
+		void set_id();
+		uint32_t get_id();
 
 		void serialize(Ref<FileAccess> file);
 		void deserialize(Ref<FileAccess> file);

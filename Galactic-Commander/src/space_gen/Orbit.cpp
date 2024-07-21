@@ -22,18 +22,23 @@ Orbit::~Orbit() {}
 
 void Orbit::_physics_process(double delta) {
 	StellarBody* parent = Object::cast_to<StellarBody>(get_parent());
-	if (!parent) {
+	if (parent == nullptr) {
 		return;
 	}
 
-	for (auto& body : parent->orbiting_bodies) {
-		if (!body) {
-			continue;
-		}
+	Array body_keys = parent->orbiting_bodies.keys();
+	for (int i = 0; i < parent->orbiting_bodies.size(); i++) {
+	    uint32_t key = body_keys[i];
+	    Variant body_variant = parent->orbiting_bodies[key];
+	    StellarBody* body = Object::cast_to<StellarBody>(body_variant);
+	    
+	    if (body == nullptr) {
+	    	return;
+	    }
 
-		float normalized_distance = Math::clamp(body->get_position().x / get_max_orbit_size(), 0.0, 1.0);
-		float rotation_speed = Math::lerp(0.00001f, 0.003f, normalized_distance);
-		parent->rotate_y(Math::deg_to_rad(rotation_speed));
+	    float normalized_distance = Math::clamp(body->get_position().x / get_max_orbit_size(), 0.0, 1.0);
+	    float rotation_speed = Math::lerp(0.00001f, 0.003f, normalized_distance);
+	    parent->rotate_y(Math::deg_to_rad(rotation_speed));
 	}
 }
 

@@ -41,7 +41,6 @@ font_size = 30
 environment = SubResource("Environment_iulye")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SpaceEnvironment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1000, 0)
 light_cull_mask = 4294967293
 sky_mode = 1
 
@@ -183,6 +182,7 @@ text = "Save"
 
 [node name="LoadButton" type="Button" parent="HUD/PausePanel/ButtonsVbox"]
 layout_mode = 2
+text = "Load"
 
 [node name="MainMenuButton" type="Button" parent="HUD/PausePanel/ButtonsVbox"]
 layout_mode = 2

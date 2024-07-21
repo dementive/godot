@@ -31,6 +31,7 @@ void StellarBody::create_body(
 	atmosphere_params = materials.atmosphere_params;
 	type = materials.type;
 
+	set_id();
 	set_solar_system_id(system_id);
 	set_name(body_name);
 	if (body_type == STAR) {
@@ -71,7 +72,7 @@ void StellarBody::create_orbit(float orbit_size) {
 }
 
 void StellarBody::add_body(StellarBody* body) {
-	orbiting_bodies.push_back(body);
+	orbiting_bodies[body->get_id()] = body;
 	add_child(body);
 }
 
@@ -123,10 +124,14 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 
 	Vector3 position = get_position();
 	file->store_float(position.x);
+	file->store_pascal_string(get_name());
 	file->store_8(type);
+	file->store_32(id);
 	file->store_8(solar_system_id);
 	file->store_float(scale.x); // Scale is actually a Vector3 but we can store just 1 float because all the values should always be the same.
 	file->store_var(has_atmosphere);
+
+	file->store_var(orbiting_bodies.keys());
 
 	if (type == M_ICE or type == M_TERRESTRIAL) {
 		file->store_var(cloud_params);
@@ -138,14 +143,20 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 }
 
 void StellarBody::deserialize(Ref<FileAccess> file) {
-	// The order objects get deserialized has to be the EXACT SAME as the order they are stored in serialize()
+	// The order objects get deserialized has to be the EXACT SAME as the order they are stored in serialize() or the data won't be correct.
 	StellarBodyMaterials* materials = new StellarBodyMaterials();
 
 	float x_pos = file->get_float();
 	UtilityFunctions::print("Position: ", x_pos);
 
+	String body_name = file->get_pascal_string();
+	UtilityFunctions::print("Body Name: ", body_name);
+
 	uint8_t body_type = file->get_8();
 	UtilityFunctions::print("Body Type: ", body_type);
+
+	uint32_t body_id = file->get_32();
+	UtilityFunctions::print("Stellar Body ID: ", body_id);
 
 	uint8_t system_id = file->get_8();
 	UtilityFunctions::print("Solar System ID: ", system_id);
@@ -156,6 +167,9 @@ void StellarBody::deserialize(Ref<FileAccess> file) {
 
 	bool body_has_atmosphere = file->get_var();
 	UtilityFunctions::print("Atmosphere: ", body_has_atmosphere);
+
+	Array orbiting_body_ids = file->get_var();
+	UtilityFunctions::print("Orbiting Bodies: ", orbiting_body_ids);
 
 	Dictionary b_params = file->get_var();
 	UtilityFunctions::print("Body params: ", b_params);
@@ -174,6 +188,7 @@ void StellarBody::deserialize(Ref<FileAccess> file) {
 		}
 	}
 	UtilityFunctions::print("\n\n");
+
 	delete materials;
 }
 
@@ -197,4 +212,13 @@ void StellarBody::set_solar_system_id(uint8_t new_id) {
 
 uint8_t StellarBody::get_solar_system_id() {
 	return solar_system_id;
+}
+
+void StellarBody::set_id() {
+	id = next_id;
+	StellarBody::next_id++;
+}
+
+uint32_t StellarBody::get_id() {
+	return id;
 }
