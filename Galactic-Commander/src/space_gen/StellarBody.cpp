@@ -19,7 +19,7 @@ StellarBody::~StellarBody() {}
 void StellarBody::_bind_methods() {}
 
 void StellarBody::create_body(
-	StellarBodyType body_type, float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale,
+	uint8_t system_id, StellarBodyType body_type, float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale,
 	String body_name, bool atmosphere
 ) {
 	// This code should be in the constructor but this isn't possible currently
@@ -31,6 +31,7 @@ void StellarBody::create_body(
 	atmosphere_params = materials.atmosphere_params;
 	type = materials.type;
 
+	set_solar_system_id(system_id);
 	set_name(body_name);
 	if (body_type == STAR) {
 		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere);
@@ -123,6 +124,7 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 	Vector3 position = get_position();
 	file->store_float(position.x);
 	file->store_8(type);
+	file->store_8(solar_system_id);
 	file->store_float(scale.x); // Scale is actually a Vector3 but we can store just 1 float because all the values should always be the same.
 	file->store_var(has_atmosphere);
 
@@ -144,6 +146,9 @@ void StellarBody::deserialize(Ref<FileAccess> file) {
 
 	uint8_t body_type = file->get_8();
 	UtilityFunctions::print("Body Type: ", body_type);
+
+	uint8_t system_id = file->get_8();
+	UtilityFunctions::print("Solar System ID: ", system_id);
 
 	float body_scale_f = file->get_float();
 	Vector3 body_scale = Vector3(body_scale_f, body_scale_f, body_scale_f);
@@ -184,4 +189,12 @@ Vector3 StellarBody::get_scale() {
 
 MeshInstance3D* StellarBody::get_mesh() {
 	return Object::cast_to<MeshInstance3D>(get_child(0));
+}
+
+void StellarBody::set_solar_system_id(uint8_t new_id) {
+	solar_system_id = new_id;
+}
+
+uint8_t StellarBody::get_solar_system_id() {
+	return solar_system_id;
 }

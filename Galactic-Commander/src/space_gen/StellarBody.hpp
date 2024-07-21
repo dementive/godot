@@ -27,6 +27,7 @@ namespace godot {
 		Dictionary atmosphere_params;
 		Dictionary cloud_params;
 		StellarBodyMaterialType type;
+		uint8_t solar_system_id;
 
 	protected:
 		static void _bind_methods();
@@ -43,12 +44,15 @@ namespace godot {
 		void _mouse_exit() override;
 
 		void create_body(
-			StellarBodyType body_type, float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale,
+			uint8_t system_id, StellarBodyType body_type, float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale,
 			String body_name, bool atmosphere = true
 		);
 		void add_body(StellarBody* body);
 		void create_orbit(float orbit_size = 60000.0);
 		void generate_body(float distance_from_star, StellarBodyMaterial materials, Vector3 planet_scale, bool has_atmosphere);
+
+		void set_solar_system_id(uint8_t new_id);
+		uint8_t get_solar_system_id();
 
 		Control* get_planet_info_panel();
 		Vector3 get_scale();

@@ -12,8 +12,9 @@ void Galaxy::_bind_methods() {
 
 Galaxy::Galaxy() {
 	if (!Engine::get_singleton()->is_editor_hint()) {
+		uint8_t system_id = 0;
 		solar_system = memnew(SolarSystem());
-		solar_system->generate_solar_system();
+		solar_system->generate_solar_system(system_id);
 		solar_system->set_name("SolarSystem");
 		add_child(solar_system);
 
@@ -38,13 +39,8 @@ void Galaxy::on_save() {
 		UtilityFunctions::print("Error opening save file...");
 		return;
 	}
-	for (int i = 0; i < solar_system->get_stellar_bodies().size(); ++i) {
-		StellarBody* body = solar_system->get_stellar_bodies()[i];
 
-		if (body != nullptr) {
-			save_manager->serialize(body);
-		}
-	}
+	save_manager->serialize(solar_system);
 	save_manager->close_file();
 }
 
@@ -55,12 +51,6 @@ void Galaxy::on_load() {
 		return;
 	}
 
-	for (int i = 0; i < solar_system->get_stellar_bodies().size(); ++i) {
-		StellarBody* body = solar_system->get_stellar_bodies()[i];
-
-		if (body != nullptr) {
-			save_manager->deserialize(body);
-		}
-	}
+	save_manager->deserialize(solar_system);
 	save_manager->close_file();
 }

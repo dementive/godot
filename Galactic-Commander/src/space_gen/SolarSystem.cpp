@@ -1,3 +1,4 @@
+
 #include "SolarSystem.hpp"
 
 #include <godot_cpp/classes/node.hpp>
@@ -12,7 +13,8 @@ SolarSystem::SolarSystem() {}
 SolarSystem::~SolarSystem() {}
 void SolarSystem::_bind_methods() {}
 
-void SolarSystem::generate_solar_system() {
+void SolarSystem::generate_solar_system(uint8_t system_id) {
+	set_id(system_id);
 	Vector3 small_scale = Vector3(1300.0, 1300.0, 1300.0);
 	Vector3 mid_scale = Vector3(1500.0, 1500.0, 1500.0);
 	Vector3 big_scale = Vector3(2000.0, 2000.0, 2000.0);
@@ -22,33 +24,33 @@ void SolarSystem::generate_solar_system() {
 	StellarBodyMaterials* materials = new StellarBodyMaterials();
 
 	StellarBody* star = memnew(StellarBody());
-	star->create_body(StellarBodyType(STAR), 0.0, materials->get_star_material(star_size), star_scale, "Sun");
+	star->create_body(system_id, StellarBodyType(STAR), 0.0, materials->get_star_material(star_size), star_scale, "Sun");
 	add_child(star);
 
 	StellarBody* lavatus = memnew(StellarBody());
-	lavatus->create_body(StellarBodyType(PLANET), 8000.0, materials->get_lava_material(), small_scale, "Lavatus");
+	lavatus->create_body(system_id, StellarBodyType(PLANET), 8000.0, materials->get_lava_material(), small_scale, "Lavatus");
 	star->add_body(lavatus);
 
 	StellarBody* sandicus = memnew(StellarBody());
-	sandicus->create_body(StellarBodyType(PLANET), 11000.0, materials->get_sand_material(), small_scale, "Sandicus");
+	sandicus->create_body(system_id, StellarBodyType(PLANET), 11000.0, materials->get_sand_material(), small_scale, "Sandicus");
 	star->add_body(sandicus);
 
 	StellarBody* earth = memnew(StellarBody());
 	StellarBody* moon = memnew(StellarBody());
 
-	earth->create_body(StellarBodyType(PLANET), 18500.0, materials->get_terrestrial_material(), mid_scale, "Urth");
-	moon->create_body(StellarBodyType(PLANET), 250.0, materials->get_no_atmosphere_material(), small_scale, "Woon", false);
+	earth->create_body(system_id, StellarBodyType(PLANET), 18500.0, materials->get_terrestrial_material(), mid_scale, "Urth");
+	moon->create_body(system_id, StellarBodyType(PLANET), 250.0, materials->get_no_atmosphere_material(), small_scale, "Woon", false);
 
 	earth->add_body(moon);
 	earth->create_orbit(300.0);
 	star->add_body(earth);
 
 	StellarBody* yupiter = memnew(StellarBody());
-	yupiter->create_body(StellarBodyType(PLANET), 39000.0, materials->get_gas_material(), big_scale, "Yupiter");
+	yupiter->create_body(system_id, StellarBodyType(PLANET), 39000.0, materials->get_gas_material(), big_scale, "Yupiter");
 	star->add_body(yupiter);
 
 	StellarBody* veptune = memnew(StellarBody());
-	veptune->create_body(StellarBodyType(PLANET), 53000.0, materials->get_ice_material(), mid_scale, "Veptune");
+	veptune->create_body(system_id, StellarBodyType(PLANET), 53000.0, materials->get_ice_material(), mid_scale, "Veptune");
 	star->add_body(veptune);
 
 	stellar_bodies.push_back(star);
@@ -68,4 +70,36 @@ StellarBody* SolarSystem::get_stellar_body(int index) {
 
 Vector<StellarBody*> SolarSystem::get_stellar_bodies() {
 	return stellar_bodies;
+}
+
+void SolarSystem::set_id(uint8_t new_id) {
+	id = new_id;
+}
+
+uint8_t SolarSystem::get_id() {
+	return id;
+}
+
+void SolarSystem::serialize(Ref<FileAccess> file) {
+	file->store_8(id);
+	for (int i = 0; i < get_stellar_bodies().size(); ++i) {
+		StellarBody* body = get_stellar_bodies()[i];
+
+		if (body != nullptr) {
+			body->serialize(file);
+		}
+	}
+}
+
+void SolarSystem::deserialize(Ref<FileAccess> file) {
+	uint8_t system_id = file->get_8();
+	UtilityFunctions::print("Solar System ID: ", system_id);
+
+	for (int i = 0; i < get_stellar_bodies().size(); ++i) {
+		StellarBody* body = get_stellar_bodies()[i];
+
+		if (body != nullptr) {
+			body->deserialize(file);
+		}
+	}
 }

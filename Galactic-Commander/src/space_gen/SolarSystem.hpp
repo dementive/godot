@@ -12,13 +12,8 @@ namespace godot {
 		GDCLASS(SolarSystem, Node3D);
 
 	private:
-		Array ice_colors = StellarBodyColors::get_ice_planet_colors();
-		Array gas_colors = StellarBodyColors::get_gas_planet_colors();
-		Array no_atmosphere_colors = StellarBodyColors::get_no_atmosphere_colors();
-		Array terrestrial_colors = StellarBodyColors::get_terrestrial_planet_colors();
-		Array sand_colors = StellarBodyColors::get_sand_planet_colors();
-
 		Vector<StellarBody*> stellar_bodies;
+		uint8_t id;
 
 	protected:
 		static void _bind_methods();
@@ -29,7 +24,13 @@ namespace godot {
 
 		Vector<StellarBody*> get_stellar_bodies();
 		StellarBody* get_stellar_body(int index);
-		void generate_solar_system();
+		void generate_solar_system(uint8_t system_id);
+
+		void set_id(uint8_t new_id);
+		uint8_t get_id();
+
+		void serialize(Ref<FileAccess> file);
+		void deserialize(Ref<FileAccess> file);
 	};
 
 }
