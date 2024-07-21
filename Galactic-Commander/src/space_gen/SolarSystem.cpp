@@ -94,12 +94,57 @@ void SolarSystem::serialize(Ref<FileAccess> file) {
 void SolarSystem::deserialize(Ref<FileAccess> file) {
 	uint8_t system_id = file->get_8();
 	UtilityFunctions::print("Solar System ID: ", system_id);
+	Array loaded_orbiting_bodies;
+	loaded_orbiting_bodies.resize(get_stellar_bodies().size()); // Not resizing causes crash :(
+	Dictionary loaded_stellar_bodies;
 
 	for (int i = 0; i < get_stellar_bodies().size(); ++i) {
 		StellarBody* body = get_stellar_bodies()[i];
 
 		if (body != nullptr) {
-			body->deserialize(file);
+			std::pair<StellarBody*, Array> new_body_data = body->deserialize(file);
+
+			if (new_body_data.first == nullptr) {
+				continue;
+			}
+
+			// Save Stellar bodies in a Dictionary like this: Dictionary<uint32_t, StellarBody*>
+			// This way we can iterate over the dictionary and assign the orbiting bodies to their parents from their ID.
+			loaded_stellar_bodies[new_body_data.first->get_id()] = new_body_data.first;
+			loaded_orbiting_bodies[i] = new_body_data.second;
 		}
+	}
+
+	// Loop over all the loaded stellar bodies and assign orbiting bodies
+	Array body_keys = loaded_stellar_bodies.keys();
+	for (int i = 0; i < loaded_stellar_bodies.size(); i++) {
+	    Array orbiting_bodies = loaded_orbiting_bodies[i];
+
+	    if (orbiting_bodies.size() <= 0) {
+	    	continue;
+	    }
+
+	    uint32_t body_id = body_keys[i];
+	    Variant body_variant = loaded_stellar_bodies[body_id];
+	    StellarBody* body = Object::cast_to<StellarBody>(body_variant);
+
+	    if (body == nullptr) {
+	    	continue;
+	    }
+
+	    body->create_orbit();
+	    for (int i = 0; i < orbiting_bodies.size(); ++i) {
+	    	uint32_t orbiting_body_id = orbiting_bodies[i];
+	    	Variant orbiting_body_variant = loaded_stellar_bodies[orbiting_body_id];
+	    	StellarBody* orbiting_body = Object::cast_to<StellarBody>(orbiting_body_variant);
+
+	    	if (orbiting_body == nullptr) {
+	    		continue;
+	    	}
+
+	    	UtilityFunctions::print("Adding ", orbiting_body->get_name(), " as an orbiting body of ", body->get_name());
+
+	    	body->add_body(orbiting_body);
+	    }
 	}
 }

@@ -18,9 +18,9 @@ StellarBody::StellarBody() {}
 StellarBody::~StellarBody() {}
 void StellarBody::_bind_methods() {}
 
-void StellarBody::create_body(
+StellarBody* StellarBody::create_body(
 	uint8_t system_id, StellarBodyType body_type, float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale,
-	String body_name, bool atmosphere
+	String body_name, bool atmosphere, uint32_t new_id, Vector3 load_position
 ) {
 	// This code should be in the constructor but this isn't possible currently
 	// https://github.com/godotengine/godot-cpp/issues/953
@@ -31,15 +31,66 @@ void StellarBody::create_body(
 	atmosphere_params = materials.atmosphere_params;
 	type = materials.type;
 
-	set_id();
+	if (new_id == -1) {
+		set_id();
+	} else {
+		set_new_id(new_id);
+	}
 	set_solar_system_id(system_id);
 	set_name(body_name);
+
 	if (body_type == STAR) {
-		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere);
-		create_orbit();
+		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere, load_position);
+		if (new_id == -1) {
+			create_orbit(); // SolarSystem::deserisalize() handles creating the orbit when loading
+		}
 	} else if (body_type == PLANET) {
-		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere);
+		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere, load_position);
 	}
+
+	return this;
+}
+
+void StellarBody::generate_body(
+	float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale, bool body_has_atmosphere, Vector3 load_position
+) {
+	if (distance_from_orbit_origin > 0 and load_position == VECTOR_FORWARD) {
+		Vector3 position = get_position();
+		position.x = distance_from_orbit_origin;
+		position.z = UtilityFunctions::randf_range(0, 10000);
+		set_position(position);
+	} else {
+		set_position(load_position);
+	}
+
+	SphereShape3D sphere_shape = SphereShape3D();
+	sphere_shape.set_radius((body_scale.x / 2) + body_scale.x / 2.0);
+	Ref<SphereShape3D> sphere_ref(&sphere_shape);
+	shape_owner_add_shape(create_shape_owner(this), sphere_ref);
+
+	MeshInstance3D mesh_instance = MeshInstance3D();
+	SphereMesh sphere = SphereMesh();
+	sphere.set_material(&materials.body);
+	Ref<SphereMesh> instance_ref(&sphere);
+
+	mesh_instance.set_mesh(instance_ref);
+	mesh_instance.set_scale(body_scale);
+
+	if (body_has_atmosphere) {
+		has_atmosphere = true;
+		MeshInstance3D atmosphere_mesh = MeshInstance3D();
+
+		SphereMesh a_sphere = SphereMesh();
+		a_sphere.set_material(&materials.atmosphere);
+		Ref<SphereMesh> a_sphere_ref(&a_sphere);
+		atmosphere_mesh.set_mesh(a_sphere_ref);
+
+		atmosphere_mesh.set_scale(Vector3(1.01, 1.01, 1.01));
+		mesh_instance.add_child(&atmosphere_mesh);
+	}
+
+	scale = body_scale;
+	add_child(&mesh_instance); // Be careful this is the first child so it doesn't break get_mesh()
 }
 
 void StellarBody::_input_event(
@@ -76,78 +127,33 @@ void StellarBody::add_body(StellarBody* body) {
 	add_child(body);
 }
 
-void StellarBody::generate_body(
-	float distance_from_star, StellarBodyMaterial materials, Vector3 body_scale, bool body_has_atmosphere
-) {
-	if (distance_from_star > 0) {
-		Vector3 position = get_position();
-		position.x = distance_from_star;
-		position.z = UtilityFunctions::randf_range(0, 10000);
-		set_position(position);
-	}
-
-	SphereShape3D sphere_shape = SphereShape3D();
-	sphere_shape.set_radius((body_scale.x / 2) + body_scale.x / 2.0);
-	Ref<SphereShape3D> sphere_ref(&sphere_shape);
-	shape_owner_add_shape(create_shape_owner(this), sphere_ref);
-
-	MeshInstance3D mesh_instance = MeshInstance3D();
-	SphereMesh sphere = SphereMesh();
-	sphere.set_material(&materials.body);
-	Ref<SphereMesh> instance_ref(&sphere);
-
-	mesh_instance.set_mesh(instance_ref);
-	mesh_instance.set_scale(body_scale);
-
-	if (body_has_atmosphere) {
-		has_atmosphere = true;
-		MeshInstance3D atmosphere_mesh = MeshInstance3D();
-
-		SphereMesh a_sphere = SphereMesh();
-		a_sphere.set_material(&materials.atmosphere);
-		Ref<SphereMesh> a_sphere_ref(&a_sphere);
-		atmosphere_mesh.set_mesh(a_sphere_ref);
-
-		atmosphere_mesh.set_scale(Vector3(1.01, 1.01, 1.01));
-		mesh_instance.add_child(&atmosphere_mesh);
-	}
-
-	scale = body_scale;
-	add_child(&mesh_instance); // Be careful this is the first child so it doesn't break get_mesh()
-}
-
 void StellarBody::serialize(Ref<FileAccess> file) {
-	// To recreate these objects all we need is the parameters to the generate_body function to get saved.
-	// Also if there are orbiting bodies we have to save that as the orbit needs to be reacreated with create_orbit()
+	// The order objects get serialized has to be the EXACT SAME as the order they are retrived in deserialize() or the data won't be correct.
 
-	// float distance_from_star, StellarBodyMaterial materials, Vector3 body_scale, bool body_has_atmosphere
-
-	Vector3 position = get_position();
-	file->store_float(position.x);
+	file->store_var(get_position());
 	file->store_pascal_string(get_name());
 	file->store_8(type);
 	file->store_32(id);
 	file->store_8(solar_system_id);
 	file->store_float(scale.x); // Scale is actually a Vector3 but we can store just 1 float because all the values should always be the same.
 	file->store_var(has_atmosphere);
-
 	file->store_var(orbiting_bodies.keys());
 
-	if (type == M_ICE or type == M_TERRESTRIAL) {
-		file->store_var(cloud_params);
-	}
+	file->store_var(body_params);
 	if (type != M_NO_ATMOSPHERE) {
 		file->store_var(atmosphere_params);
 	}
-	file->store_var(body_params);
+	if (type == M_ICE or type == M_TERRESTRIAL) {
+		file->store_var(cloud_params);
+	}
 }
 
-void StellarBody::deserialize(Ref<FileAccess> file) {
+std::pair<StellarBody*, Array> StellarBody::deserialize(Ref<FileAccess> file) {
 	// The order objects get deserialized has to be the EXACT SAME as the order they are stored in serialize() or the data won't be correct.
 	StellarBodyMaterials* materials = new StellarBodyMaterials();
 
-	float x_pos = file->get_float();
-	UtilityFunctions::print("Position: ", x_pos);
+	Vector3 loaded_position = file->get_var();
+	UtilityFunctions::print("Position: ", loaded_position);
 
 	String body_name = file->get_pascal_string();
 	UtilityFunctions::print("Body Name: ", body_name);
@@ -173,6 +179,10 @@ void StellarBody::deserialize(Ref<FileAccess> file) {
 
 	Dictionary b_params = file->get_var();
 	UtilityFunctions::print("Body params: ", b_params);
+
+	StellarBody* new_stellar_body = memnew(StellarBody());
+	StellarBodyMaterial mats;
+
 	if (body_type == M_NO_ATMOSPHERE) {
 		StellarBodyMaterial mats = materials->get_material_from_dict_no_atmosphere(b_params);
 	} else {
@@ -187,9 +197,16 @@ void StellarBody::deserialize(Ref<FileAccess> file) {
 			StellarBodyMaterial mats = materials->get_material_from_dict(b_params, a_params);
 		}
 	}
-	UtilityFunctions::print("\n\n");
+
+	StellarBody* loaded_body = new_stellar_body->create_body(system_id, StellarBodyType(body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
+
+	UtilityFunctions::print("\n");
+	UtilityFunctions::print("\n");
 
 	delete materials;
+
+	std::pair<StellarBody*, Array> out_pair(loaded_body, orbiting_body_ids);
+	return out_pair;
 }
 
 Control* StellarBody::get_planet_info_panel() {
@@ -219,6 +236,17 @@ void StellarBody::set_id() {
 	StellarBody::next_id++;
 }
 
+void StellarBody::set_new_id(uint32_t new_id) {
+	id = new_id;
+}
+
 uint32_t StellarBody::get_id() {
 	return id;
+}
+
+void StellarBody::set_orbiting_bodies(Dictionary new_orbiting_bodies) {
+	orbiting_bodies = new_orbiting_bodies;
+}
+Dictionary StellarBody::get_orbiting_bodies() {
+	return orbiting_bodies;
 }

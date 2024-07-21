@@ -26,10 +26,10 @@ void Orbit::_physics_process(double delta) {
 		return;
 	}
 
-	Array body_keys = parent->orbiting_bodies.keys();
-	for (int i = 0; i < parent->orbiting_bodies.size(); i++) {
+	Array body_keys = parent->get_orbiting_bodies().keys();
+	for (int i = 0; i < parent->get_orbiting_bodies().size(); i++) {
 	    uint32_t key = body_keys[i];
-	    Variant body_variant = parent->orbiting_bodies[key];
+	    Variant body_variant = parent->get_orbiting_bodies()[key];
 	    StellarBody* body = Object::cast_to<StellarBody>(body_variant);
 	    
 	    if (body == nullptr) {
