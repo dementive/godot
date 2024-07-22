@@ -51,6 +51,11 @@ void Galaxy::on_load() {
 		return;
 	}
 
-	save_manager->deserialize(solar_system);
+	solar_system->queue_free();
+
+	SolarSystem* new_solar_system = memnew(SolarSystem());
+	save_manager->deserialize(new_solar_system);
+	add_child(new_solar_system);
+	solar_system = new_solar_system;
 	save_manager->close_file();
 }

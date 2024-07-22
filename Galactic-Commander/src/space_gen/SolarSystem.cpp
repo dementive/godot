@@ -82,6 +82,7 @@ uint8_t SolarSystem::get_id() {
 
 void SolarSystem::serialize(Ref<FileAccess> file) {
 	file->store_8(id);
+	file->store_16(get_stellar_bodies().size());
 	for (int i = 0; i < get_stellar_bodies().size(); ++i) {
 		StellarBody* body = get_stellar_bodies()[i];
 
@@ -93,13 +94,14 @@ void SolarSystem::serialize(Ref<FileAccess> file) {
 
 void SolarSystem::deserialize(Ref<FileAccess> file) {
 	uint8_t system_id = file->get_8();
-	UtilityFunctions::print("Solar System ID: ", system_id);
+	uint16_t bodies_in_solar_system = file->get_16();
+
 	Array loaded_orbiting_bodies;
-	loaded_orbiting_bodies.resize(get_stellar_bodies().size()); // Not resizing causes crash :(
+	loaded_orbiting_bodies.resize(bodies_in_solar_system); // Not resizing causes crash :(
 	Dictionary loaded_stellar_bodies;
 
-	for (int i = 0; i < get_stellar_bodies().size(); ++i) {
-		StellarBody* body = get_stellar_bodies()[i];
+	for (int i = 0; i < bodies_in_solar_system; ++i) {
+		StellarBody* body = memnew(StellarBody());
 
 		if (body != nullptr) {
 			std::pair<StellarBody*, Array> new_body_data = body->deserialize(file);
@@ -132,6 +134,13 @@ void SolarSystem::deserialize(Ref<FileAccess> file) {
 	    	continue;
 	    }
 
+	    if (body->get_body_type() == STAR) {
+	    	// Add star as child of solar system
+	    	if (body->get_parent() == nullptr) {
+	    		add_child(body);
+	    	}
+	    }
+
 	    body->create_orbit();
 	    for (int i = 0; i < orbiting_bodies.size(); ++i) {
 	    	uint32_t orbiting_body_id = orbiting_bodies[i];
@@ -141,8 +150,6 @@ void SolarSystem::deserialize(Ref<FileAccess> file) {
 	    	if (orbiting_body == nullptr) {
 	    		continue;
 	    	}
-
-	    	UtilityFunctions::print("Adding ", orbiting_body->get_name(), " as an orbiting body of ", body->get_name());
 
 	    	body->add_body(orbiting_body);
 	    }

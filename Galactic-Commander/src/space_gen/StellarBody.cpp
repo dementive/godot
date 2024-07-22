@@ -19,17 +19,17 @@ StellarBody::~StellarBody() {}
 void StellarBody::_bind_methods() {}
 
 StellarBody* StellarBody::create_body(
-	uint8_t system_id, StellarBodyType body_type, float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale,
+	uint8_t system_id, StellarBodyType stellar_body_type, float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale,
 	String body_name, bool atmosphere, uint32_t new_id, Vector3 load_position
 ) {
 	// This code should be in the constructor but this isn't possible currently
 	// https://github.com/godotengine/godot-cpp/issues/953
 
-	// Save shader params so StellarBody can be serialized.
 	cloud_params = materials.cloud_params;
 	body_params = materials.body_params;
 	atmosphere_params = materials.atmosphere_params;
-	type = materials.type;
+	body_type = stellar_body_type;
+	material_type = materials.type;
 
 	if (new_id == -1) {
 		set_id();
@@ -118,7 +118,6 @@ void StellarBody::_mouse_exit() {
 void StellarBody::create_orbit(float orbit_size) {
 	Orbit* orbit = memnew(Orbit());
 	orbit->set_max_orbit_size(orbit_size);
-	orbit->set_name(get_name() + StringName("Orbit"));
 	add_child(orbit);
 }
 
@@ -132,7 +131,8 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 
 	file->store_var(get_position());
 	file->store_pascal_string(get_name());
-	file->store_8(type);
+	file->store_8(material_type);
+	file->store_8(body_type);
 	file->store_32(id);
 	file->store_8(solar_system_id);
 	file->store_float(scale.x); // Scale is actually a Vector3 but we can store just 1 float because all the values should always be the same.
@@ -140,10 +140,10 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 	file->store_var(orbiting_bodies.keys());
 
 	file->store_var(body_params);
-	if (type != M_NO_ATMOSPHERE) {
+	if (material_type != M_NO_ATMOSPHERE) {
 		file->store_var(atmosphere_params);
 	}
-	if (type == M_ICE or type == M_TERRESTRIAL) {
+	if (material_type == M_ICE or material_type == M_TERRESTRIAL) {
 		file->store_var(cloud_params);
 	}
 }
@@ -153,59 +153,35 @@ std::pair<StellarBody*, Array> StellarBody::deserialize(Ref<FileAccess> file) {
 	StellarBodyMaterials* materials = new StellarBodyMaterials();
 
 	Vector3 loaded_position = file->get_var();
-	UtilityFunctions::print("Position: ", loaded_position);
-
 	String body_name = file->get_pascal_string();
-	UtilityFunctions::print("Body Name: ", body_name);
-
-	uint8_t body_type = file->get_8();
-	UtilityFunctions::print("Body Type: ", body_type);
-
+	uint8_t loaded_material_type = file->get_8();
+	uint8_t loaded_body_type = file->get_8();
 	uint32_t body_id = file->get_32();
-	UtilityFunctions::print("Stellar Body ID: ", body_id);
-
 	uint8_t system_id = file->get_8();
-	UtilityFunctions::print("Solar System ID: ", system_id);
-
 	float body_scale_f = file->get_float();
 	Vector3 body_scale = Vector3(body_scale_f, body_scale_f, body_scale_f);
-	UtilityFunctions::print("Body Scale: ", body_scale);
-
 	bool body_has_atmosphere = file->get_var();
-	UtilityFunctions::print("Atmosphere: ", body_has_atmosphere);
-
 	Array orbiting_body_ids = file->get_var();
-	UtilityFunctions::print("Orbiting Bodies: ", orbiting_body_ids);
 
 	Dictionary b_params = file->get_var();
-	UtilityFunctions::print("Body params: ", b_params);
-
-	StellarBody* new_stellar_body = memnew(StellarBody());
-	StellarBodyMaterial mats;
-
-	if (body_type == M_NO_ATMOSPHERE) {
+	if (loaded_material_type == M_NO_ATMOSPHERE) {
 		StellarBodyMaterial mats = materials->get_material_from_dict_no_atmosphere(b_params);
+		create_body(system_id, StellarBodyType(body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
 	} else {
 		Dictionary a_params = file->get_var();
-		UtilityFunctions::print("Atmosphere params: ", a_params);
 
-		if (body_type == M_ICE or body_type == M_TERRESTRIAL) {
+		if (loaded_material_type == M_ICE or loaded_material_type == M_TERRESTRIAL) {
 			Dictionary c_params = file->get_var();
-			UtilityFunctions::print("Cloud params: ", c_params);
 			StellarBodyMaterial mats = materials->get_material_with_clouds_from_dict(b_params, a_params, c_params);
+			create_body(system_id, StellarBodyType(body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
 		} else {
 			StellarBodyMaterial mats = materials->get_material_from_dict(b_params, a_params);
+			create_body(system_id, StellarBodyType(body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
 		}
 	}
 
-	StellarBody* loaded_body = new_stellar_body->create_body(system_id, StellarBodyType(body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
-
-	UtilityFunctions::print("\n");
-	UtilityFunctions::print("\n");
-
 	delete materials;
-
-	std::pair<StellarBody*, Array> out_pair(loaded_body, orbiting_body_ids);
+	std::pair<StellarBody*, Array> out_pair(this, orbiting_body_ids);
 	return out_pair;
 }
 
@@ -249,4 +225,8 @@ void StellarBody::set_orbiting_bodies(Dictionary new_orbiting_bodies) {
 }
 Dictionary StellarBody::get_orbiting_bodies() {
 	return orbiting_bodies;
+}
+
+StellarBodyType StellarBody::get_body_type() {
+	return body_type;
 }

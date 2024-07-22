@@ -29,7 +29,8 @@ namespace godot {
 		Dictionary body_params;
 		Dictionary atmosphere_params;
 		Dictionary cloud_params;
-		StellarBodyMaterialType type;
+		StellarBodyMaterialType material_type;
+		StellarBodyType body_type;
 		uint8_t solar_system_id;
 		uint32_t id;
 		inline static std::atomic<uint> next_id = 0;
@@ -65,6 +66,8 @@ namespace godot {
 
 		void set_orbiting_bodies(Dictionary new_orbiting_bodies);
 		Dictionary get_orbiting_bodies();
+
+		StellarBodyType get_body_type();
 
 		void set_id();
 		void set_new_id(uint32_t new_id);
