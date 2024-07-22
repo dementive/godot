@@ -29,8 +29,8 @@ namespace godot {
 		SaveManager* get_save_manager();
 		SolarSystem* get_solar_system();
 
-		void on_save();
-		void on_load();
+		void on_save(String file_name);
+		void on_load(String file_name);
 	};
 
 }

@@ -17,6 +17,14 @@ boot_splash/bg_color=Color(0.156423, 0.226326, 0.203894, 1)
 boot_splash/image="res://gfx/interface/loadingscreens/logo.png"
 config/icon="res://gfx/interface/loadingscreens/icon.png"
 
+[file_customization]
+
+folder_colors={
+"res://gfx/": "purple",
+"res://scenes/": "green",
+"res://scripts/": "orange"
+}
+
 [filesystem]
 
 import/blender/enabled=false

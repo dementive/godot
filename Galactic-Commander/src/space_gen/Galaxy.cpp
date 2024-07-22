@@ -6,8 +6,10 @@
 using namespace godot;
 
 void Galaxy::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("on_save"), &Galaxy::on_save);
-	ClassDB::bind_method(D_METHOD("on_load"), &Galaxy::on_load);
+	//ClassDB::bind_method(D_METHOD("on_save"), &Galaxy::on_save);
+	//ClassDB::bind_method(D_METHOD("on_load"), &Galaxy::on_load);
+	ClassDB::bind_method(D_METHOD("on_save", "file_name"), &Galaxy::on_save);
+	ClassDB::bind_method(D_METHOD("on_load", "file_name"), &Galaxy::on_load);
 }
 
 Galaxy::Galaxy() {
@@ -17,9 +19,6 @@ Galaxy::Galaxy() {
 		solar_system->generate_solar_system(system_id);
 		solar_system->set_name("SolarSystem");
 		add_child(solar_system);
-
-		save_manager = memnew(SaveManager());
-		save_manager->init("user://test.sav", "12345");
 	}
 }
 
@@ -33,7 +32,10 @@ SolarSystem* Galaxy::get_solar_system() {
 	return solar_system;
 }
 
-void Galaxy::on_save() {
+void Galaxy::on_save(String file_name) {
+	save_manager = memnew(SaveManager());
+	save_manager->init(file_name, "12345");
+
 	int status = save_manager->open_file(FileAccess::WRITE);
 	if (status != OK) {
 		UtilityFunctions::print("Error opening save file...");
@@ -44,7 +46,10 @@ void Galaxy::on_save() {
 	save_manager->close_file();
 }
 
-void Galaxy::on_load() {
+void Galaxy::on_load(String file_name) {
+	save_manager = memnew(SaveManager());
+	save_manager->init(file_name, "12345");
+
 	int status = save_manager->open_file(FileAccess::READ);
 	if (status != OK) {
 		UtilityFunctions::print("Error opening save file...");

@@ -57,6 +57,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="Crosshair" type="CenterContainer" parent="HUD"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -115,6 +116,7 @@ expand_mode = 2
 stretch_mode = 4
 
 [node name="CameraButton" type="Button" parent="HUD"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -138,9 +140,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -112.5
-offset_top = -125.0
+offset_top = -150.0
 offset_right = 112.5
-offset_bottom = 125.0
+offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5_557t5")
@@ -165,9 +167,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -48.0
-offset_top = -58.5
+offset_top = -101.5
 offset_right = 48.0
-offset_bottom = 58.5
+offset_bottom = 101.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 12
@@ -191,6 +193,27 @@ text = "Main Menu"
 [node name="QuitGameButton" type="Button" parent="HUD/PausePanel/ButtonsVbox"]
 layout_mode = 2
 text = "Quit Game"
+
+[node name="LoadVbox" type="VBoxContainer" parent="HUD/PausePanel"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -20.0
+offset_right = 34.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="HUD/PausePanel/LoadVbox"]
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="HUD/PausePanel/LoadVbox"]
+layout_mode = 2
 
 [connection signal="gui_input" from="HUD" to="Player" method="_on_hud_gui_input"]
 [connection signal="pressed" from="HUD/CameraButton" to="Player" method="_on_camera_button_pressed"]
