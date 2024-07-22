@@ -116,7 +116,6 @@ expand_mode = 2
 stretch_mode = 4
 
 [node name="CameraButton" type="Button" parent="HUD"]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -245,7 +244,6 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "Load"
 
-[connection signal="gui_input" from="HUD" to="Player" method="_on_hud_gui_input"]
 [connection signal="pressed" from="HUD/CameraButton" to="Player" method="_on_camera_button_pressed"]
 [connection signal="gui_input" from="HUD/PausePanel" to="HUD/PausePanel" method="_on_gui_input"]
 [connection signal="pressed" from="HUD/PausePanel/ButtonsVbox/ResumeButton" to="HUD/PausePanel" method="_on_resume_button_pressed"]

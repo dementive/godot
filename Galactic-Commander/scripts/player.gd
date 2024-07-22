@@ -13,7 +13,7 @@ const BACKWARD_RATIO = 0.5;
 var speed = 0;
 var drift_direction = Vector3.FORWARD;
 
-var snap_camera_in = true
+var snap_camera_in = false
 var snap_camera_out = false
 
 func switch_camera_mode():
@@ -24,24 +24,25 @@ func switch_camera_mode():
 		get_tree().get_root().get_node("GameWorld/HUD/Crosshair").visible = false
 		set_rotation(Vector3(0,0,0))
 		var player_position = get_position()
-		var camera_position = Vector3(0, 6500, 0)
+		var camera_position = Vector3(0, 6500, -4500)
 		if player_position.y < 0.0:
 			camera_position.y += abs(player_position.y)
 
 		if snap_camera_out:
 			camera.set_position(camera_position)
-			on_tween_finished()
+			find_child("ShipBody").set_scale(Vector3(25,25,25))
+			find_child("ShipCollisionShape").set_scale(Vector3(25,25,25))
 		else:
 			var tween : Tween = create_tween()
+			var tween2 : Tween = create_tween()
 			tween.tween_property(camera, "position", camera_position, 1.5)
-			tween.connect("finished", on_tween_finished)		
+			tween2.tween_property(find_child("ShipBody"), "scale", Vector3(25,25,25), 1.0)
+			find_child("ShipCollisionShape").set_scale(Vector3(25,25,25))		
 		camera.set_rotation_degrees(Vector3(-50, 180, 0))
 
 	elif ship_camera_mode:
-		find_child("ShipBody").set_scale(Vector3(1,1,1))
 		find_child("ShipCollisionShape").set_scale(Vector3(1,1,1))
 		find_child("GPUParticles").visible = true
-		get_tree().get_root().get_node("GameWorld/HUD/Crosshair").visible = true
 		camera.set_far(60000)
 		
 		if snap_camera_in:
@@ -49,13 +50,15 @@ func switch_camera_mode():
 			camera.set_rotation_degrees(Vector3(0, 180, 0))
 		else:
 			var tween : Tween = create_tween()
-			tween.tween_property(camera, "position", Vector3(0, 5.466, -24.284), 1.5)
-			camera.set_rotation_degrees(Vector3(0, 180, 0))
+			var tween2 : Tween = create_tween()
+			var tween3 : Tween = create_tween()
+			tween.tween_property(camera, "position", Vector3(0, 5.466, -24.284), 1.0)
+			tween2.tween_property(find_child("ShipBody"), "scale", Vector3(1,1,1), 1.0)
+			tween3.tween_property(camera, "rotation_degrees", Vector3(0, 180, 0), 1.0)
+			tween.tween_callback(Callable(self, "on_camera_tween_in_finished"))
 
-func on_tween_finished():
-	# Have to do this after so camera doens't clip into the ship :(
-	find_child("ShipBody").set_scale(Vector3(25,25,25))
-	find_child("ShipCollisionShape").set_scale(Vector3(25,25,25))
+func on_camera_tween_in_finished():
+	get_tree().get_root().get_node("GameWorld/HUD/Crosshair").visible = true
 
 func _process(delta):
 	var viewport = get_viewport()
