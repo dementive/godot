@@ -23,14 +23,36 @@ func _on_main_menu_button_pressed():
 func _on_quit_game_button_pressed():
 	get_tree().quit()
 
-func _on_save_button_pressed():
-	get_tree().get_root().get_node("GameWorld").on_save("user://saves/000_1.save")
-
 func _on_load_button_pressed():
-	#get_child(0).set_text("Load Saved Game")
-	#get_child(1).set_visible(false)
-	#get_child(2).set_visible(true)
-	get_tree().get_root().get_node("GameWorld").on_load("user://saves/000_1.save")
+	get_child(0).set_text("Save/Load")
+	get_child(1).set_visible(false)
+	get_child(2).set_visible(true)
+	#get_tree().get_root().get_node("GameWorld").on_load("user://saves/000_1.save")
+
+var save_file_name : String
+
+func _on_line_edit_text_submitted(new_text):
+	save_file_name = new_text
+
+func _on_save_game_button_pressed():
+	var save_file = "user://saves/" + save_file_name + ".save"
+	if not FileAccess.file_exists(save_file):
+		print("CREATING: ", save_file)
+		FileAccess.open(save_file, FileAccess.WRITE)
+	get_tree().get_root().get_node("GameWorld").on_save(save_file)
+	
+	get_child(0).set_text("Paused")
+	get_child(1).set_visible(true)
+	get_child(2).set_visible(false)
+
+
+func _on_load_game_button_pressed():
+	var save_file = "user://saves/" + save_file_name + ".save"
+	get_tree().get_root().get_node("GameWorld").on_load(save_file)
+	
+	get_child(0).set_text("Paused")
+	get_child(1).set_visible(true)
+	get_child(2).set_visible(false)
 
 func create_new_save_file() -> String:
 	var save_files : PackedStringArray = get_save_files()
