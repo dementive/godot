@@ -9,15 +9,12 @@
 using namespace godot;
 
 void Orbit::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_max_orbit_size"), &Orbit::get_max_orbit_size);
-	ClassDB::bind_method(D_METHOD("set_max_orbit_size", "orbit_size"), &Orbit::set_max_orbit_size);
-	ClassDB::add_property("Orbit", PropertyInfo(Variant::FLOAT, "max_orbit_size"), "set_max_orbit_size", "get_max_orbit_size");
+	// ClassDB::bind_method(D_METHOD("get_max_orbit_size"), &Orbit::get_max_orbit_size);
+	// ClassDB::bind_method(D_METHOD("set_max_orbit_size", "orbit_size"), &Orbit::set_max_orbit_size);
+	// ClassDB::add_property("Orbit", PropertyInfo(Variant::FLOAT, "max_orbit_size"), "set_max_orbit_size", "get_max_orbit_size");
 }
 
-Orbit::Orbit() {
-	max_orbit_size = 60000.0;
-}
-
+Orbit::Orbit() {}
 Orbit::~Orbit() {}
 
 void Orbit::_physics_process(double delta) {

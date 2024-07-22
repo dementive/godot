@@ -42,7 +42,7 @@ StellarBody* StellarBody::create_body(
 	if (body_type == STAR) {
 		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere, load_position);
 		if (new_id == -1) {
-			create_orbit(); // SolarSystem::deserisalize() handles creating the orbit when loading
+			create_orbit(60000); // SolarSystem::deserisalize() handles creating the orbit when loading
 		}
 	} else if (body_type == PLANET) {
 		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere, load_position);
@@ -115,8 +115,9 @@ void StellarBody::_mouse_exit() {
 	}
 }
 
-void StellarBody::create_orbit(float orbit_size) {
+void StellarBody::create_orbit(float new_orbit_size) {
 	Orbit* orbit = memnew(Orbit());
+	orbit_size = new_orbit_size;
 	orbit->set_max_orbit_size(orbit_size);
 	add_child(orbit);
 }
@@ -138,6 +139,7 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 	file->store_float(scale.x); // Scale is actually a Vector3 but we can store just 1 float because all the values should always be the same.
 	file->store_var(has_atmosphere);
 	file->store_var(orbiting_bodies.keys());
+	file->store_float(orbit_size);
 
 	file->store_var(body_params);
 	if (material_type != M_NO_ATMOSPHERE) {
@@ -162,6 +164,7 @@ std::pair<StellarBody*, Array> StellarBody::deserialize(Ref<FileAccess> file) {
 	Vector3 body_scale = Vector3(body_scale_f, body_scale_f, body_scale_f);
 	bool body_has_atmosphere = file->get_var();
 	Array orbiting_body_ids = file->get_var();
+	orbit_size = file->get_float();
 
 	Dictionary b_params = file->get_var();
 	if (loaded_material_type == M_NO_ATMOSPHERE) {
@@ -229,4 +232,8 @@ Dictionary StellarBody::get_orbiting_bodies() {
 
 StellarBodyType StellarBody::get_body_type() {
 	return body_type;
+}
+
+float StellarBody::get_orbit_size() {
+	return orbit_size;
 }

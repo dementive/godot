@@ -141,7 +141,7 @@ void SolarSystem::deserialize(Ref<FileAccess> file) {
 	    	}
 	    }
 
-	    body->create_orbit();
+	    body->create_orbit(body->get_orbit_size());
 	    for (int i = 0; i < orbiting_bodies.size(); ++i) {
 	    	uint32_t orbiting_body_id = orbiting_bodies[i];
 	    	Variant orbiting_body_variant = loaded_stellar_bodies[orbiting_body_id];

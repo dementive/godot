@@ -33,6 +33,7 @@ namespace godot {
 		StellarBodyType body_type;
 		uint8_t solar_system_id;
 		uint32_t id;
+		float orbit_size;
 		inline static std::atomic<uint> next_id = 0;
 
 
@@ -55,7 +56,7 @@ namespace godot {
 		);
 		void generate_body(float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 planet_scale, bool has_atmosphere, Vector3 load_position);
 		void add_body(StellarBody* body);
-		void create_orbit(float orbit_size = 60000.0);
+		void create_orbit(float orbit_size);
 
 		void set_solar_system_id(uint8_t new_id);
 		uint8_t get_solar_system_id();
@@ -68,6 +69,7 @@ namespace godot {
 		Dictionary get_orbiting_bodies();
 
 		StellarBodyType get_body_type();
+		float get_orbit_size();
 
 		void set_id();
 		void set_new_id(uint32_t new_id);
