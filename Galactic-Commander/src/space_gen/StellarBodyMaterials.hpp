@@ -67,7 +67,7 @@ namespace godot {
 
 	public:
 
-		void save_params(StellarBodyMaterial& mats, String texture, bool simple_body=false) {
+		void save_params(StellarBodyMaterial& mats, String noise_texture, String body_texture = "", bool simple_body=false) {
 			if (simple_body == false) {
 				mats.body_params["emit"] = mats.body.get_shader_parameter("emit");
 				mats.body_params["color_1"] = mats.body.get_shader_parameter("color_1");
@@ -85,9 +85,9 @@ namespace godot {
 				mats.body_params["noise_gaseous"] = mats.body.get_shader_parameter("noise_gaseous");
 				mats.body_params["noise_gaseous_speed"] = mats.body.get_shader_parameter("noise_gaseous_speed");
 				mats.body_params["noise_scale"] = mats.body.get_shader_parameter("noise_scale");
-				mats.body_params["noise"] = texture; // Noise is stored as String because Resource isn't serializable with store_var.
+				mats.body_params["noise"] = noise_texture; // Noise is stored as String because Resource isn't serializable with store_var.
 			} else {
-				mats.body_params["body_texture"] = texture;
+				mats.body_params["body_texture"] = body_texture;
 				mats.body_params["use_color_mod"] = mats.body.get_shader_parameter("use_color_mod");
 				mats.body_params["color_mod"] = mats.body.get_shader_parameter("color_mod");
 				mats.body_params["brightness"] = mats.body.get_shader_parameter("brightness");
@@ -117,10 +117,12 @@ namespace godot {
 
 			if (body_params.has("body_texture")) {
 				// Check if the simple body shader is being used
-				save_params(mats, body_params["noise"], true);
+				save_params(mats, body_params["noise"], body_params["body_texture"], true);
 			} else {
 				save_params(mats, body_params["noise"]);
 			}
+
+			mats.atmosphere.set_next_pass(&mats.clouds);
 			return mats;
 		}
 
@@ -130,7 +132,7 @@ namespace godot {
 			set_body_and_atmosphere_parms(mats, body_params, atmosphere_params);
 
 			if (body_params.has("body_texture")) {
-				save_params(mats, body_params["noise"], true);
+				save_params(mats, body_params["noise"], body_params["body_texture"], true);
 			} else {
 				save_params(mats, body_params["noise"]);
 			}
@@ -153,7 +155,7 @@ namespace godot {
 			}
 
 			if (body_params.has("body_texture")) {
-				save_params(mats, body_params["noise"], true);
+				save_params(mats, body_params["noise"], body_params["body_texture"], true);
 			} else {
 				save_params(mats, body_params["noise"]);
 			}
@@ -249,9 +251,7 @@ namespace godot {
 			String texture = all_textures.pick_random();
 
 			mats.body.set_shader_parameter("body_texture", ResourceLoader::get_singleton()->load(texture));
-			mats.atmosphere.set_shader_parameter("use_color_mod", false);
-			mats.atmosphere.set_shader_parameter("color_mod", Color(0,0,0));
-			mats.atmosphere.set_shader_parameter("brightness", 0.75);
+			mats.body.set_shader_parameter("brightness", 0.75);
 
 			mats.atmosphere.set_shader_parameter("color_1", color[5]);
 			mats.atmosphere.set_shader_parameter("color_2", color[6]);
@@ -262,7 +262,7 @@ namespace godot {
 
 			mats.atmosphere.set_next_pass(&mats.clouds);
 			mats.type = M_TERRESTRIAL;
-			save_params(mats, noise, true);
+			save_params(mats, noise, texture, true);
 			return mats;
 		}
 
@@ -411,9 +411,7 @@ namespace godot {
 			mats.atmosphere.set_shader(atmosphere_shader);
 
 			mats.body.set_shader_parameter("body_texture", ResourceLoader::get_singleton()->load(texture));
-			mats.atmosphere.set_shader_parameter("use_color_mod", false);
-			mats.atmosphere.set_shader_parameter("color_mod", Color(0,0,0));
-			mats.atmosphere.set_shader_parameter("brightness", 0.75);
+			mats.body.set_shader_parameter("brightness", 0.75);
 
 			mats.atmosphere.set_shader_parameter("color_1", StellarBodyColors::get_color_html("958736"));
 			mats.atmosphere.set_shader_parameter("color_2", StellarBodyColors::get_color_html("958736"));
@@ -423,7 +421,7 @@ namespace godot {
 			mats.atmosphere.set_shader_parameter("emit", false);
 
 			mats.type = M_SAND;
-			save_params(mats, texture, true);
+			save_params(mats, "", texture, true);
 			return mats;
 		}
 

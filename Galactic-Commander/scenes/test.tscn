@@ -63,7 +63,7 @@ light_cull_mask = 4294967293
 sky_mode = 1
 
 [node name="Player" parent="." instance=ExtResource("4_rr7qo")]
-transform = Transform3D(0.24165, 0.016826, 0.970218, 0.276934, -0.959462, -0.052336, 0.930007, 0.281334, -0.236514, 0, 0, -914.649)
+transform = Transform3D(-0.396878, -0.0646098, -0.915595, 0.276934, -0.959462, -0.052336, -0.875097, -0.274331, 0.398683, 0, 0, -914.649)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -118.142, 632.408, -35.8404)

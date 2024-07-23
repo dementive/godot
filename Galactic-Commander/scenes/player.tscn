@@ -6,7 +6,7 @@
 [ext_resource type="Shader" path="res://gfx/shaders/ship_shield.gdshader" id="4_6dujh"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_v33p8"]
-radius = 15.18
+radius = 12.103
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u8xhm"]
 emission_shape = 3
@@ -68,4 +68,5 @@ surface_material_override/0 = SubResource("StandardMaterial3D_23u2u")
 
 [node name="Shield" type="MeshInstance3D" parent="."]
 transform = Transform3D(30.3, 0, 0, 0, 30.3, 0, 0, 0, 30.3, 0, 0, 0)
+visible = false
 mesh = SubResource("SphereMesh_pmg1x")
