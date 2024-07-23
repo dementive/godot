@@ -45,8 +45,6 @@ albedo_texture = ExtResource("7_q6oln")
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_1pvri")
-longitude = 0.5
-latitude = 0.0
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
@@ -72,6 +70,11 @@ environment = SubResource("Environment_3brjn")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SpaceEnvironment"]
 transform = Transform3D(-0.997213, 0, -0.0746132, 0, 1, 0, 0.0746132, 0, -0.997213, -12.1132, 268.633, -815.163)
+light_cull_mask = 4294967293
+sky_mode = 1
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="SpaceEnvironment"]
+transform = Transform3D(0.995171, 0, 0.0981561, 0, 1, 0, -0.0981561, 0, 0.995171, -12.1132, 268.633, 949.284)
 light_cull_mask = 4294967293
 sky_mode = 1
 
