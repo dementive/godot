@@ -1,10 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://davbk81ykc68n"]
+[gd_scene load_steps=18 format=3 uid="uid://davbk81ykc68n"]
 
 [ext_resource type="Script" path="res://scripts/test.gd" id="1_1pvri"]
 [ext_resource type="Shader" path="res://gfx/shaders/simple_body.gdshader" id="2_0kv70"]
 [ext_resource type="Texture2D" uid="uid://0lhxowh5d4tg" path="res://gfx/planet_textures/Grassland/Grassland_05-1024x512.png" id="3_1rbga"]
 [ext_resource type="Texture2D" uid="uid://3a7lj1cxk4g" path="res://gfx/space_spheremaps/blue_nebulae_1.png" id="3_sogj6"]
+[ext_resource type="ArrayMesh" uid="uid://dgx8h4sb1ixy6" path="res://gfx/models/Farm.obj" id="4_kk5v5"]
 [ext_resource type="PackedScene" uid="uid://df2twgr1xbl8g" path="res://scenes/player.tscn" id="4_rr7qo"]
+[ext_resource type="Texture2D" uid="uid://chx1chs0d5v2d" path="res://gfx/models/structures/texture/T_Spase.png" id="5_nu47r"]
 [ext_resource type="ArrayMesh" uid="uid://b5v4rpob4px3g" path="res://gfx/models/SpaceStation2.obj" id="6_v3a47"]
 [ext_resource type="Texture2D" uid="uid://bph3g4nrtpsn8" path="res://gfx/models/colors.png" id="7_q6oln"]
 
@@ -18,6 +20,9 @@ shader_parameter/body_texture = ExtResource("3_1rbga")
 
 [sub_resource type="SphereMesh" id="SphereMesh_yx0xm"]
 material = SubResource("ShaderMaterial_tqe1t")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_flnfq"]
+albedo_texture = ExtResource("5_nu47r")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_xonq4"]
 
@@ -40,13 +45,21 @@ albedo_texture = ExtResource("7_q6oln")
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_1pvri")
+longitude = 0.5
+latitude = 0.0
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-transform = Transform3D(500, 0, 0, 0, 500, 0, 0, 0, 500, 0, 0, 0)
+transform = Transform3D(300, 0, 0, 0, 300, 0, 0, 0, 300, 0, 0, 0)
 mesh = SubResource("SphereMesh_yx0xm")
 skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="StaticBody3D/MeshInstance3D"]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+mesh = ExtResource("4_kk5v5")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_flnfq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, 0.643921, -2.35104, 0.138062)
@@ -65,7 +78,7 @@ sky_mode = 1
 [node name="Player" parent="." instance=ExtResource("4_rr7qo")]
 transform = Transform3D(-0.396878, -0.0646098, -0.915595, 0.276934, -0.959462, -0.052336, -0.875097, -0.274331, 0.398683, 0, 0, -914.649)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="SpaceStation" type="MeshInstance3D" parent="."]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -118.142, 632.408, -35.8404)
 mesh = ExtResource("6_v3a47")
 surface_material_override/0 = SubResource("StandardMaterial3D_kh3ku")
