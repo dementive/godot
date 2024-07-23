@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bveryo7e8j16l"
+path="res://.godot/imported/Light_Cruiser_3.obj-e0ecefb629717fdf46473466271be6ae.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Light_Cruiser_3.obj-e0ecefb629717fdf46473466271be6ae.mesh"]
+
+source_file="res://gfx/models/ships/Light_Cruiser_3.obj"
+dest_files=["res://.godot/imported/Light_Cruiser_3.obj-e0ecefb629717fdf46473466271be6ae.mesh", "res://.godot/imported/Light_Cruiser_3.obj-e0ecefb629717fdf46473466271be6ae.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bepoojisdmw42"
+path="res://.godot/imported/Frigate_2.obj-4bcc3f240d5724a092ddff169b599784.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Frigate_2.obj-4bcc3f240d5724a092ddff169b599784.mesh"]
+
+source_file="res://gfx/models/ships/Frigate_2.obj"
+dest_files=["res://.godot/imported/Frigate_2.obj-4bcc3f240d5724a092ddff169b599784.mesh", "res://.godot/imported/Frigate_2.obj-4bcc3f240d5724a092ddff169b599784.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

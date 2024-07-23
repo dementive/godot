@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://k1qp4ktnvd1o"
+path="res://.godot/imported/Corvette_4.obj-58c023c0655888e8ab2fe51cb30be68e.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Corvette_4.obj-58c023c0655888e8ab2fe51cb30be68e.mesh"]
+
+source_file="res://gfx/models/ships/Corvette_4.obj"
+dest_files=["res://.godot/imported/Corvette_4.obj-58c023c0655888e8ab2fe51cb30be68e.mesh", "res://.godot/imported/Corvette_4.obj-58c023c0655888e8ab2fe51cb30be68e.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

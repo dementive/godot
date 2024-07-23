@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 
 var progress : Array[float] = []
 var scene_name : String

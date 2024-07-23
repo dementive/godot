@@ -1,10 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://davbk81ykc68n"]
+[gd_scene load_steps=15 format=3 uid="uid://davbk81ykc68n"]
 
 [ext_resource type="Script" path="res://scripts/test.gd" id="1_1pvri"]
 [ext_resource type="Shader" path="res://gfx/shaders/simple_body.gdshader" id="2_0kv70"]
 [ext_resource type="Texture2D" uid="uid://0lhxowh5d4tg" path="res://gfx/planet_textures/Grassland/Grassland_05-1024x512.png" id="3_1rbga"]
 [ext_resource type="Texture2D" uid="uid://3a7lj1cxk4g" path="res://gfx/space_spheremaps/blue_nebulae_1.png" id="3_sogj6"]
 [ext_resource type="PackedScene" uid="uid://df2twgr1xbl8g" path="res://scenes/player.tscn" id="4_rr7qo"]
+[ext_resource type="ArrayMesh" uid="uid://b5v4rpob4px3g" path="res://gfx/models/SpaceStation2.obj" id="6_v3a47"]
+[ext_resource type="Texture2D" uid="uid://bph3g4nrtpsn8" path="res://gfx/models/colors.png" id="7_q6oln"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tqe1t"]
 render_priority = 0
@@ -33,6 +35,9 @@ glow_normalized = true
 glow_bloom = 0.2
 glow_blend_mode = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kh3ku"]
+albedo_texture = ExtResource("7_q6oln")
+
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_1pvri")
 
@@ -44,7 +49,7 @@ mesh = SubResource("SphereMesh_yx0xm")
 skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(2000, 0, 0, 0, 2000, 0, 0, 0, 2000, 0, 0, 0)
+transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, 0.643921, -2.35104, 0.138062)
 shape = SubResource("SphereShape3D_xonq4")
 
 [node name="SpaceEnvironment" type="Node3D" parent="."]
@@ -59,3 +64,8 @@ sky_mode = 1
 
 [node name="Player" parent="." instance=ExtResource("4_rr7qo")]
 transform = Transform3D(0.24165, 0.016826, 0.970218, 0.276934, -0.959462, -0.052336, 0.930007, 0.281334, -0.236514, 0, 0, -914.649)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -118.142, 632.408, -35.8404)
+mesh = ExtResource("6_v3a47")
+surface_material_override/0 = SubResource("StandardMaterial3D_kh3ku")

@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b3jeihqrffvyp"
+path="res://.godot/imported/Destroyer_1.obj-05d25e35ae3e6890c1efeb26724bf6ce.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Destroyer_1.obj-05d25e35ae3e6890c1efeb26724bf6ce.mesh"]
+
+source_file="res://gfx/models/ships/Destroyer_1.obj"
+dest_files=["res://.godot/imported/Destroyer_1.obj-05d25e35ae3e6890c1efeb26724bf6ce.mesh", "res://.godot/imported/Destroyer_1.obj-05d25e35ae3e6890c1efeb26724bf6ce.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

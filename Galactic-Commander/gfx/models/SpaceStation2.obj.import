@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b5v4rpob4px3g"
+path="res://.godot/imported/SpaceStation2.obj-9fcec7bd0301ac5012e16fe0b0f8b7a5.mesh"
+
+[deps]
+
+files=["res://.godot/imported/SpaceStation2.obj-9fcec7bd0301ac5012e16fe0b0f8b7a5.mesh"]
+
+source_file="res://gfx/models/SpaceStation2.obj"
+dest_files=["res://.godot/imported/SpaceStation2.obj-9fcec7bd0301ac5012e16fe0b0f8b7a5.mesh", "res://.godot/imported/SpaceStation2.obj-9fcec7bd0301ac5012e16fe0b0f8b7a5.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
