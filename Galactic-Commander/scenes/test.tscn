@@ -1,0 +1,61 @@
+[gd_scene load_steps=12 format=3 uid="uid://davbk81ykc68n"]
+
+[ext_resource type="Script" path="res://scripts/test.gd" id="1_1pvri"]
+[ext_resource type="Shader" path="res://gfx/shaders/simple_body.gdshader" id="2_0kv70"]
+[ext_resource type="Texture2D" uid="uid://0lhxowh5d4tg" path="res://gfx/planet_textures/Grassland/Grassland_05-1024x512.png" id="3_1rbga"]
+[ext_resource type="Texture2D" uid="uid://3a7lj1cxk4g" path="res://gfx/space_spheremaps/blue_nebulae_1.png" id="3_sogj6"]
+[ext_resource type="PackedScene" uid="uid://df2twgr1xbl8g" path="res://scenes/player.tscn" id="4_rr7qo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tqe1t"]
+render_priority = 0
+shader = ExtResource("2_0kv70")
+shader_parameter/use_color_mod = false
+shader_parameter/color_mod = Color(0.721502, 0.443103, 0.139817, 1)
+shader_parameter/brightness = 0.41
+shader_parameter/body_texture = ExtResource("3_1rbga")
+
+[sub_resource type="SphereMesh" id="SphereMesh_yx0xm"]
+material = SubResource("ShaderMaterial_tqe1t")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xonq4"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_5vkpq"]
+panorama = ExtResource("3_sogj6")
+
+[sub_resource type="Sky" id="Sky_3ece4"]
+sky_material = SubResource("PanoramaSkyMaterial_5vkpq")
+
+[sub_resource type="Environment" id="Environment_3brjn"]
+background_mode = 2
+sky = SubResource("Sky_3ece4")
+glow_enabled = true
+glow_normalized = true
+glow_bloom = 0.2
+glow_blend_mode = 0
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_1pvri")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(500, 0, 0, 0, 500, 0, 0, 0, 500, 0, 0, 0)
+mesh = SubResource("SphereMesh_yx0xm")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(2000, 0, 0, 0, 2000, 0, 0, 0, 2000, 0, 0, 0)
+shape = SubResource("SphereShape3D_xonq4")
+
+[node name="SpaceEnvironment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SpaceEnvironment"]
+environment = SubResource("Environment_3brjn")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SpaceEnvironment"]
+transform = Transform3D(-0.997213, 0, -0.0746132, 0, 1, 0, 0.0746132, 0, -0.997213, -12.1132, 268.633, -815.163)
+light_cull_mask = 4294967293
+sky_mode = 1
+
+[node name="Player" parent="." instance=ExtResource("4_rr7qo")]
+transform = Transform3D(0.24165, 0.016826, 0.970218, 0.276934, -0.959462, -0.052336, 0.930007, 0.281334, -0.236514, 0, 0, -914.649)

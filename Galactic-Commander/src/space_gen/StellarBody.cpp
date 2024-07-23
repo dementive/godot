@@ -6,6 +6,7 @@
 #include <godot_cpp/classes/scene_tree.hpp>
 #include <godot_cpp/classes/sphere_mesh.hpp>
 #include <godot_cpp/classes/sphere_shape3d.hpp>
+#include "godot_cpp/classes/mesh_instance3d.hpp"
 #include <godot_cpp/classes/window.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
@@ -90,7 +91,7 @@ void StellarBody::generate_body(
 	}
 
 	scale = body_scale;
-	add_child(&mesh_instance); // Be careful this is the first child so it doesn't break get_mesh()
+	add_child(&mesh_instance);
 }
 
 void StellarBody::_input_event(
@@ -196,10 +197,6 @@ Control* StellarBody::get_planet_info_panel() {
 
 Vector3 StellarBody::get_scale() {
 	return scale;
-}
-
-MeshInstance3D* StellarBody::get_mesh() {
-	return Object::cast_to<MeshInstance3D>(get_child(0));
 }
 
 void StellarBody::set_solar_system_id(uint8_t new_id) {

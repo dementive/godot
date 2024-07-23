@@ -8,6 +8,9 @@
 
 using namespace godot;
 
+const real_t MIN_ROTATION_SPEED = 0.00001f;
+const real_t MAX_ROTATION_SPEED = 0.003f;
+
 void Orbit::_bind_methods() {
 	// ClassDB::bind_method(D_METHOD("get_max_orbit_size"), &Orbit::get_max_orbit_size);
 	// ClassDB::bind_method(D_METHOD("set_max_orbit_size", "orbit_size"), &Orbit::set_max_orbit_size);
@@ -34,7 +37,7 @@ void Orbit::_physics_process(double delta) {
 	    }
 
 	    float normalized_distance = Math::clamp(body->get_position().x / get_max_orbit_size(), 0.0, 1.0);
-	    float rotation_speed = Math::lerp(0.00001f, 0.003f, normalized_distance);
+	    float rotation_speed = Math::lerp(MIN_ROTATION_SPEED, MAX_ROTATION_SPEED, normalized_distance);
 	    parent->rotate_y(Math::deg_to_rad(rotation_speed));
 	}
 }

@@ -1,27 +1,20 @@
 [gd_scene load_steps=11 format=3 uid="uid://c4icstrmcyb2a"]
 
-[ext_resource type="Shader" path="res://gfx/shaders/skybox.gdshader" id="2_mpbjh"]
+[ext_resource type="Texture2D" uid="uid://dn582xgylihnu" path="res://gfx/space_spheremaps/hazy_nebulae_1.png" id="1_c07ln"]
 [ext_resource type="PackedScene" uid="uid://df2twgr1xbl8g" path="res://scenes/player.tscn" id="3_r6thw"]
 [ext_resource type="Texture2D" uid="uid://bwjriu6u82xwo" path="res://gfx/interface/hud/crosshair.png" id="4_t1cyf"]
 [ext_resource type="Script" path="res://scripts/pause_panel.gd" id="5_557t5"]
 [ext_resource type="Texture2D" uid="uid://btcvlriwspobb" path="res://gfx/interface/stellar_body_illustrations/Cloudy Mountains.png" id="5_purci"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gd352"]
-shader = ExtResource("2_mpbjh")
-shader_parameter/sky_color = Color(0.03, 0.05, 0.11, 1)
-shader_parameter/star_base_color = Color(0.8, 1, 0.3, 1)
-shader_parameter/star_hue_offset = 0.6
-shader_parameter/star_intensity = 0.04
-shader_parameter/layer_scale = 20.0
-shader_parameter/layer_scale_step = 10.0
-shader_parameter/layers_count = 3
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_te84f"]
+panorama = ExtResource("1_c07ln")
 
-[sub_resource type="Sky" id="Sky_3ece4"]
-sky_material = SubResource("ShaderMaterial_gd352")
+[sub_resource type="Sky" id="Sky_41ape"]
+sky_material = SubResource("PanoramaSkyMaterial_te84f")
 
 [sub_resource type="Environment" id="Environment_iulye"]
 background_mode = 2
-sky = SubResource("Sky_3ece4")
+sky = SubResource("Sky_41ape")
 glow_enabled = true
 glow_normalized = true
 glow_bloom = 0.2
@@ -41,11 +34,9 @@ font_size = 30
 environment = SubResource("Environment_iulye")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SpaceEnvironment"]
-light_cull_mask = 4294967293
-sky_mode = 1
 
 [node name="Player" parent="." instance=ExtResource("3_r6thw")]
-transform = Transform3D(-0.732341, 0, 0.680938, 0, 1, 0, -0.680938, 0, -0.732341, 7500, 0, 0)
+transform = Transform3D(-0.732341, 0, 0.680938, 0, 1, 0, -0.680938, 0, -0.732341, 0, 0, 0)
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3

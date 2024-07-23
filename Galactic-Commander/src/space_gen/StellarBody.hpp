@@ -7,7 +7,6 @@
 #include <godot_cpp/classes/input_event.hpp>
 #include <godot_cpp/classes/static_body3d.hpp>
 #include <godot_cpp/templates/vector.hpp>
-#include "godot_cpp/classes/mesh_instance3d.hpp"
 
 #include "godot_cpp/variant/vector3.hpp"
 #include <StellarBodyMaterials.hpp>
@@ -63,7 +62,6 @@ namespace godot {
 
 		Control* get_planet_info_panel();
 		Vector3 get_scale();
-		MeshInstance3D* get_mesh();
 
 		void set_orbiting_bodies(Dictionary new_orbiting_bodies);
 		Dictionary get_orbiting_bodies();

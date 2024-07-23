@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://df2twgr1xbl8g"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_gd5us"]
-[ext_resource type="ArrayMesh" uid="uid://bpwyskhsy28kh" path="res://gfx/models/ships/ship3.tres" id="3_k1f37"]
+[ext_resource type="ArrayMesh" uid="uid://bpwyskhsy28kh" path="res://gfx/models/ships/ship3.tres" id="2_qdr8s"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_v33p8"]
 radius = 1.5
@@ -25,9 +25,9 @@ size = Vector3(0.1, 0.1, 0.1)
 script = ExtResource("1_gd5us")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 5.46618, -24.2839)
+transform = Transform3D(-1, 9.05617e-09, -1.4941e-07, -1.26381e-08, 0.989496, 0.144563, 1.49149e-07, 0.144563, -0.989496, 0, 8.5377, -24.2839)
 near = 4.0
-far = 60000.0
+far = 90000.0
 
 [node name="ShipCollisionShape" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_v33p8")
@@ -41,4 +41,5 @@ process_material = SubResource("ParticleProcessMaterial_u8xhm")
 draw_pass_1 = SubResource("BoxMesh_40in5")
 
 [node name="ShipBody" type="MeshInstance3D" parent="."]
-mesh = ExtResource("3_k1f37")
+transform = Transform3D(0.106681, 0, 0.994293, 0, 1, 0, -0.994293, 0, 0.106681, 0, 0, 0)
+mesh = ExtResource("2_qdr8s")

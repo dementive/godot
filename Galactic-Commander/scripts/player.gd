@@ -104,7 +104,7 @@ func _move_forward(delta):
 	
 	velocity = forward * speed;
 	
-	velocity *= 150
+	velocity *= 500
 	
 	move_and_slide();
 

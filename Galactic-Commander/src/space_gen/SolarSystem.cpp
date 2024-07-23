@@ -1,7 +1,5 @@
 
 #include "SolarSystem.hpp"
-
-#include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
 #include "StellarBody.hpp"
@@ -15,42 +13,55 @@ void SolarSystem::_bind_methods() {}
 
 void SolarSystem::generate_solar_system(uint8_t system_id) {
 	set_id(system_id);
-	Vector3 small_scale = Vector3(1300.0, 1300.0, 1300.0);
-	Vector3 mid_scale = Vector3(1500.0, 1500.0, 1500.0);
-	Vector3 big_scale = Vector3(2000.0, 2000.0, 2000.0);
+	Vector3 small_scale = Vector3(1500.0, 1500.0, 1500.0);
+	Vector3 mid_scale = Vector3(2000.0, 2000.0, 2000.0);
+	Vector3 big_scale = Vector3(3500.0, 3500.0, 3500.0);
 
-	float star_size = UtilityFunctions::randf_range(3000, 6000);
+	float star_size = UtilityFunctions::randf_range(5000, 10000);
 	Vector3 star_scale = Vector3(star_size, star_size, star_size);
 	StellarBodyMaterials* materials = new StellarBodyMaterials();
 
+	float body_position = 0.0;
+
 	StellarBody* star = memnew(StellarBody());
-	star->create_body(system_id, StellarBodyType(STAR), 0.0, materials->get_star_material(star_size), star_scale, "Sun");
+
+	star->create_body(system_id, StellarBodyType(STAR), body_position, materials->get_star_material(star_size), star_scale, "Sun");
 	add_child(star);
 
+	body_position += star_scale.x * 2.5;
+
 	StellarBody* lavatus = memnew(StellarBody());
-	lavatus->create_body(system_id, StellarBodyType(PLANET), 8000.0, materials->get_lava_material(), small_scale, "Lavatus");
+	lavatus->create_body(system_id, StellarBodyType(PLANET), body_position, materials->get_lava_material(), small_scale, "Lavatus");
 	star->add_body(lavatus);
 
+	body_position += small_scale.x * 10;
+
 	StellarBody* sandicus = memnew(StellarBody());
-	sandicus->create_body(system_id, StellarBodyType(PLANET), 11000.0, materials->get_sand_material(), small_scale, "Sandicus");
+	sandicus->create_body(system_id, StellarBodyType(PLANET), body_position, materials->get_sand_material(), small_scale, "Sandicus");
 	star->add_body(sandicus);
+
+	body_position += small_scale.x * 12;
 
 	StellarBody* earth = memnew(StellarBody());
 	StellarBody* moon = memnew(StellarBody());
 
-	earth->create_body(system_id, StellarBodyType(PLANET), 18500.0, materials->get_terrestrial_material(), mid_scale, "Urth");
+	earth->create_body(system_id, StellarBodyType(PLANET), body_position, materials->get_terrestrial_material(), mid_scale, "Urth");
 	moon->create_body(system_id, StellarBodyType(PLANET), 250.0, materials->get_no_atmosphere_material(), small_scale, "Woon", false);
 
 	earth->add_body(moon);
 	earth->create_orbit(300.0);
 	star->add_body(earth);
 
+	body_position += mid_scale.x * 15;
+
 	StellarBody* yupiter = memnew(StellarBody());
-	yupiter->create_body(system_id, StellarBodyType(PLANET), 39000.0, materials->get_gas_material(), big_scale, "Yupiter");
+	yupiter->create_body(system_id, StellarBodyType(PLANET), body_position, materials->get_gas_material(), big_scale, "Yupiter");
 	star->add_body(yupiter);
 
+	body_position += big_scale.x * 10;
+
 	StellarBody* veptune = memnew(StellarBody());
-	veptune->create_body(system_id, StellarBodyType(PLANET), 53000.0, materials->get_ice_material(), mid_scale, "Veptune");
+	veptune->create_body(system_id, StellarBodyType(PLANET), body_position, materials->get_ice_material(), mid_scale, "Veptune");
 	star->add_body(veptune);
 
 	stellar_bodies.push_back(star);
