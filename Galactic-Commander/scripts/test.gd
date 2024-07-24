@@ -1,7 +1,7 @@
 extends Node3D
 
 # Define the desired location on the sphere ( longitude, latitude )
-@export var longitude = 0.9  # 0 to 1, 0 = -180°, 1 = 180°
+@export var longitude = 0.4  # 0 to 1, 0 = -180°, 1 = 180°
 @export var latitude = 0.9  # 0 to 1, 0 = -90°, 1 = 90°
 
 func _ready():

@@ -1,8 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://df2twgr1xbl8g"]
+[gd_scene load_steps=11 format=3 uid="uid://df2twgr1xbl8g"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_gd5us"]
-[ext_resource type="ArrayMesh" uid="uid://b3jeihqrffvyp" path="res://gfx/models/ships/Destroyer_1.obj" id="2_hvtvd"]
-[ext_resource type="Texture2D" uid="uid://chx1chs0d5v2d" path="res://gfx/models/structures/texture/T_Spase.png" id="3_iwx8h"]
+[ext_resource type="ArrayMesh" uid="uid://b3jeihqrffvyp" path="res://gfx/models/ships/Destroyer_1.obj" id="2_8o3pc"]
+[ext_resource type="Material" uid="uid://drl5lyy2k1pw8" path="res://gfx/materials/ship.material" id="3_adt02"]
 [ext_resource type="Shader" path="res://gfx/shaders/ship_shield.gdshader" id="4_6dujh"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_v33p8"]
@@ -22,10 +22,6 @@ albedo_color = Color(0.654902, 0.654902, 0.654902, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_40in5"]
 material = SubResource("StandardMaterial3D_7ages")
 size = Vector3(0.1, 0.1, 0.1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_23u2u"]
-albedo_texture = ExtResource("3_iwx8h")
-metallic = 0.33
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dkv21"]
 render_priority = 0
@@ -63,8 +59,8 @@ draw_pass_1 = SubResource("BoxMesh_40in5")
 
 [node name="ShipBody" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
-mesh = ExtResource("2_hvtvd")
-surface_material_override/0 = SubResource("StandardMaterial3D_23u2u")
+mesh = ExtResource("2_8o3pc")
+surface_material_override/0 = ExtResource("3_adt02")
 
 [node name="Shield" type="MeshInstance3D" parent="."]
 transform = Transform3D(30.3, 0, 0, 0, 30.3, 0, 0, 0, 30.3, 0, 0, 0)

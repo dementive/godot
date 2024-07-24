@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bvfn8sledl2eh"
+path="res://.godot/imported/station06_ring.obj-766e9cba4cf9179e6a42f070f58202da.mesh"
+
+[deps]
+
+files=["res://.godot/imported/station06_ring.obj-766e9cba4cf9179e6a42f070f58202da.mesh"]
+
+source_file="res://gfx/models/structures/orbital/station06_ring.obj"
+dest_files=["res://.godot/imported/station06_ring.obj-766e9cba4cf9179e6a42f070f58202da.mesh", "res://.godot/imported/station06_ring.obj-766e9cba4cf9179e6a42f070f58202da.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

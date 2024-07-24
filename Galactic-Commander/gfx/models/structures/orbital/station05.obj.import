@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dxaj0xw7paxc2"
+path="res://.godot/imported/station05.obj-0acf4e46108c622ffa84abacc48eb65d.mesh"
+
+[deps]
+
+files=["res://.godot/imported/station05.obj-0acf4e46108c622ffa84abacc48eb65d.mesh"]
+
+source_file="res://gfx/models/structures/orbital/station05.obj"
+dest_files=["res://.godot/imported/station05.obj-0acf4e46108c622ffa84abacc48eb65d.mesh", "res://.godot/imported/station05.obj-0acf4e46108c622ffa84abacc48eb65d.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
