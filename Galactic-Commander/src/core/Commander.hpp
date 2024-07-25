@@ -3,7 +3,9 @@
 
 #include <godot_cpp/classes/character_body3d.hpp>
 
-namespace godot {
+using namespace godot;
+
+namespace GC {
 
 class Commander : public CharacterBody3D {
 	GDCLASS(Commander, CharacterBody3D);
@@ -16,6 +18,6 @@ public:
 	~Commander();
 };
 
-} // namespace godot
+} // namespace GC
 
 #endif

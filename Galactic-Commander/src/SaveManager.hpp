@@ -3,7 +3,9 @@
 #include "godot_cpp/variant/string.hpp"
 #include <godot_cpp/classes/object.hpp>
 
-namespace godot {
+using namespace godot;
+
+namespace GC {
 
 class SaveManager : public Object {
 	GDCLASS(SaveManager, Object);
@@ -42,4 +44,4 @@ public:
 	template <typename T> void deserialize(T object) { object->deserialize(file); }
 };
 
-} //namespace godot
+} //namespace GC

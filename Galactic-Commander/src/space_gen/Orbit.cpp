@@ -7,6 +7,7 @@
 #include "godot_cpp/core/math.hpp"
 
 using namespace godot;
+using namespace GC;
 
 const real_t MIN_ROTATION_SPEED = 0.00001f;
 const real_t MAX_ROTATION_SPEED = 0.003f;

@@ -3,7 +3,9 @@
 
 #include <godot_cpp/classes/node3d.hpp>
 
-namespace godot {
+using namespace godot;
+
+namespace GC {
 
 /*
 Orbit Node to attach to a StellarBody in a solar system
@@ -30,6 +32,6 @@ public:
 	double get_max_orbit_size() const;
 };
 
-} // namespace godot
+} // namespace GC
 
 #endif

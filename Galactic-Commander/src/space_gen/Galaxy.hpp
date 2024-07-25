@@ -5,7 +5,9 @@
 #include <SolarSystem.hpp>
 #include <godot_cpp/classes/node.hpp>
 
-namespace godot {
+using namespace godot;
+
+namespace GC {
 
 /*
 The Galaxy.

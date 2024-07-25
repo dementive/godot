@@ -13,6 +13,7 @@
 #include "gui/MainMenu.hpp"
 
 using namespace godot;
+using namespace GC;
 
 void initialize_galactic_commander_module(ModuleInitializationLevel p_level) {
 	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {

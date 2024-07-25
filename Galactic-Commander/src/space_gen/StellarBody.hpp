@@ -13,7 +13,9 @@
 
 #define VECTOR_FORWARD Vector3(0, 1, 0) // Used to compare to so we can check if the new position != this
 
-namespace godot {
+using namespace godot;
+
+namespace GC {
 
 enum StellarBodyType { STAR, PLANET };
 
@@ -74,6 +76,6 @@ public:
 	std::pair<StellarBody *, Array> deserialize(Ref<FileAccess> file);
 };
 
-} //namespace godot
+} //namespace GC
 
 #endif

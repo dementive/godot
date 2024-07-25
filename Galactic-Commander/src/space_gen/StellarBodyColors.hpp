@@ -5,7 +5,9 @@
 #include "godot_cpp/variant/array.hpp"
 #include "godot_cpp/variant/dictionary.hpp"
 
-namespace godot {
+using namespace godot;
+
+namespace GC {
 
 class StellarBodyColors {
 public:

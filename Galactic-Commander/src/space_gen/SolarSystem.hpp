@@ -6,7 +6,9 @@
 
 #include "StellarBody.hpp"
 
-namespace godot {
+using namespace godot;
+
+namespace GC {
 
 class SolarSystem : public Node3D {
 	GDCLASS(SolarSystem, Node3D);
@@ -33,6 +35,6 @@ public:
 	void deserialize(Ref<FileAccess> file);
 };
 
-} //namespace godot
+} //namespace GC
 
 #endif

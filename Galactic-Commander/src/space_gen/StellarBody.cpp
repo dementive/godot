@@ -14,6 +14,7 @@
 #include "StellarBody.hpp"
 
 using namespace godot;
+using namespace GC;
 
 StellarBody::StellarBody() {}
 StellarBody::~StellarBody() {}

@@ -7,7 +7,9 @@
 #include <StellarBodyColors.hpp>
 #include <Utils.hpp>
 
-namespace godot {
+using namespace godot;
+
+namespace GC {
 
 enum StellarBodyMaterialType { M_STAR, M_TERRESTRIAL, M_ICE, M_LAVA, M_GAS, M_SAND, M_NO_ATMOSPHERE };
 

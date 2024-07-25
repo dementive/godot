@@ -4,6 +4,7 @@
 #include <godot_cpp/classes/engine.hpp>
 
 using namespace godot;
+using namespace GC;
 
 void Galaxy::_bind_methods() {
 	//ClassDB::bind_method(D_METHOD("on_save"), &Galaxy::on_save);
