@@ -449,4 +449,4 @@ public:
 		return mats;
 	}
 };
-} // namespace godot
+} //namespace GC

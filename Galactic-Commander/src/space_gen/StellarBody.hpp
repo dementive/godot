@@ -33,9 +33,15 @@ private:
 	StellarBodyMaterialType material_type;
 	StellarBodyType body_type;
 	uint8_t solar_system_id;
-	uint32_t id;
 	float orbit_size;
-	inline static std::atomic<uint> next_id = 0;
+
+	uint8_t owner;
+	bool is_habitable;
+	Dictionary resources;
+	Dictionary structures;
+
+	uint32_t id;
+	inline static std::atomic<uint32_t> next_id = 0;
 
 protected:
 	static void _bind_methods();

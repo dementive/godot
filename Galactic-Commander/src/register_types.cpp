@@ -9,7 +9,10 @@
 #include "Orbit.hpp"
 #include "SolarSystem.hpp"
 #include "StellarBody.hpp"
+#include "core/Colony.hpp"
 #include "core/Commander.hpp"
+#include "core/Ship.hpp"
+#include "core/Structure.hpp"
 #include "gui/MainMenu.hpp"
 
 using namespace godot;
@@ -24,9 +27,15 @@ void initialize_galactic_commander_module(ModuleInitializationLevel p_level) {
 	ClassDB::register_class<StellarBody>();
 	ClassDB::register_class<SolarSystem>();
 	ClassDB::register_class<Galaxy>();
+
 	ClassDB::register_class<MainMenu>();
+
 	ClassDB::register_class<SaveManager>();
+
 	ClassDB::register_class<Commander>();
+	ClassDB::register_class<Structure>();
+	ClassDB::register_class<Colony>();
+	ClassDB::register_class<Ship>();
 }
 
 void uninitialize_galactic_commander_module(ModuleInitializationLevel p_level) {

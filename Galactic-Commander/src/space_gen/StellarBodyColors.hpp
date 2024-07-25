@@ -127,4 +127,4 @@ public:
 		return star_colors;
 	}
 };
-} // namespace godot
+} //namespace GC

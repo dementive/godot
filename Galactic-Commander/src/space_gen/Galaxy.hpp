@@ -35,6 +35,6 @@ public:
 	void on_load(String file_name);
 };
 
-} //namespace godot
+} //namespace GC
 
 #endif
