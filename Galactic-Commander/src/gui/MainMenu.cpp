@@ -12,16 +12,14 @@
 
 using namespace godot;
 
-void MainMenu::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("on_new_game_pressed"), &MainMenu::on_new_game_pressed);
-}
+void MainMenu::_bind_methods() { ClassDB::bind_method(D_METHOD("on_new_game_pressed"), &MainMenu::on_new_game_pressed); }
 
 MainMenu::MainMenu() {
 	if (!Engine::get_singleton()->is_editor_hint()) {
 		// Create widgets
-		Label* game_title = memnew(Label());
-		LabelSettings* game_title_settings = memnew(LabelSettings());
-		Button* new_game_button = memnew(Button());
+		Label *game_title = memnew(Label());
+		LabelSettings *game_title_settings = memnew(LabelSettings());
+		Button *new_game_button = memnew(Button());
 
 		// Set widget properties
 		game_title_settings->set_font_size(55);
@@ -45,6 +43,4 @@ MainMenu::MainMenu() {
 
 MainMenu::~MainMenu() {}
 
-void MainMenu::on_new_game_pressed() {
-	get_tree()->change_scene_to_file("res://scenes/loading_screen.tscn");
-}
+void MainMenu::on_new_game_pressed() { get_tree()->change_scene_to_file("res://scenes/loading_screen.tscn"); }

@@ -1,5 +1,5 @@
-#include <godot_cpp/classes/dir_access.hpp>
 #include "godot_cpp/variant/packed_string_array.hpp"
+#include <godot_cpp/classes/dir_access.hpp>
 
 using namespace godot;
 
@@ -27,4 +27,4 @@ inline PackedStringArray get_files_in_dir(String directory, String file_type) {
 	return filtered_files;
 }
 
-}
+} //namespace GC

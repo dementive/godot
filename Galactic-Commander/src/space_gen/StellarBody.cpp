@@ -1,14 +1,14 @@
+#include "godot_cpp/classes/mesh_instance3d.hpp"
 #include "godot_cpp/variant/string_name.hpp"
-#include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/input_event_mouse_button.hpp>
 #include <godot_cpp/classes/label.hpp>
 #include <godot_cpp/classes/panel.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
 #include <godot_cpp/classes/sphere_mesh.hpp>
 #include <godot_cpp/classes/sphere_shape3d.hpp>
-#include "godot_cpp/classes/mesh_instance3d.hpp"
 #include <godot_cpp/classes/window.hpp>
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 
 #include "Orbit.hpp"
 #include "StellarBody.hpp"
@@ -19,10 +19,9 @@ StellarBody::StellarBody() {}
 StellarBody::~StellarBody() {}
 void StellarBody::_bind_methods() {}
 
-StellarBody* StellarBody::create_body(
-	uint8_t system_id, StellarBodyType stellar_body_type, float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale,
-	String body_name, bool atmosphere, uint32_t new_id, Vector3 load_position
-) {
+StellarBody *StellarBody::create_body(uint8_t system_id, StellarBodyType stellar_body_type, float distance_from_orbit_origin,
+		StellarBodyMaterial materials, Vector3 body_scale, String body_name, bool atmosphere, uint32_t new_id,
+		Vector3 load_position) {
 	// This code should be in the constructor but this isn't possible currently
 	// https://github.com/godotengine/godot-cpp/issues/953
 
@@ -52,9 +51,8 @@ StellarBody* StellarBody::create_body(
 	return this;
 }
 
-void StellarBody::generate_body(
-	float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale, bool body_has_atmosphere, Vector3 load_position
-) {
+void StellarBody::generate_body(float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale,
+		bool body_has_atmosphere, Vector3 load_position) {
 	if (distance_from_orbit_origin > 0 and load_position == VECTOR_FORWARD) {
 		Vector3 position = get_position();
 		position.x = distance_from_orbit_origin;
@@ -95,12 +93,11 @@ void StellarBody::generate_body(
 }
 
 void StellarBody::_input_event(
-	Camera3D* camera, const Ref<InputEvent>& event, const Vector3& position, const Vector3& normal, int32_t shape_idx
-) {
+		Camera3D *camera, const Ref<InputEvent> &event, const Vector3 &position, const Vector3 &normal, int32_t shape_idx) {
 	if (event->is_class("InputEventMouseButton")) {
-		InputEventMouseButton* input_event_mouse_button = static_cast<InputEventMouseButton*>(*event);
+		InputEventMouseButton *input_event_mouse_button = static_cast<InputEventMouseButton *>(*event);
 		if (input_event_mouse_button->is_pressed() && input_event_mouse_button->get_button_index() == MOUSE_BUTTON_LEFT) {
-			Control* panel = get_planet_info_panel();
+			Control *panel = get_planet_info_panel();
 			if (panel) {
 				panel->set_visible(true);
 				panel->get_node<Label>("PlanetNameLabel")->set_text(get_name());
@@ -110,26 +107,27 @@ void StellarBody::_input_event(
 }
 
 void StellarBody::_mouse_exit() {
-	Control* panel = get_planet_info_panel();
+	Control *panel = get_planet_info_panel();
 	if (panel) {
 		panel->set_visible(false);
 	}
 }
 
 void StellarBody::create_orbit(float new_orbit_size) {
-	Orbit* orbit = memnew(Orbit());
+	Orbit *orbit = memnew(Orbit());
 	orbit_size = new_orbit_size;
 	orbit->set_max_orbit_size(orbit_size);
 	add_child(orbit);
 }
 
-void StellarBody::add_body(StellarBody* body) {
+void StellarBody::add_body(StellarBody *body) {
 	orbiting_bodies[body->get_id()] = body;
 	add_child(body);
 }
 
 void StellarBody::serialize(Ref<FileAccess> file) {
-	// The order objects get serialized has to be the EXACT SAME as the order they are retrived in deserialize() or the data won't be correct.
+	// The order objects get serialized has to be the EXACT SAME as the order they are retrived in deserialize() or the data
+	// won't be correct.
 
 	file->store_var(get_position());
 	file->store_pascal_string(get_name());
@@ -137,7 +135,8 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 	file->store_8(body_type);
 	file->store_32(id);
 	file->store_8(solar_system_id);
-	file->store_float(scale.x); // Scale is actually a Vector3 but we can store just 1 float because all the values should always be the same.
+	file->store_float(scale.x); // Scale is actually a Vector3 but we can store just 1 float because all the values should
+								// always be the same.
 	file->store_var(has_atmosphere);
 	file->store_var(orbiting_bodies.keys());
 	file->store_float(orbit_size);
@@ -151,9 +150,10 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 	}
 }
 
-std::pair<StellarBody*, Array> StellarBody::deserialize(Ref<FileAccess> file) {
-	// The order objects get deserialized has to be the EXACT SAME as the order they are stored in serialize() or the data won't be correct.
-	StellarBodyMaterials* materials = new StellarBodyMaterials();
+std::pair<StellarBody *, Array> StellarBody::deserialize(Ref<FileAccess> file) {
+	// The order objects get deserialized has to be the EXACT SAME as the order they are stored in serialize() or the data won't
+	// be correct.
+	StellarBodyMaterials *materials = new StellarBodyMaterials();
 
 	Vector3 loaded_position = file->get_var();
 	String body_name = file->get_pascal_string();
@@ -170,67 +170,52 @@ std::pair<StellarBody*, Array> StellarBody::deserialize(Ref<FileAccess> file) {
 	Dictionary b_params = file->get_var();
 	if (loaded_material_type == M_NO_ATMOSPHERE) {
 		StellarBodyMaterial mats = materials->get_material_from_dict_no_atmosphere(b_params);
-		create_body(system_id, StellarBodyType(body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
+		create_body(system_id, StellarBodyType(body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id,
+				loaded_position);
 	} else {
 		Dictionary a_params = file->get_var();
 
 		if (loaded_material_type == M_ICE or loaded_material_type == M_TERRESTRIAL) {
 			Dictionary c_params = file->get_var();
 			StellarBodyMaterial mats = materials->get_material_with_clouds_from_dict(b_params, a_params, c_params);
-			create_body(system_id, StellarBodyType(body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
+			create_body(system_id, StellarBodyType(body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id,
+					loaded_position);
 		} else {
 			StellarBodyMaterial mats = materials->get_material_from_dict(b_params, a_params);
-			create_body(system_id, StellarBodyType(body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
+			create_body(system_id, StellarBodyType(body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id,
+					loaded_position);
 		}
 	}
 
 	delete materials;
-	std::pair<StellarBody*, Array> out_pair(this, orbiting_body_ids);
+	std::pair<StellarBody *, Array> out_pair(this, orbiting_body_ids);
 	return out_pair;
 }
 
-Control* StellarBody::get_planet_info_panel() {
+Control *StellarBody::get_planet_info_panel() {
 	Array ui_panels = get_tree()->get_nodes_in_group("ui_panels");
-	Control* panel = Object::cast_to<Control>(ui_panels[0]);
+	Control *panel = Object::cast_to<Control>(ui_panels[0]);
 	return panel;
 }
 
-Vector3 StellarBody::get_scale() {
-	return scale;
-}
+Vector3 StellarBody::get_scale() { return scale; }
 
-void StellarBody::set_solar_system_id(uint8_t new_id) {
-	solar_system_id = new_id;
-}
+void StellarBody::set_solar_system_id(uint8_t new_id) { solar_system_id = new_id; }
 
-uint8_t StellarBody::get_solar_system_id() {
-	return solar_system_id;
-}
+uint8_t StellarBody::get_solar_system_id() { return solar_system_id; }
 
 void StellarBody::set_id() {
 	id = next_id;
 	StellarBody::next_id++;
 }
 
-void StellarBody::set_new_id(uint32_t new_id) {
-	id = new_id;
-}
+void StellarBody::set_new_id(uint32_t new_id) { id = new_id; }
 
-uint32_t StellarBody::get_id() {
-	return id;
-}
+uint32_t StellarBody::get_id() { return id; }
 
-void StellarBody::set_orbiting_bodies(Dictionary new_orbiting_bodies) {
-	orbiting_bodies = new_orbiting_bodies;
-}
-Dictionary StellarBody::get_orbiting_bodies() {
-	return orbiting_bodies;
-}
+void StellarBody::set_orbiting_bodies(Dictionary new_orbiting_bodies) { orbiting_bodies = new_orbiting_bodies; }
+Dictionary StellarBody::get_orbiting_bodies() { return orbiting_bodies; }
 
-StellarBodyType StellarBody::get_body_type() {
-	return body_type;
-}
+StellarBodyType StellarBody::get_body_type() { return body_type; }
 
-float StellarBody::get_orbit_size() {
-	return orbit_size;
-}
+float StellarBody::get_orbit_size() { return orbit_size; }

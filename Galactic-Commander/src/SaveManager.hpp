@@ -5,49 +5,41 @@
 
 namespace godot {
 
-	class SaveManager : public Object {
-		GDCLASS(SaveManager, Object);
+class SaveManager : public Object {
+	GDCLASS(SaveManager, Object);
 
-	private:
-		Ref<FileAccess> file;
+private:
+	Ref<FileAccess> file;
+	String file_path;
+	String password;
+
+	~SaveManager() {};
+
+protected:
+	static void _bind_methods() {};
+
+public:
+	void init(String path, String input_password) {
+		file_path = path;
+		password = input_password;
+	}
+
+	void clear() {
+		FileAccess file;
 		String file_path;
 		String password;
+	}
 
-		~SaveManager() {};
+	int open_file(FileAccess::ModeFlags access) {
+		file = FileAccess::open_encrypted_with_pass(file_path, access, password);
+		return file == nullptr ? FileAccess::get_open_error() : OK;
+	}
 
-	protected:
-		static void _bind_methods() {};
+	void close_file() { file->close(); }
 
-	public:
-		void init(String path, String input_password) {
-			file_path = path;
-			password = input_password;
-		}
+	template <typename T> void serialize(T object) { object->serialize(file); }
 
-		void clear() {
-			FileAccess file;
-			String file_path;
-			String password;
-		}
+	template <typename T> void deserialize(T object) { object->deserialize(file); }
+};
 
-		int open_file(FileAccess::ModeFlags access) {
-			file = FileAccess::open_encrypted_with_pass(file_path, access, password);
-			return file == nullptr ? FileAccess::get_open_error() : OK;
-		}
-
-		void close_file() {
-			file->close();
-		}
-
-		template <typename T>
-		void serialize(T object) {
-			object->serialize(file);
-		}
-
-		template <typename T>
-		void deserialize(T object) {
-			object->deserialize(file);
-		}
-	};
-
-}
+} //namespace godot

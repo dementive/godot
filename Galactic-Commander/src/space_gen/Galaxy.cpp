@@ -24,13 +24,9 @@ Galaxy::Galaxy() {
 
 Galaxy::~Galaxy() {}
 
-SaveManager* Galaxy::get_save_manager() {
-	return save_manager;
-}
+SaveManager *Galaxy::get_save_manager() { return save_manager; }
 
-SolarSystem* Galaxy::get_solar_system() {
-	return solar_system;
-}
+SolarSystem *Galaxy::get_solar_system() { return solar_system; }
 
 void Galaxy::on_save(String file_name) {
 	save_manager = memnew(SaveManager());
@@ -58,7 +54,7 @@ void Galaxy::on_load(String file_name) {
 
 	solar_system->queue_free();
 
-	SolarSystem* new_solar_system = memnew(SolarSystem());
+	SolarSystem *new_solar_system = memnew(SolarSystem());
 	save_manager->deserialize(new_solar_system);
 	add_child(new_solar_system);
 	solar_system = new_solar_system;

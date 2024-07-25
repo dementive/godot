@@ -1,10 +1,10 @@
-extends CharacterBody3D
+extends Commander
 
-@export var max_speed = 20.0;
-@export var acceleration = 20.0;
-@export var rotation_speed = PI;
-@export var enable_rotation = true;
-@export var enable_movement = true;
+var max_speed = 20.0;
+var acceleration = 20.0;
+var rotation_speed = PI;
+var enable_rotation = true;
+var enable_movement = true;
 var ship_camera_mode = true
 
 @onready var ship_body : Node3D = $ShipBody;
@@ -73,6 +73,7 @@ func _process(delta):
 			var relative_mouse = _get_relative_mouse();
 			var player_basis = transform.basis;
 			player_basis = player_basis.rotated(basis.x, relative_mouse.y * rotation_speed * delta);
+
 			player_basis = player_basis.rotated(basis.y, -relative_mouse.x * rotation_speed * delta);
 			player_basis = player_basis.orthonormalized();
 			transform.basis = player_basis;
@@ -95,6 +96,7 @@ func _process(delta):
 	
 func _move_forward(delta):
 	var forward = ship_body.global_transform.basis.z.normalized();
+
 	if Input.is_action_pressed("ui_up"):
 		speed = min(speed + acceleration * delta, max_speed);
 	elif Input.is_action_pressed("ui_down"):
@@ -104,7 +106,7 @@ func _move_forward(delta):
 	
 	velocity = forward * speed;
 	
-	velocity *= 500
+	velocity *= 150
 	
 	move_and_slide();
 

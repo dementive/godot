@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://d4nnwv6uhbk1d"
+path.s3tc="res://.godot/imported/_Meteorite_01-32b48e2a1861633801007f32805bc03b_T_Spase_blue3.png-64ca69b9de435a8bbeb3ce16e9b9e761.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "ebccc200c18983e83ed9ba13256689fb"
+}
+
+[deps]
+
+source_file="res://gfx/models/misc/fbx/Props/_Meteorite_01-32b48e2a1861633801007f32805bc03b_T_Spase_blue3.png"
+dest_files=["res://.godot/imported/_Meteorite_01-32b48e2a1861633801007f32805bc03b_T_Spase_blue3.png-64ca69b9de435a8bbeb3ce16e9b9e761.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

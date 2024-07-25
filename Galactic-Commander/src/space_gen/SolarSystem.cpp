@@ -19,34 +19,39 @@ void SolarSystem::generate_solar_system(uint8_t system_id) {
 
 	float star_size = UtilityFunctions::randf_range(5000, 10000);
 	Vector3 star_scale = Vector3(star_size, star_size, star_size);
-	StellarBodyMaterials* materials = new StellarBodyMaterials();
+	StellarBodyMaterials *materials = new StellarBodyMaterials();
 
 	float body_position = 0.0;
 
-	StellarBody* star = memnew(StellarBody());
+	StellarBody *star = memnew(StellarBody());
 
-	star->create_body(system_id, StellarBodyType(STAR), body_position, materials->get_star_material(star_size), star_scale, "Sun");
+	star->create_body(
+			system_id, StellarBodyType(STAR), body_position, materials->get_star_material(star_size), star_scale, "Sun");
 	add_child(star);
 
 	body_position += star_scale.x * 2.5;
 
-	StellarBody* lavatus = memnew(StellarBody());
-	lavatus->create_body(system_id, StellarBodyType(PLANET), body_position, materials->get_lava_material(), small_scale, "Lavatus");
+	StellarBody *lavatus = memnew(StellarBody());
+	lavatus->create_body(
+			system_id, StellarBodyType(PLANET), body_position, materials->get_lava_material(), small_scale, "Lavatus");
 	star->add_body(lavatus);
 
 	body_position += small_scale.x * 10;
 
-	StellarBody* sandicus = memnew(StellarBody());
-	sandicus->create_body(system_id, StellarBodyType(PLANET), body_position, materials->get_sand_material(), small_scale, "Sandicus");
+	StellarBody *sandicus = memnew(StellarBody());
+	sandicus->create_body(
+			system_id, StellarBodyType(PLANET), body_position, materials->get_sand_material(), small_scale, "Sandicus");
 	star->add_body(sandicus);
 
 	body_position += small_scale.x * 12;
 
-	StellarBody* earth = memnew(StellarBody());
-	StellarBody* moon = memnew(StellarBody());
+	StellarBody *earth = memnew(StellarBody());
+	StellarBody *moon = memnew(StellarBody());
 
-	earth->create_body(system_id, StellarBodyType(PLANET), body_position, materials->get_terrestrial_material(), mid_scale, "Urth");
-	moon->create_body(system_id, StellarBodyType(PLANET), 250.0, materials->get_no_atmosphere_material(), small_scale, "Woon", false);
+	earth->create_body(
+			system_id, StellarBodyType(PLANET), body_position, materials->get_terrestrial_material(), mid_scale, "Urth");
+	moon->create_body(
+			system_id, StellarBodyType(PLANET), 250.0, materials->get_no_atmosphere_material(), small_scale, "Woon", false);
 
 	earth->add_body(moon);
 	earth->create_orbit(300.0);
@@ -54,14 +59,16 @@ void SolarSystem::generate_solar_system(uint8_t system_id) {
 
 	body_position += mid_scale.x * 15;
 
-	StellarBody* yupiter = memnew(StellarBody());
-	yupiter->create_body(system_id, StellarBodyType(PLANET), body_position, materials->get_gas_material(), big_scale, "Yupiter");
+	StellarBody *yupiter = memnew(StellarBody());
+	yupiter->create_body(
+			system_id, StellarBodyType(PLANET), body_position, materials->get_gas_material(), big_scale, "Yupiter");
 	star->add_body(yupiter);
 
 	body_position += big_scale.x * 10;
 
-	StellarBody* veptune = memnew(StellarBody());
-	veptune->create_body(system_id, StellarBodyType(PLANET), body_position, materials->get_ice_material(), mid_scale, "Veptune");
+	StellarBody *veptune = memnew(StellarBody());
+	veptune->create_body(
+			system_id, StellarBodyType(PLANET), body_position, materials->get_ice_material(), mid_scale, "Veptune");
 	star->add_body(veptune);
 
 	stellar_bodies.push_back(star);
@@ -75,27 +82,19 @@ void SolarSystem::generate_solar_system(uint8_t system_id) {
 	delete materials;
 }
 
-StellarBody* SolarSystem::get_stellar_body(int index) {
-	return stellar_bodies[index];
-}
+StellarBody *SolarSystem::get_stellar_body(int index) { return stellar_bodies[index]; }
 
-Vector<StellarBody*> SolarSystem::get_stellar_bodies() {
-	return stellar_bodies;
-}
+Vector<StellarBody *> SolarSystem::get_stellar_bodies() { return stellar_bodies; }
 
-void SolarSystem::set_id(uint8_t new_id) {
-	id = new_id;
-}
+void SolarSystem::set_id(uint8_t new_id) { id = new_id; }
 
-uint8_t SolarSystem::get_id() {
-	return id;
-}
+uint8_t SolarSystem::get_id() { return id; }
 
 void SolarSystem::serialize(Ref<FileAccess> file) {
 	file->store_8(id);
 	file->store_16(get_stellar_bodies().size());
 	for (int i = 0; i < get_stellar_bodies().size(); ++i) {
-		StellarBody* body = get_stellar_bodies()[i];
+		StellarBody *body = get_stellar_bodies()[i];
 
 		if (body != nullptr) {
 			body->serialize(file);
@@ -112,10 +111,10 @@ void SolarSystem::deserialize(Ref<FileAccess> file) {
 	Dictionary loaded_stellar_bodies;
 
 	for (int i = 0; i < bodies_in_solar_system; ++i) {
-		StellarBody* body = memnew(StellarBody());
+		StellarBody *body = memnew(StellarBody());
 
 		if (body != nullptr) {
-			std::pair<StellarBody*, Array> new_body_data = body->deserialize(file);
+			std::pair<StellarBody *, Array> new_body_data = body->deserialize(file);
 
 			if (new_body_data.first == nullptr) {
 				continue;
@@ -131,38 +130,38 @@ void SolarSystem::deserialize(Ref<FileAccess> file) {
 	// Loop over all the loaded stellar bodies and assign orbiting bodies
 	Array body_keys = loaded_stellar_bodies.keys();
 	for (int i = 0; i < loaded_stellar_bodies.size(); i++) {
-	    Array orbiting_bodies = loaded_orbiting_bodies[i];
+		Array orbiting_bodies = loaded_orbiting_bodies[i];
 
-	    if (orbiting_bodies.size() <= 0) {
-	    	continue;
-	    }
+		if (orbiting_bodies.size() <= 0) {
+			continue;
+		}
 
-	    uint32_t body_id = body_keys[i];
-	    Variant body_variant = loaded_stellar_bodies[body_id];
-	    StellarBody* body = Object::cast_to<StellarBody>(body_variant);
+		uint32_t body_id = body_keys[i];
+		Variant body_variant = loaded_stellar_bodies[body_id];
+		StellarBody *body = Object::cast_to<StellarBody>(body_variant);
 
-	    if (body == nullptr) {
-	    	continue;
-	    }
+		if (body == nullptr) {
+			continue;
+		}
 
-	    if (body->get_body_type() == STAR) {
-	    	// Add star as child of solar system
-	    	if (body->get_parent() == nullptr) {
-	    		add_child(body);
-	    	}
-	    }
+		if (body->get_body_type() == STAR) {
+			// Add star as child of solar system
+			if (body->get_parent() == nullptr) {
+				add_child(body);
+			}
+		}
 
-	    body->create_orbit(body->get_orbit_size());
-	    for (int i = 0; i < orbiting_bodies.size(); ++i) {
-	    	uint32_t orbiting_body_id = orbiting_bodies[i];
-	    	Variant orbiting_body_variant = loaded_stellar_bodies[orbiting_body_id];
-	    	StellarBody* orbiting_body = Object::cast_to<StellarBody>(orbiting_body_variant);
+		body->create_orbit(body->get_orbit_size());
+		for (int i = 0; i < orbiting_bodies.size(); ++i) {
+			uint32_t orbiting_body_id = orbiting_bodies[i];
+			Variant orbiting_body_variant = loaded_stellar_bodies[orbiting_body_id];
+			StellarBody *orbiting_body = Object::cast_to<StellarBody>(orbiting_body_variant);
 
-	    	if (orbiting_body == nullptr) {
-	    		continue;
-	    	}
+			if (orbiting_body == nullptr) {
+				continue;
+			}
 
-	    	body->add_body(orbiting_body);
-	    }
+			body->add_body(orbiting_body);
+		}
 	}
 }

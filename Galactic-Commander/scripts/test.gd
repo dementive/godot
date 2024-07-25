@@ -5,7 +5,7 @@ extends Node3D
 @export var latitude = 0.9  # 0 to 1, 0 = -90°, 1 = 90°
 
 func _ready():
-	var sphere_mesh = get_child(0).get_child(0)
+	var sphere_mesh : MeshInstance3D = get_child(0).get_child(0)
 	var building_model : MeshInstance3D = sphere_mesh.get_child(0)
 	var model_scale = building_model.scale
 	var sphere_radius = sphere_mesh.mesh.radius

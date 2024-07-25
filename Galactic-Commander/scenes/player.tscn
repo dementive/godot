@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://df2twgr1xbl8g"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_gd5us"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_g46wl"]
 [ext_resource type="ArrayMesh" uid="uid://b3jeihqrffvyp" path="res://gfx/models/ships/Destroyer_1.obj" id="2_8o3pc"]
 [ext_resource type="Material" uid="uid://drl5lyy2k1pw8" path="res://gfx/materials/ship.material" id="3_adt02"]
 [ext_resource type="Shader" path="res://gfx/shaders/ship_shield.gdshader" id="4_6dujh"]
@@ -15,15 +15,15 @@ direction = Vector3(1, 1, 1)
 initial_velocity_max = 0.5
 gravity = Vector3(0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ages"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nxa4x"]
 shading_mode = 0
 albedo_color = Color(0.654902, 0.654902, 0.654902, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_40in5"]
-material = SubResource("StandardMaterial3D_7ages")
+material = SubResource("StandardMaterial3D_nxa4x")
 size = Vector3(0.1, 0.1, 0.1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dkv21"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r26dx"]
 render_priority = 0
 shader = ExtResource("4_6dujh")
 shader_parameter/base_color = Color(0, 0.5, 1, 1)
@@ -36,10 +36,11 @@ shader_parameter/rim_power = 2.588
 shader_parameter/pulse_frequency = 0.1
 
 [sub_resource type="SphereMesh" id="SphereMesh_pmg1x"]
-material = SubResource("ShaderMaterial_dkv21")
+material = SubResource("ShaderMaterial_r26dx")
 
-[node name="Player" type="CharacterBody3D"]
-script = ExtResource("1_gd5us")
+[node name="Player" type="Commander"]
+motion_mode = 1
+script = ExtResource("1_g46wl")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-1, 9.05608e-09, -1.49409e-07, -1.26381e-08, 0.989496, 0.144563, 1.49149e-07, 0.144563, -0.989496, 0, 8.5377, -24.2839)

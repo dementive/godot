@@ -38,12 +38,12 @@ shader_parameter/texture_normal = ExtResource("6_sdvhl")
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_5vkpq"]
 panorama = ExtResource("3_sogj6")
 
-[sub_resource type="Sky" id="Sky_3ece4"]
+[sub_resource type="Sky" id="Sky_g7n5n"]
 sky_material = SubResource("PanoramaSkyMaterial_5vkpq")
 
 [sub_resource type="Environment" id="Environment_3brjn"]
 background_mode = 2
-sky = SubResource("Sky_3ece4")
+sky = SubResource("Sky_g7n5n")
 glow_enabled = true
 glow_normalized = true
 glow_bloom = 0.2

@@ -1,0 +1,100 @@
+[gd_scene load_steps=15 format=3 uid="uid://v60tulrd6g84"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_8jdnh"]
+[ext_resource type="ArrayMesh" uid="uid://b3jeihqrffvyp" path="res://gfx/models/ships/Destroyer_1.obj" id="1_pcxbs"]
+[ext_resource type="Material" uid="uid://drl5lyy2k1pw8" path="res://gfx/materials/ship.material" id="2_swqpj"]
+[ext_resource type="Shader" path="res://gfx/shaders/ship_shield.gdshader" id="3_1ynv2"]
+[ext_resource type="Texture2D" uid="uid://3a7lj1cxk4g" path="res://gfx/space_spheremaps/blue_nebulae_1.png" id="5_s0gml"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_2kfg3"]
+radius = 12.103
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u4qjg"]
+emission_shape = 3
+emission_box_extents = Vector3(16, 8, 8)
+direction = Vector3(1, 1, 1)
+initial_velocity_max = 0.5
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ages"]
+shading_mode = 0
+albedo_color = Color(0.654902, 0.654902, 0.654902, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gfhin"]
+material = SubResource("StandardMaterial3D_7ages")
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dkv21"]
+render_priority = 0
+shader = ExtResource("3_1ynv2")
+shader_parameter/base_color = Color(0, 0.5, 1, 1)
+shader_parameter/pulse_color = Color(0.5, 0.7, 1, 1)
+shader_parameter/speed = 0.1
+shader_parameter/scale = 1.0
+shader_parameter/distortion = 0.229
+shader_parameter/shield_power = 0.0
+shader_parameter/rim_power = 2.588
+shader_parameter/pulse_frequency = 0.1
+
+[sub_resource type="SphereMesh" id="SphereMesh_y2wg5"]
+material = SubResource("ShaderMaterial_dkv21")
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_kggw3"]
+panorama = ExtResource("5_s0gml")
+
+[sub_resource type="Sky" id="Sky_3ece4"]
+sky_material = SubResource("PanoramaSkyMaterial_kggw3")
+
+[sub_resource type="Environment" id="Environment_gswn0"]
+background_mode = 2
+sky = SubResource("Sky_3ece4")
+glow_enabled = true
+glow_normalized = true
+glow_bloom = 0.2
+glow_blend_mode = 0
+
+[node name="Node3D" type="Node3D"]
+
+[node name="CharacterBody3D" type="Commander" parent="."]
+script = ExtResource("1_8jdnh")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+transform = Transform3D(-1, 9.05608e-09, -1.49409e-07, -1.26381e-08, 0.989496, 0.144563, 1.49149e-07, 0.144563, -0.989496, 0, 8.5377, -24.2839)
+near = 4.0
+far = 90000.0
+
+[node name="ShipCollisionShape" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("SphereShape3D_2kfg3")
+
+[node name="GPUParticles" type="GPUParticles3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0881214)
+amount = 48
+lifetime = 5.0
+visibility_aabb = AABB(-12, -8, -18, 24, 16, 24)
+process_material = SubResource("ParticleProcessMaterial_u4qjg")
+draw_pass_1 = SubResource("BoxMesh_gfhin")
+
+[node name="ShipBody" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = ExtResource("1_pcxbs")
+surface_material_override/0 = ExtResource("2_swqpj")
+
+[node name="Shield" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(30.3, 0, 0, 0, 30.3, 0, 0, 0, 30.3, 0, 0, 0)
+visible = false
+mesh = SubResource("SphereMesh_y2wg5")
+
+[node name="SpaceEnvironment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SpaceEnvironment"]
+environment = SubResource("Environment_gswn0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SpaceEnvironment"]
+transform = Transform3D(-0.997213, 0, -0.0746132, 0, 1, 0, 0.0746132, 0, -0.997213, -12.1132, 268.633, -815.163)
+light_cull_mask = 4294967293
+sky_mode = 1
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="SpaceEnvironment"]
+transform = Transform3D(0.995171, 0, 0.0981561, 0, 1, 0, -0.0981561, 0, 0.995171, -12.1132, 268.633, 949.284)
+light_cull_mask = 4294967293
+sky_mode = 1

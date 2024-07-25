@@ -5,19 +5,19 @@
 
 namespace godot {
 
-	class MainMenu : public Control {
-		GDCLASS(MainMenu, Control);
+class MainMenu : public Control {
+	GDCLASS(MainMenu, Control);
 
-	protected:
-		static void _bind_methods();
+protected:
+	static void _bind_methods();
 
-	public:
-		MainMenu();
-		~MainMenu();
+public:
+	MainMenu();
+	~MainMenu();
 
-		void on_new_game_pressed();
-	};
+	void on_new_game_pressed();
+};
 
-}
+} //namespace godot
 
 #endif

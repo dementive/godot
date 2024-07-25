@@ -11,72 +11,69 @@
 #include "godot_cpp/variant/vector3.hpp"
 #include <StellarBodyMaterials.hpp>
 
-#define VECTOR_FORWARD Vector3(0,1,0) // Used to compare to so we can check if the new position != this
+#define VECTOR_FORWARD Vector3(0, 1, 0) // Used to compare to so we can check if the new position != this
 
 namespace godot {
 
-	enum StellarBodyType { STAR, PLANET };
+enum StellarBodyType { STAR, PLANET };
 
-	class StellarBody : public StaticBody3D {
-		GDCLASS(StellarBody, StaticBody3D);
+class StellarBody : public StaticBody3D {
+	GDCLASS(StellarBody, StaticBody3D);
 
-	private:
-		float planet_collision_size;
-		bool has_atmosphere = false;
-		Vector3 scale;
-		Dictionary orbiting_bodies; // Dictionary<uint32_t, StellarBody*>
-		Dictionary body_params;
-		Dictionary atmosphere_params;
-		Dictionary cloud_params;
-		StellarBodyMaterialType material_type;
-		StellarBodyType body_type;
-		uint8_t solar_system_id;
-		uint32_t id;
-		float orbit_size;
-		inline static std::atomic<uint> next_id = 0;
+private:
+	float planet_collision_size;
+	bool has_atmosphere = false;
+	Vector3 scale;
+	Dictionary orbiting_bodies; // Dictionary<uint32_t, StellarBody*>
+	Dictionary body_params;
+	Dictionary atmosphere_params;
+	Dictionary cloud_params;
+	StellarBodyMaterialType material_type;
+	StellarBodyType body_type;
+	uint8_t solar_system_id;
+	uint32_t id;
+	float orbit_size;
+	inline static std::atomic<uint> next_id = 0;
 
+protected:
+	static void _bind_methods();
 
-	protected:
-		static void _bind_methods();
+public:
+	StellarBody();
+	~StellarBody();
 
-	public:
-		StellarBody();
-		~StellarBody();
+	void _input_event(Camera3D *camera, const Ref<InputEvent> &event, const Vector3 &position, const Vector3 &normal,
+			int32_t shape_idx) override;
+	void _mouse_exit() override;
 
+	StellarBody *create_body(uint8_t system_id, StellarBodyType body_type, float distance_from_orbit_origin,
+			StellarBodyMaterial materials, Vector3 body_scale, String body_name, bool atmosphere = true, uint32_t new_id = -1,
+			Vector3 load_position = VECTOR_FORWARD);
+	void generate_body(float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 planet_scale,
+			bool has_atmosphere, Vector3 load_position);
+	void add_body(StellarBody *body);
+	void create_orbit(float orbit_size);
 
-		void _input_event(
-			Camera3D* camera, const Ref<InputEvent>& event, const Vector3& position, const Vector3& normal, int32_t shape_idx
-		) override;
-		void _mouse_exit() override;
+	void set_solar_system_id(uint8_t new_id);
+	uint8_t get_solar_system_id();
 
-		StellarBody* create_body(
-			uint8_t system_id, StellarBodyType body_type, float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale,
-			String body_name, bool atmosphere = true, uint32_t new_id = -1, Vector3 load_position = VECTOR_FORWARD
-		);
-		void generate_body(float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 planet_scale, bool has_atmosphere, Vector3 load_position);
-		void add_body(StellarBody* body);
-		void create_orbit(float orbit_size);
+	Control *get_planet_info_panel();
+	Vector3 get_scale();
 
-		void set_solar_system_id(uint8_t new_id);
-		uint8_t get_solar_system_id();
+	void set_orbiting_bodies(Dictionary new_orbiting_bodies);
+	Dictionary get_orbiting_bodies();
 
-		Control* get_planet_info_panel();
-		Vector3 get_scale();
+	StellarBodyType get_body_type();
+	float get_orbit_size();
 
-		void set_orbiting_bodies(Dictionary new_orbiting_bodies);
-		Dictionary get_orbiting_bodies();
+	void set_id();
+	void set_new_id(uint32_t new_id);
+	uint32_t get_id();
 
-		StellarBodyType get_body_type();
-		float get_orbit_size();
+	void serialize(Ref<FileAccess> file);
+	std::pair<StellarBody *, Array> deserialize(Ref<FileAccess> file);
+};
 
-		void set_id();
-		void set_new_id(uint32_t new_id);
-		uint32_t get_id();
-
-		void serialize(Ref<FileAccess> file);
-		std::pair<StellarBody*, Array> deserialize(Ref<FileAccess> file);
-	};
-
-}
+} //namespace godot
 
 #endif
