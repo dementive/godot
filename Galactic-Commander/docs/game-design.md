@@ -48,7 +48,7 @@ Diplomacy will be extremely simple with only 5 different relations between galac
 
 The player can initiate one time trades for resources with other galactic commanders.
 
-The player can establish trade routes with other galactic commanders that act as recurring trades for different resources. Trade routes flow between 2 owned Stellar Bodies.
+The player can establish trade routes with other galactic commanders that act as recurring trades for different resources.
 
 ## 4 Core Resources
 

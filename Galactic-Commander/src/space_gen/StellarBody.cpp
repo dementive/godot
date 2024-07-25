@@ -21,7 +21,7 @@ StellarBody::~StellarBody() {}
 void StellarBody::_bind_methods() {}
 
 StellarBody *StellarBody::create_body(uint8_t system_id, StellarBodyType stellar_body_type, float distance_from_orbit_origin,
-		StellarBodyMaterial materials, Vector3 body_scale, String body_name, bool atmosphere, uint32_t new_id,
+		StellarBodyMaterial materials, Vector3 body_scale, String body_name, bool atmosphere, StellarBodyID new_id,
 		Vector3 load_position) {
 	// This code should be in the constructor but this isn't possible currently
 	// https://github.com/godotengine/godot-cpp/issues/953
@@ -134,7 +134,7 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 	file->store_pascal_string(get_name());
 	file->store_8(material_type);
 	file->store_8(body_type);
-	file->store_32(id);
+	file->store_64(id);
 	file->store_8(solar_system_id);
 	file->store_float(scale.x); // Scale is actually a Vector3 but we can store just 1 float because all the values should
 								// always be the same.
@@ -160,7 +160,7 @@ std::pair<StellarBody *, Array> StellarBody::deserialize(Ref<FileAccess> file) {
 	String body_name = file->get_pascal_string();
 	uint8_t loaded_material_type = file->get_8();
 	uint8_t loaded_body_type = file->get_8();
-	uint32_t body_id = file->get_32();
+	uint64_t body_id = file->get_64();
 	uint8_t system_id = file->get_8();
 	float body_scale_f = file->get_float();
 	Vector3 body_scale = Vector3(body_scale_f, body_scale_f, body_scale_f);
@@ -201,18 +201,18 @@ Control *StellarBody::get_planet_info_panel() {
 
 Vector3 StellarBody::get_scale() { return scale; }
 
-void StellarBody::set_solar_system_id(uint8_t new_id) { solar_system_id = new_id; }
+void StellarBody::set_solar_system_id(SolarSystemID new_id) { solar_system_id = new_id; }
 
-uint8_t StellarBody::get_solar_system_id() { return solar_system_id; }
+SolarSystemID StellarBody::get_solar_system_id() { return solar_system_id; }
 
 void StellarBody::set_id() {
 	id = next_id;
 	StellarBody::next_id++;
 }
 
-void StellarBody::set_new_id(uint32_t new_id) { id = new_id; }
+void StellarBody::set_new_id(StellarBodyID new_id) { id = new_id; }
 
-uint32_t StellarBody::get_id() { return id; }
+StellarBodyID StellarBody::get_id() { return id; }
 
 void StellarBody::set_orbiting_bodies(Dictionary new_orbiting_bodies) { orbiting_bodies = new_orbiting_bodies; }
 Dictionary StellarBody::get_orbiting_bodies() { return orbiting_bodies; }
