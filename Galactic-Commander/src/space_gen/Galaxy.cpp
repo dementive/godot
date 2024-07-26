@@ -3,6 +3,8 @@
 #include "godot_cpp/variant/utility_functions.hpp"
 #include <godot_cpp/classes/engine.hpp>
 
+#include <Types.hpp>
+
 using namespace godot;
 using namespace GC;
 
@@ -15,7 +17,7 @@ void Galaxy::_bind_methods() {
 
 Galaxy::Galaxy() {
 	if (!Engine::get_singleton()->is_editor_hint()) {
-		uint8_t system_id = 0;
+		SolarSystemID system_id = 0;
 		solar_system = memnew(SolarSystem());
 		solar_system->generate_solar_system(system_id);
 		solar_system->set_name("SolarSystem");

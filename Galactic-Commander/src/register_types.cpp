@@ -46,7 +46,7 @@ void uninitialize_galactic_commander_module(ModuleInitializationLevel p_level) {
 
 extern "C" {
 // Initialization.
-GDExtensionBool GDE_EXPORT example_library_init(GDExtensionInterfaceGetProcAddress p_get_proc_address,
+GDExtensionBool GDE_EXPORT galactic_commander_init(GDExtensionInterfaceGetProcAddress p_get_proc_address,
 		const GDExtensionClassLibraryPtr p_library, GDExtensionInitialization *r_initialization) {
 	godot::GDExtensionBinding::InitObject init_obj(p_get_proc_address, p_library, r_initialization);
 

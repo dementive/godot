@@ -1,8 +1,8 @@
 #ifndef Structure_H
 #define Structure_H
 
-#include <godot_cpp/classes/mesh_instance3d.hpp>
 #include <godot_cpp/classes/file_access.hpp>
+#include <godot_cpp/classes/mesh_instance3d.hpp>
 
 #include "Types.hpp"
 
@@ -38,7 +38,7 @@ public:
 	StructureID get_id();
 
 	void serialize(Ref<FileAccess> file);
-	Structure* deserialize(Ref<FileAccess> file);
+	Structure *deserialize(Ref<FileAccess> file);
 };
 
 } // namespace GC

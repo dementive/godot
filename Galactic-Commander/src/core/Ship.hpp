@@ -1,8 +1,8 @@
 #ifndef Ship_H
 #define Ship_H
 
-#include <godot_cpp/classes/mesh_instance3d.hpp>
 #include <godot_cpp/classes/file_access.hpp>
+#include <godot_cpp/classes/mesh_instance3d.hpp>
 
 #include "Resource.hpp"
 #include "Types.hpp"
@@ -54,7 +54,7 @@ public:
 	ShipID get_id();
 
 	void serialize(Ref<FileAccess> file);
-	Ship* deserialize(Ref<FileAccess> file);
+	Ship *deserialize(Ref<FileAccess> file);
 };
 
 } // namespace GC

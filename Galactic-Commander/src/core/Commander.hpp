@@ -19,22 +19,23 @@ class Commander : public CharacterBody3D {
 
 private:
 	ShipID active_ship;
-	Array ships;
+	Dictionary ships;
 	Dictionary owned_stellar_bodies;
 	Dictionary resources;
 	Dictionary diplomatic_relations;
 	Dictionary trade_routes;
 
 	struct TradeRoute {
-	    Commander* to;
-	    Commander* from;
+		Commander *to;
+		Commander *from;
 
-	    Array resources_to;
-	    Array resources_from;
+		Array resources_to;
+		Array resources_from;
 	};
 
 	CommanderID id;
 	inline static std::atomic<CommanderID> next_id = 0;
+	// static Dictionary commander_dict; // hmm...
 
 protected:
 	static void _bind_methods();
@@ -44,11 +45,11 @@ public:
 	~Commander();
 
 	ShipID get_active_ship();
-	void set_active_ship();
+	void set_active_ship(ShipID new_ship);
 
-	Array get_ships();
-	void add_ship(ShipID ship);
-	void remove_ship(ShipID ship);
+	Dictionary get_ships();
+	void add_ship(ShipID new_ship);
+	void remove_ship(ShipID ship_to_remove);
 
 	Dictionary get_owned_stellar_bodies();
 	void add_owned_stellar_body(StellarBodyID body);
@@ -57,18 +58,18 @@ public:
 	void set_resource(String resource_name);
 
 	Dictionary get_diplomatic_relations();
-	void set_diplomatic_relation(Commander* target, DiplomaticRelation new_relation);
+	void set_diplomatic_relation(Commander *target, DiplomaticRelation new_relation);
 
 	Dictionary get_trade_routes();
-	void add_trade_route(Commander* target, TradeRoute new_route);
-	bool has_trade_route_with(Commander* target);
+	void add_trade_route(Commander *target, TradeRoute new_route);
+	bool has_trade_route_with(Commander *target);
 
 	void set_id();
 	void set_new_id(CommanderID new_id);
 	CommanderID get_id();
 
 	void serialize(Ref<FileAccess> file);
-	Commander* deserialize(Ref<FileAccess> file);
+	Commander *deserialize(Ref<FileAccess> file);
 };
 
 } // namespace GC

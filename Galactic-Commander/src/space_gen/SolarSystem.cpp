@@ -12,7 +12,7 @@ SolarSystem::SolarSystem() {}
 SolarSystem::~SolarSystem() {}
 void SolarSystem::_bind_methods() {}
 
-void SolarSystem::generate_solar_system(uint8_t system_id) {
+void SolarSystem::generate_solar_system(SolarSystemID system_id) {
 	set_id(system_id);
 	Vector3 small_scale = Vector3(1500.0, 1500.0, 1500.0);
 	Vector3 mid_scale = Vector3(2000.0, 2000.0, 2000.0);
@@ -87,9 +87,9 @@ StellarBody *SolarSystem::get_stellar_body(int index) { return stellar_bodies[in
 
 Vector<StellarBody *> SolarSystem::get_stellar_bodies() { return stellar_bodies; }
 
-void SolarSystem::set_id(uint8_t new_id) { id = new_id; }
+void SolarSystem::set_id(SolarSystemID new_id) { id = new_id; }
 
-uint8_t SolarSystem::get_id() { return id; }
+SolarSystemID SolarSystem::get_id() { return id; }
 
 void SolarSystem::serialize(Ref<FileAccess> file) {
 	file->store_8(id);

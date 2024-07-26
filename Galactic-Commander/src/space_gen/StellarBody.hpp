@@ -10,8 +10,9 @@
 
 #include "godot_cpp/variant/vector3.hpp"
 
-#include <StellarBodyMaterials.hpp>
 #include "Types.hpp"
+#include <GameObject.hpp>
+#include <StellarBodyMaterials.hpp>
 
 #define VECTOR_FORWARD Vector3(0, 1, 0) // Used to compare to so we can check if the new position != this
 
@@ -42,8 +43,8 @@ private:
 	Dictionary resources;
 	Dictionary structures;
 
+	GameObject<StellarBody> game_object;
 	StellarBodyID id;
-	inline static std::atomic<StellarBodyID> next_id = 0;
 
 protected:
 	static void _bind_methods();
@@ -51,14 +52,15 @@ protected:
 public:
 	StellarBody();
 	~StellarBody();
+	inline static StellarBodyID next_id = 0;
 
 	void _input_event(Camera3D *camera, const Ref<InputEvent> &event, const Vector3 &position, const Vector3 &normal,
 			int32_t shape_idx) override;
 	void _mouse_exit() override;
 
 	StellarBody *create_body(uint8_t system_id, StellarBodyType body_type, float distance_from_orbit_origin,
-			StellarBodyMaterial materials, Vector3 body_scale, String body_name, bool atmosphere = true, StellarBodyID new_id = -1,
-			Vector3 load_position = VECTOR_FORWARD);
+			StellarBodyMaterial materials, Vector3 body_scale, String body_name, bool atmosphere = true,
+			StellarBodyID new_id = -1, Vector3 load_position = VECTOR_FORWARD);
 	void generate_body(float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 planet_scale,
 			bool has_atmosphere, Vector3 load_position);
 	void add_body(StellarBody *body);
