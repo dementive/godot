@@ -92,7 +92,7 @@ void SolarSystem::set_id(SolarSystemID new_id) { id = new_id; }
 SolarSystemID SolarSystem::get_id() { return id; }
 
 void SolarSystem::serialize(Ref<FileAccess> file) {
-	file->store_8(id);
+	file->store_64(id);
 	file->store_16(get_stellar_bodies().size());
 	for (int i = 0; i < get_stellar_bodies().size(); ++i) {
 		StellarBody *body = get_stellar_bodies()[i];
@@ -104,7 +104,7 @@ void SolarSystem::serialize(Ref<FileAccess> file) {
 }
 
 void SolarSystem::deserialize(Ref<FileAccess> file) {
-	uint8_t system_id = file->get_8();
+	uint64_t system_id = file->get_64();
 	uint16_t bodies_in_solar_system = file->get_16();
 
 	Array loaded_orbiting_bodies;
@@ -123,7 +123,7 @@ void SolarSystem::deserialize(Ref<FileAccess> file) {
 
 			// Save Stellar bodies in a Dictionary like this: Dictionary<uint32_t, StellarBody*>
 			// This way we can iterate over the dictionary and assign the orbiting bodies to their parents from their ID.
-			loaded_stellar_bodies[new_body_data.first->get_id()] = new_body_data.first;
+			loaded_stellar_bodies[new_body_data.first->game_object.get_id()] = new_body_data.first;
 			loaded_orbiting_bodies[i] = new_body_data.second;
 		}
 	}
@@ -137,7 +137,7 @@ void SolarSystem::deserialize(Ref<FileAccess> file) {
 			continue;
 		}
 
-		uint32_t body_id = body_keys[i];
+		uint64_t body_id = body_keys[i];
 		Variant body_variant = loaded_stellar_bodies[body_id];
 		StellarBody *body = Object::cast_to<StellarBody>(body_variant);
 
@@ -154,7 +154,7 @@ void SolarSystem::deserialize(Ref<FileAccess> file) {
 
 		body->create_orbit(body->get_orbit_size());
 		for (int i = 0; i < orbiting_bodies.size(); ++i) {
-			uint32_t orbiting_body_id = orbiting_bodies[i];
+			uint64_t orbiting_body_id = orbiting_bodies[i];
 			Variant orbiting_body_variant = loaded_stellar_bodies[orbiting_body_id];
 			StellarBody *orbiting_body = Object::cast_to<StellarBody>(orbiting_body_variant);
 

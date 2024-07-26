@@ -35,16 +35,14 @@ private:
 	Dictionary cloud_params;
 	StellarBodyMaterialType material_type;
 	StellarBodyType body_type;
-	SolarSystemID solar_system_id;
 	float orbit_size;
 
+	SolarSystemID location;
 	CommanderID owner;
 	bool is_habitable;
 	Dictionary resources;
 	Dictionary structures;
 
-	GameObject<StellarBody> game_object;
-	StellarBodyID id;
 
 protected:
 	static void _bind_methods();
@@ -52,13 +50,15 @@ protected:
 public:
 	StellarBody();
 	~StellarBody();
+
 	inline static StellarBodyID next_id = 0;
+	GameObject<StellarBody> game_object;
 
 	void _input_event(Camera3D *camera, const Ref<InputEvent> &event, const Vector3 &position, const Vector3 &normal,
 			int32_t shape_idx) override;
 	void _mouse_exit() override;
 
-	StellarBody *create_body(uint8_t system_id, StellarBodyType body_type, float distance_from_orbit_origin,
+	StellarBody *create_body(uint64_t system_id, StellarBodyType body_type, float distance_from_orbit_origin,
 			StellarBodyMaterial materials, Vector3 body_scale, String body_name, bool atmosphere = true,
 			StellarBodyID new_id = -1, Vector3 load_position = VECTOR_FORWARD);
 	void generate_body(float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 planet_scale,
@@ -77,10 +77,6 @@ public:
 
 	StellarBodyType get_body_type();
 	float get_orbit_size();
-
-	void set_id();
-	void set_new_id(StellarBodyID new_id);
-	StellarBodyID get_id();
 
 	void serialize(Ref<FileAccess> file);
 	std::pair<StellarBody *, Array> deserialize(Ref<FileAccess> file);
