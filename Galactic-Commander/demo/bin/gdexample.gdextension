@@ -9,3 +9,11 @@ compatibility_minimum = "4.2"
 #windows.release.x86_64 = "res://demo/bin/libgdexample.windows.template_release.x86_64.dll"
 linux.debug.x86_64 = "res://demo/bin/lib-galactic-commander.linux.template_debug.x86_64.so"
 #linux.release.x86_64 = "res://demo/bin/libgdexample.linux.template_release.x86_64.so"
+
+[icons]
+
+Galaxy = "res://gfx/editor_icons/Galaxy.svg"
+Commander = "res://gfx/editor_icons/CharacterBody3D.svg"
+SolarSystem = "res://gfx/editor_icons/Node3D.svg"
+Orbit = "res://gfx/editor_icons/SolarSystem.svg"
+StellarBody = "res://gfx/editor_icons/StaticBody3D.svg"
