@@ -172,23 +172,24 @@ std::pair<StellarBody *, Array> StellarBody::deserialize(Ref<FileAccess> file) {
 	Array orbiting_body_ids = file->get_var();
 	orbit_size = file->get_float();
 
-	Dictionary b_params = file->get_var();
+	Dictionary loaded_body_params = file->get_var();
 	if (loaded_material_type == M_NO_ATMOSPHERE) {
-		StellarBodyMaterial mats = materials->get_material_from_dict_no_atmosphere(b_params);
-		create_body(system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id,
-				loaded_position);
+		StellarBodyMaterial mats = materials->get_material_from_dict_no_atmosphere(loaded_body_params);
+		create_body(system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere,
+				body_id, loaded_position);
 	} else {
-		Dictionary a_params = file->get_var();
+		Dictionary loaded_atmosphere_params = file->get_var();
 
 		if (loaded_material_type == M_ICE or loaded_material_type == M_TERRESTRIAL) {
-			Dictionary c_params = file->get_var();
-			StellarBodyMaterial mats = materials->get_material_with_clouds_from_dict(b_params, a_params, c_params);
-			create_body(system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id,
-					loaded_position);
+			Dictionary loaded_cloud_params = file->get_var();
+			StellarBodyMaterial mats = materials->get_material_with_clouds_from_dict(
+					loaded_body_params, loaded_atmosphere_params, loaded_cloud_params);
+			create_body(system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere,
+					body_id, loaded_position);
 		} else {
-			StellarBodyMaterial mats = materials->get_material_from_dict(b_params, a_params);
-			create_body(system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id,
-					loaded_position);
+			StellarBodyMaterial mats = materials->get_material_from_dict(loaded_body_params, loaded_atmosphere_params);
+			create_body(system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere,
+					body_id, loaded_position);
 		}
 	}
 

@@ -43,7 +43,6 @@ private:
 	Dictionary resources;
 	Dictionary structures;
 
-
 protected:
 	static void _bind_methods();
 

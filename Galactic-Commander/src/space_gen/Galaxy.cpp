@@ -17,9 +17,8 @@ void Galaxy::_bind_methods() {
 
 Galaxy::Galaxy() {
 	if (!Engine::get_singleton()->is_editor_hint()) {
-		SolarSystemID system_id = 0;
 		solar_system = memnew(SolarSystem());
-		solar_system->generate_solar_system(system_id);
+		solar_system->generate_solar_system();
 		solar_system->set_name("SolarSystem");
 		add_child(solar_system);
 	}
