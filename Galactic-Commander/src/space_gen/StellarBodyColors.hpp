@@ -1,9 +1,8 @@
+#include "godot_cpp/variant/array.hpp"
+#include "godot_cpp/variant/dictionary.hpp"
 #include <godot_cpp/variant/color.hpp>
 #include <godot_cpp/variant/packed_color_array.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
-
-#include "godot_cpp/variant/array.hpp"
-#include "godot_cpp/variant/dictionary.hpp"
 
 using namespace godot;
 

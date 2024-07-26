@@ -1,8 +1,8 @@
-#include "Galaxy.hpp"
 #include "godot_cpp/classes/global_constants.hpp"
 #include "godot_cpp/variant/utility_functions.hpp"
 #include <godot_cpp/classes/engine.hpp>
 
+#include "Galaxy.hpp"
 #include <Types.hpp>
 
 using namespace godot;

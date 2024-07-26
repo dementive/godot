@@ -1,9 +1,8 @@
-
-#include "SolarSystem.hpp"
+#include "godot_cpp/variant/utility_functions.hpp"
 #include <godot_cpp/core/class_db.hpp>
 
+#include "SolarSystem.hpp"
 #include "StellarBody.hpp"
-#include "godot_cpp/variant/utility_functions.hpp"
 
 using namespace godot;
 using namespace GC;

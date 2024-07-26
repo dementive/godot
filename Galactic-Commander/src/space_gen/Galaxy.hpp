@@ -1,9 +1,10 @@
 #ifndef Galaxy_H
 #define Galaxy_H
 
+#include <godot_cpp/classes/node.hpp>
+
 #include "SaveManager.hpp"
 #include <SolarSystem.hpp>
-#include <godot_cpp/classes/node.hpp>
 
 using namespace godot;
 

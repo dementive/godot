@@ -1,7 +1,5 @@
-#include "register_types.hpp"
 
 #include <gdextension_interface.h>
-
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
 
@@ -14,6 +12,7 @@
 #include "core/Ship.hpp"
 #include "core/Structure.hpp"
 #include "gui/MainMenu.hpp"
+#include "register_types.hpp"
 
 using namespace godot;
 using namespace GC;

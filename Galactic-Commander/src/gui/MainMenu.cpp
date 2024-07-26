@@ -1,14 +1,13 @@
-#include "MainMenu.hpp"
-
-#include <godot_cpp/classes/engine.hpp>
-#include <godot_cpp/classes/resource_loader.hpp>
-
 #include "godot_cpp/classes/button.hpp"
 #include "godot_cpp/classes/control.hpp"
 #include "godot_cpp/classes/label.hpp"
 #include "godot_cpp/classes/label_settings.hpp"
 #include "godot_cpp/classes/scene_tree.hpp"
 #include "godot_cpp/core/memory.hpp"
+#include <godot_cpp/classes/engine.hpp>
+#include <godot_cpp/classes/resource_loader.hpp>
+
+#include "MainMenu.hpp"
 
 using namespace godot;
 

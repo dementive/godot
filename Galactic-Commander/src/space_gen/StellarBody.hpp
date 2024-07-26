@@ -2,13 +2,12 @@
 #define StellarBody_H
 
 #include "godot_cpp/classes/control.hpp"
+#include "godot_cpp/variant/vector3.hpp"
 #include <godot_cpp/classes/camera3d.hpp>
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/input_event.hpp>
 #include <godot_cpp/classes/static_body3d.hpp>
 #include <godot_cpp/templates/vector.hpp>
-
-#include "godot_cpp/variant/vector3.hpp"
 
 #include "Types.hpp"
 #include <GameObject.hpp>

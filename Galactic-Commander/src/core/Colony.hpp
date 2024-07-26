@@ -1,12 +1,13 @@
 #ifndef Colony_H
 #define Colony_H
 
-#include <GameObject.hpp>
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/object.hpp>
 
-using namespace godot;
 #include "Types.hpp"
+#include <GameObject.hpp>
+
+using namespace godot;
 
 namespace GC {
 
