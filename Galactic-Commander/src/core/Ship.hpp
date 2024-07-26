@@ -4,6 +4,7 @@
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/mesh_instance3d.hpp>
 
+#include "GameObject.hpp"
 #include "Resource.hpp"
 #include "Types.hpp"
 
@@ -24,15 +25,15 @@ private:
 	uint16_t speed;
 	Dictionary required_resources;
 
-	ShipID id;
-	inline static std::atomic<ShipID> next_id = 0;
-
 protected:
 	static void _bind_methods();
 
 public:
 	Ship();
 	~Ship();
+
+	inline static ShipID next_id = 0;
+	GameObject<Ship> game_object;
 
 	CommanderID get_owner();
 	void set_owner(CommanderID new_owner);
@@ -48,10 +49,6 @@ public:
 
 	Dictionary get_required_resources();
 	void set_required_resource(GC::Resource new_resource);
-
-	void set_id();
-	void set_new_id(ShipID new_id);
-	ShipID get_id();
 
 	void serialize(Ref<FileAccess> file);
 	Ship *deserialize(Ref<FileAccess> file);

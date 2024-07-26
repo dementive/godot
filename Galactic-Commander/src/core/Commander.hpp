@@ -1,11 +1,12 @@
 #ifndef Commander_H
 #define Commander_H
 
-#include "godot_cpp/variant/dictionary.hpp"
-#include "godot_cpp/variant/vector3.hpp"
 #include <godot_cpp/classes/character_body3d.hpp>
 #include <godot_cpp/classes/file_access.hpp>
+#include <godot_cpp/variant/dictionary.hpp>
+#include <godot_cpp/variant/vector3.hpp>
 
+#include "GameObject.hpp"
 #include "Types.hpp"
 
 using namespace godot;
@@ -33,16 +34,15 @@ private:
 		Array resources_from;
 	};
 
-	CommanderID id;
-	inline static std::atomic<CommanderID> next_id = 0;
-	// static Dictionary commander_dict; // hmm...
-
 protected:
 	static void _bind_methods();
 
 public:
 	Commander();
 	~Commander();
+
+	inline static CommanderID next_id = 0;
+	GameObject<Commander> game_object;
 
 	ShipID get_active_ship();
 	void set_active_ship(ShipID new_ship);
@@ -63,10 +63,6 @@ public:
 	Dictionary get_trade_routes();
 	void add_trade_route(Commander *target, TradeRoute new_route);
 	bool has_trade_route_with(Commander *target);
-
-	void set_id();
-	void set_new_id(CommanderID new_id);
-	CommanderID get_id();
 
 	void serialize(Ref<FileAccess> file);
 	Commander *deserialize(Ref<FileAccess> file);

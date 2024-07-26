@@ -4,6 +4,7 @@
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/mesh_instance3d.hpp>
 
+#include "GameObject.hpp"
 #include "Types.hpp"
 
 using namespace godot;
@@ -21,15 +22,15 @@ private:
 	uint64_t required_pops;
 	bool is_orbital_structure;
 
-	StructureID id;
-	inline static std::atomic<StructureID> next_id = 0;
-
 protected:
 	static void _bind_methods();
 
 public:
 	Structure();
 	~Structure();
+
+	inline static StructureID next_id = 0;
+	GameObject<Structure> game_object;
 
 	StructureID get_location();
 
