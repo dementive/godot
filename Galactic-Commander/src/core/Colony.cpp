@@ -12,6 +12,8 @@ void Colony::create_colony(CommanderID colony_owner, StellarBodyID colony_locati
 	owner = colony_owner;
 	location = colony_location;
 	population = colony_population;
+
+	game_object.set_id();
 }
 
 CommanderID Colony::get_owner() { return owner; }
@@ -29,15 +31,6 @@ Dictionary Colony::get_structures() { return structures; }
 void Colony::add_structure(StructureID new_structure) {
 	// structures[new_structure] = get_structure_from_id(new_structure);
 }
-
-void Colony::set_id() {
-	id = next_id;
-	Colony::next_id++;
-}
-
-void Colony::set_new_id(ColonyID new_id) { id = new_id; }
-
-ColonyID Colony::get_id() { return id; }
 
 void Colony::serialize(Ref<FileAccess> file) {}
 

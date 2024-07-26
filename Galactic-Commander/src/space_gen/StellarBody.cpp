@@ -25,7 +25,6 @@ StellarBody *StellarBody::create_body(uint64_t system_id, StellarBodyType stella
 		Vector3 load_position) {
 	// This code should be in the constructor but this isn't possible currently
 	// https://github.com/godotengine/godot-cpp/issues/953
-	UtilityFunctions::print("CREATING BODY NAME: ", body_name);
 
 	cloud_params = materials.cloud_params;
 	body_params = materials.body_params;
@@ -47,7 +46,6 @@ StellarBody *StellarBody::create_body(uint64_t system_id, StellarBodyType stella
 			create_orbit(60000); // SolarSystem::deserisalize() handles creating the orbit when loading
 		}
 	} else if (body_type == PLANET) {
-		UtilityFunctions::print("GENERATING BODY NAME: ", body_name);
 		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere, load_position);
 	}
 
@@ -137,7 +135,6 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 	file->store_8(material_type);
 	file->store_8(body_type);
 	file->store_64(game_object.id);
-	UtilityFunctions::print("STORING ID: ", game_object.id);
 	file->store_64(location);
 	file->store_float(scale.x); // Scale is actually a Vector3 but we can store just 1 float because all the values should
 								// always be the same.

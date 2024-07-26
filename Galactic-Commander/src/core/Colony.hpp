@@ -1,6 +1,7 @@
 #ifndef Colony_H
 #define Colony_H
 
+#include <GameObject.hpp>
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/object.hpp>
 
@@ -18,15 +19,15 @@ private:
 	uint64_t population;
 	Dictionary structures;
 
-	ColonyID id;
-	inline static std::atomic<ColonyID> next_id = 0;
-
 protected:
 	static void _bind_methods();
 
 public:
 	Colony();
 	~Colony();
+
+	inline static ColonyID next_id = 0;
+	GameObject<Colony> game_object;
 
 	void create_colony(CommanderID owner, StellarBodyID location, uint64_t population = 500);
 
@@ -40,10 +41,6 @@ public:
 
 	Dictionary get_structures();
 	void add_structure(StructureID new_structure);
-
-	void set_id();
-	void set_new_id(ColonyID new_id);
-	ColonyID get_id();
 
 	void serialize(Ref<FileAccess> file);
 	Colony *deserialize(Ref<FileAccess> file);
