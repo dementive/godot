@@ -34,10 +34,6 @@ public:
 
 	StructureID get_location();
 
-	void set_id();
-	void set_new_id(StructureID new_id);
-	StructureID get_id();
-
 	void serialize(Ref<FileAccess> file);
 	Structure *deserialize(Ref<FileAccess> file);
 };

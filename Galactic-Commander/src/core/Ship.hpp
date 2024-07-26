@@ -12,9 +12,6 @@ using namespace godot;
 
 namespace GC {
 
-#pragma once
-class Commander;
-
 class Ship : public MeshInstance3D {
 	GDCLASS(Ship, MeshInstance3D);
 
