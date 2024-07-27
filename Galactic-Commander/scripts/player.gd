@@ -21,7 +21,7 @@ func switch_camera_mode():
 
 	if !ship_camera_mode:
 		find_child("GPUParticles").visible = false
-		get_tree().get_root().get_node("GameWorld/HUD/Crosshair").visible = false
+		get_tree().get_root().get_node("Galaxy/HUD/Crosshair").visible = false
 		set_rotation(Vector3(0,0,0))
 		var player_position = get_position()
 		var camera_position = Vector3(0, 6500, -4500)
@@ -58,7 +58,7 @@ func switch_camera_mode():
 			tween.tween_callback(Callable(self, "on_camera_tween_in_finished"))
 
 func on_camera_tween_in_finished():
-	get_tree().get_root().get_node("GameWorld/HUD/Crosshair").visible = true
+	get_tree().get_root().get_node("Galaxy/HUD/Crosshair").visible = true
 
 func _process(delta):
 	var viewport = get_viewport()

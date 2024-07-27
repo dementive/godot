@@ -26,7 +26,7 @@ font_size = 25
 [sub_resource type="LabelSettings" id="LabelSettings_gysny"]
 font_size = 30
 
-[node name="GameWorld" type="Galaxy"]
+[node name="Galaxy" type="Galaxy"]
 
 [node name="SpaceEnvironment" type="Node3D" parent="."]
 
