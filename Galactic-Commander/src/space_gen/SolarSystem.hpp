@@ -25,7 +25,7 @@ public:
 	SolarSystem();
 	~SolarSystem();
 
-	inline static SolarSystemID next_id = 0;
+	inline static std::atomic<SolarSystemID> next_id = 0;
 	inline static HashMap<uint64_t, SolarSystem *> map = HashMap<uint64_t, SolarSystem *>();
 	GameObject<SolarSystem> game_object;
 

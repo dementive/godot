@@ -2,12 +2,15 @@
 #define Commander_H
 
 #include "godot_cpp/templates/hash_map.hpp"
+#include "godot_cpp/templates/vector.hpp"
 #include <godot_cpp/classes/character_body3d.hpp>
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/variant/dictionary.hpp>
 #include <godot_cpp/variant/vector3.hpp>
 
 #include "GameObject.hpp"
+#include "Resource.hpp"
+#include "TradeRoute.hpp"
 #include "Types.hpp"
 
 using namespace godot;
@@ -21,19 +24,11 @@ class Commander : public CharacterBody3D {
 
 private:
 	ShipID active_ship;
-	Dictionary ships;
-	Dictionary owned_stellar_bodies;
-	Dictionary resources;
-	Dictionary diplomatic_relations;
-	Dictionary trade_routes;
-
-	struct TradeRoute {
-		Commander *to;
-		Commander *from;
-
-		Array resources_to;
-		Array resources_from;
-	};
+	Vector<ShipID> ships;
+	Vector<StellarBodyID> owned_stellar_bodies;
+	HashMap<String, GC::Resource *> resources;
+	HashMap<CommanderID, DiplomaticRelation> diplomatic_relations;
+	Vector<TradeRoute> trade_routes;
 
 protected:
 	static void _bind_methods();
@@ -42,27 +37,27 @@ public:
 	Commander();
 	~Commander();
 
-	inline static CommanderID next_id = 0;
+	inline static std::atomic<CommanderID> next_id = 0;
 	inline static HashMap<uint64_t, Commander *> map = HashMap<uint64_t, Commander *>();
 	GameObject<Commander> game_object;
 
 	ShipID get_active_ship();
 	void set_active_ship(ShipID new_ship);
 
-	Dictionary get_ships();
+	Vector<ShipID> get_ships();
 	void add_ship(ShipID new_ship);
 	void remove_ship(ShipID ship_to_remove);
 
-	Dictionary get_owned_stellar_bodies();
+	Vector<StellarBodyID> get_owned_stellar_bodies();
 	void add_owned_stellar_body(StellarBodyID body);
 
-	Dictionary get_resources();
+	HashMap<String, GC::Resource *> get_resources();
 	void set_resource(String resource_name);
 
-	Dictionary get_diplomatic_relations();
+	HashMap<CommanderID, DiplomaticRelation> get_diplomatic_relations();
 	void set_diplomatic_relation(Commander *target, DiplomaticRelation new_relation);
 
-	Dictionary get_trade_routes();
+	Vector<TradeRoute> get_trade_routes();
 	void add_trade_route(Commander *target, TradeRoute new_route);
 	bool has_trade_route_with(Commander *target);
 

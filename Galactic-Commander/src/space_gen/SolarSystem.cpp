@@ -112,7 +112,7 @@ void SolarSystem::deserialize(Ref<FileAccess> file) {
 		StellarBody *body = memnew(StellarBody());
 
 		if (body != nullptr) {
-			std::pair<StellarBody *, Array> new_body_data = body->deserialize(file);
+			Pair<StellarBody *, Array> new_body_data = body->deserialize(file);
 
 			if (new_body_data.first == nullptr) {
 				continue;

@@ -12,7 +12,7 @@ The ID's allow for easy deserialization of the core Nodes in a game and also ena
 game via ID -> object pointer hash maps.
 
 Any class with a GameObject needs to have 2 public variables:
-inline static uint64_t next_id = 0;
+inline static std::atomic<uint64_t> next_id = 0;
 inline static HashMap<uint64_t, Derived*> map = HashMap<uint64_t, Derived*>();
 
 Godot doesn't allow for multiple inheritance https://forum.godotengine.org/t/gdextension-multiple-inheritance/73755

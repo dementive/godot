@@ -151,7 +151,7 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 	}
 }
 
-std::pair<StellarBody *, Array> StellarBody::deserialize(Ref<FileAccess> file) {
+Pair<StellarBody *, Array> StellarBody::deserialize(Ref<FileAccess> file) {
 	// The order objects get deserialized has to be the EXACT SAME as the order they are stored in serialize() or the data won't
 	// be correct.
 	StellarBodyMaterials *materials = new StellarBodyMaterials();
@@ -191,7 +191,7 @@ std::pair<StellarBody *, Array> StellarBody::deserialize(Ref<FileAccess> file) {
 	}
 
 	delete materials;
-	std::pair<StellarBody *, Array> out_pair(this, orbiting_body_ids);
+	Pair<StellarBody *, Array> out_pair = Pair(this, orbiting_body_ids);
 	return out_pair;
 }
 

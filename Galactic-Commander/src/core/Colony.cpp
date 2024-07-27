@@ -26,7 +26,7 @@ uint64_t Colony::get_population() { return population; }
 
 void Colony::add_population(uint64_t amount) { population += amount; }
 
-Dictionary Colony::get_structures() { return structures; }
+Vector<StructureID> Colony::get_structures() { return structures; }
 
 void Colony::add_structure(StructureID new_structure) {
 	// structures[new_structure] = get_structure_from_id(new_structure);

@@ -8,19 +8,19 @@ namespace GC {
 inline PackedStringArray get_files_in_dir(String directory, String file_type) {
 	// Returns array with full paths to files of a certain type in a directory
 	Ref<DirAccess> dir = DirAccess::open(directory);
-	PackedStringArray textures = dir->get_files();
+	PackedStringArray files = dir->get_files();
 
-	if (textures.size() == 0) {
-		return textures;
+	if (files.size() == 0) {
+		return files;
 	}
 
 	PackedStringArray filtered_files;
 
-	for (int i = 0; i < textures.size(); ++i) {
-		String texture = textures[i];
+	for (int i = 0; i < files.size(); ++i) {
+		String file = files[i];
 
-		if (texture.ends_with(file_type)) {
-			filtered_files.push_back(directory + "/" + texture);
+		if (file.ends_with(file_type)) {
+			filtered_files.push_back(directory + "/" + file);
 		}
 	}
 

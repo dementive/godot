@@ -24,9 +24,9 @@ uint16_t Ship::get_speed() { return speed; }
 
 void Ship::set_speed(uint16_t amount) { speed = amount; }
 
-Dictionary Ship::get_required_resources() { return Dictionary(); }
+Vector<String> Ship::get_required_resources() { return required_resources; }
 
-void Ship::set_required_resource(GC::Resource new_resource) {}
+void Ship::set_required_resource(String new_resource) { required_resources.append(new_resource); }
 
 void Ship::serialize(Ref<FileAccess> file) {}
 

@@ -2,6 +2,7 @@
 #define Colony_H
 
 #include "godot_cpp/templates/hash_map.hpp"
+#include "godot_cpp/templates/vector.hpp"
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/object.hpp>
 
@@ -19,7 +20,7 @@ private:
 	CommanderID owner;
 	StellarBodyID location;
 	uint64_t population;
-	Dictionary structures;
+	Vector<StructureID> structures;
 
 protected:
 	static void _bind_methods();
@@ -28,7 +29,7 @@ public:
 	Colony();
 	~Colony();
 
-	inline static ColonyID next_id = 0;
+	inline static std::atomic<ColonyID> next_id = 0;
 	inline static HashMap<uint64_t, Colony *> map = HashMap<uint64_t, Colony *>();
 	GameObject<Colony> game_object;
 
@@ -42,7 +43,7 @@ public:
 	uint64_t get_population();
 	void add_population(uint64_t amount);
 
-	Dictionary get_structures();
+	Vector<StructureID> get_structures();
 	void add_structure(StructureID new_structure);
 
 	void serialize(Ref<FileAccess> file);

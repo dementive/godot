@@ -2,6 +2,7 @@
 #define Structure_H
 
 #include "godot_cpp/templates/hash_map.hpp"
+#include "godot_cpp/templates/vector.hpp"
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/mesh_instance3d.hpp>
 
@@ -18,8 +19,8 @@ class Structure : public MeshInstance3D {
 private:
 	StellarBodyID location;
 
-	Array required_resources;
-	Array resource_usage;
+	Vector<String> required_resources;
+	HashMap<String, uint64_t> resource_usage;
 	uint64_t required_pops;
 	bool is_orbital_structure;
 
@@ -30,7 +31,7 @@ public:
 	Structure();
 	~Structure();
 
-	inline static StructureID next_id = 0;
+	inline static std::atomic<StructureID> next_id = 0;
 	inline static HashMap<uint64_t, Structure *> map = HashMap<uint64_t, Structure *>();
 	GameObject<Structure> game_object;
 

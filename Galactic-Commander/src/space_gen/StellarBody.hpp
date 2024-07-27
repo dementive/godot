@@ -8,6 +8,7 @@
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/input_event.hpp>
 #include <godot_cpp/classes/static_body3d.hpp>
+#include <godot_cpp/templates/pair.hpp>
 #include <godot_cpp/templates/vector.hpp>
 
 #include "Types.hpp"
@@ -50,7 +51,7 @@ public:
 	StellarBody();
 	~StellarBody();
 
-	inline static StellarBodyID next_id = 0;
+	inline static std::atomic<StellarBodyID> next_id = 0;
 	inline static HashMap<uint64_t, StellarBody *> map = HashMap<uint64_t, StellarBody *>();
 	GameObject<StellarBody> game_object;
 
@@ -79,7 +80,7 @@ public:
 	float get_orbit_size();
 
 	void serialize(Ref<FileAccess> file);
-	std::pair<StellarBody *, Array> deserialize(Ref<FileAccess> file);
+	Pair<StellarBody *, Array> deserialize(Ref<FileAccess> file);
 };
 
 } //namespace GC
