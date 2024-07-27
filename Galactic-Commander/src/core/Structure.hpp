@@ -1,6 +1,7 @@
 #ifndef Structure_H
 #define Structure_H
 
+#include "godot_cpp/templates/hash_map.hpp"
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/mesh_instance3d.hpp>
 
@@ -30,6 +31,7 @@ public:
 	~Structure();
 
 	inline static StructureID next_id = 0;
+	inline static HashMap<uint64_t, Structure *> map = HashMap<uint64_t, Structure *>();
 	GameObject<Structure> game_object;
 
 	StructureID get_location();

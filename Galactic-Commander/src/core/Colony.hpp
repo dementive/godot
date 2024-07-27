@@ -1,6 +1,7 @@
 #ifndef Colony_H
 #define Colony_H
 
+#include "godot_cpp/templates/hash_map.hpp"
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/object.hpp>
 
@@ -28,6 +29,7 @@ public:
 	~Colony();
 
 	inline static ColonyID next_id = 0;
+	inline static HashMap<uint64_t, Colony *> map = HashMap<uint64_t, Colony *>();
 	GameObject<Colony> game_object;
 
 	void create_colony(CommanderID owner, StellarBodyID location, uint64_t population = 500);

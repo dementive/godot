@@ -1,6 +1,7 @@
 #ifndef Ship_H
 #define Ship_H
 
+#include "godot_cpp/templates/hash_map.hpp"
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/mesh_instance3d.hpp>
 
@@ -30,6 +31,7 @@ public:
 	~Ship();
 
 	inline static ShipID next_id = 0;
+	inline static HashMap<uint64_t, Ship *> map = HashMap<uint64_t, Ship *>();
 	GameObject<Ship> game_object;
 
 	CommanderID get_owner();

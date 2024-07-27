@@ -2,6 +2,7 @@
 #define StellarBody_H
 
 #include "godot_cpp/classes/control.hpp"
+#include "godot_cpp/templates/hash_map.hpp"
 #include "godot_cpp/variant/vector3.hpp"
 #include <godot_cpp/classes/camera3d.hpp>
 #include <godot_cpp/classes/file_access.hpp>
@@ -50,6 +51,7 @@ public:
 	~StellarBody();
 
 	inline static StellarBodyID next_id = 0;
+	inline static HashMap<uint64_t, StellarBody *> map = HashMap<uint64_t, StellarBody *>();
 	GameObject<StellarBody> game_object;
 
 	void _input_event(Camera3D *camera, const Ref<InputEvent> &event, const Vector3 &position, const Vector3 &normal,

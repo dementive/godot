@@ -1,6 +1,7 @@
 #ifndef Commander_H
 #define Commander_H
 
+#include "godot_cpp/templates/hash_map.hpp"
 #include <godot_cpp/classes/character_body3d.hpp>
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/variant/dictionary.hpp>
@@ -42,6 +43,7 @@ public:
 	~Commander();
 
 	inline static CommanderID next_id = 0;
+	inline static HashMap<uint64_t, Commander *> map = HashMap<uint64_t, Commander *>();
 	GameObject<Commander> game_object;
 
 	ShipID get_active_ship();
