@@ -33,9 +33,9 @@ StellarBody *StellarBody::create_body(uint64_t system_id, StellarBodyType stella
 	material_type = materials.type;
 
 	if (new_id == -1) {
-		game_object.set_id();
+		game_object.set_id(this);
 	} else {
-		game_object.set_new_id(new_id);
+		game_object.set_new_id(new_id, this);
 	}
 	set_solar_system_id(system_id);
 	set_name(body_name);

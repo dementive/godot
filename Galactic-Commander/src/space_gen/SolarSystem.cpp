@@ -12,7 +12,7 @@ SolarSystem::~SolarSystem() {}
 void SolarSystem::_bind_methods() {}
 
 void SolarSystem::generate_solar_system() {
-	game_object.set_id();
+	game_object.set_id(this);
 	Vector3 small_scale = Vector3(1500.0, 1500.0, 1500.0);
 	Vector3 mid_scale = Vector3(2000.0, 2000.0, 2000.0);
 	Vector3 big_scale = Vector3(3500.0, 3500.0, 3500.0);
@@ -100,7 +100,7 @@ void SolarSystem::serialize(Ref<FileAccess> file) {
 
 void SolarSystem::deserialize(Ref<FileAccess> file) {
 	uint64_t system_id = file->get_64();
-	game_object.set_new_id(system_id);
+	game_object.set_new_id(system_id, this);
 
 	uint16_t bodies_in_solar_system = file->get_16();
 

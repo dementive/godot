@@ -13,7 +13,7 @@ void Colony::create_colony(CommanderID colony_owner, StellarBodyID colony_locati
 	location = colony_location;
 	population = colony_population;
 
-	game_object.set_id();
+	game_object.set_id(this);
 }
 
 CommanderID Colony::get_owner() { return owner; }
