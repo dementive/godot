@@ -37,7 +37,7 @@ StellarBody *StellarBody::create_body(uint64_t system_id, StellarBodyType stella
 	} else {
 		game_object.set_new_id(new_id, this);
 	}
-	set_solar_system_id(system_id);
+	set_location(system_id);
 	set_name(body_name);
 
 	if (body_type == STAR) {
@@ -99,18 +99,12 @@ void StellarBody::_input_event(
 		InputEventMouseButton *input_event_mouse_button = static_cast<InputEventMouseButton *>(*event);
 		if (input_event_mouse_button->is_pressed() && input_event_mouse_button->get_button_index() == MOUSE_BUTTON_LEFT) {
 			Control *panel = get_planet_info_panel();
-			if (panel) {
+			if (panel != nullptr) {
 				panel->set_visible(true);
-				panel->get_node<Label>("PlanetNameLabel")->set_text(get_name());
+				Label* label = panel->get_node<Label>("PlanetNameLabel");
+				if (label != nullptr) label->set_text(get_name());
 			}
 		}
-	}
-}
-
-void StellarBody::_mouse_exit() {
-	Control *panel = get_planet_info_panel();
-	if (panel) {
-		panel->set_visible(false);
 	}
 }
 
@@ -203,8 +197,8 @@ Control *StellarBody::get_planet_info_panel() {
 
 Vector3 StellarBody::get_scale() { return scale; }
 
-void StellarBody::set_solar_system_id(SolarSystemID new_id) { location = new_id; }
-SolarSystemID StellarBody::get_solar_system_id() { return location; }
+void StellarBody::set_location(SolarSystemID new_id) { location = new_id; }
+SolarSystemID StellarBody::get_location() { return location; }
 
 void StellarBody::set_orbiting_bodies(Dictionary new_orbiting_bodies) { orbiting_bodies = new_orbiting_bodies; }
 Dictionary StellarBody::get_orbiting_bodies() { return orbiting_bodies; }

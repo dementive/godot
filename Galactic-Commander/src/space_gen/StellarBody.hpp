@@ -57,7 +57,6 @@ public:
 
 	void _input_event(Camera3D *camera, const Ref<InputEvent> &event, const Vector3 &position, const Vector3 &normal,
 			int32_t shape_idx) override;
-	void _mouse_exit() override;
 
 	StellarBody *create_body(uint64_t system_id, StellarBodyType body_type, float distance_from_orbit_origin,
 			StellarBodyMaterial materials, Vector3 body_scale, String body_name, bool atmosphere = true,
@@ -67,8 +66,8 @@ public:
 	void add_body(StellarBody *body);
 	void create_orbit(float orbit_size);
 
-	void set_solar_system_id(SolarSystemID new_id);
-	SolarSystemID get_solar_system_id();
+	void set_location(SolarSystemID new_id);
+	SolarSystemID get_location();
 
 	Control *get_planet_info_panel();
 	Vector3 get_scale();

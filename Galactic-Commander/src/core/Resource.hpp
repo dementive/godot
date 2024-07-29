@@ -10,6 +10,8 @@ namespace GC {
 
 enum ResourceType { RESEARCH, MINERAL, ENERGY, GOODS };
 
+
+// Remove and make 4 abstractions.
 struct Resource {
 	String name;
 	float value;
