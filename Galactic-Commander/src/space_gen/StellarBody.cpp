@@ -24,8 +24,7 @@ StellarBody::~StellarBody() {}
 void StellarBody::_bind_methods() {}
 
 StellarBody *StellarBody::create_body(uint64_t system_id, StellarBodyType stellar_body_type, float distance_from_orbit_origin,
-		StellarBodyMaterial materials, Vector3 body_scale, String body_name, bool atmosphere, StellarBodyID new_id,
-		Vector3 load_position) {
+		StellarBodyMaterial materials, Vector3 body_scale, String body_name, bool atmosphere, StellarBodyID new_id, Vector3 load_position) {
 	// This code should be in the constructor but this isn't possible currently
 	// https://github.com/godotengine/godot-cpp/issues/953
 
@@ -55,8 +54,8 @@ StellarBody *StellarBody::create_body(uint64_t system_id, StellarBodyType stella
 	return this;
 }
 
-void StellarBody::generate_body(float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale,
-		bool body_has_atmosphere, Vector3 load_position) {
+void StellarBody::generate_body(
+		float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 body_scale, bool body_has_atmosphere, Vector3 load_position) {
 	if (distance_from_orbit_origin > 0 and load_position == VECTOR_FORWARD) {
 		Vector3 position = get_position();
 		position.x = distance_from_orbit_origin;
@@ -96,26 +95,21 @@ void StellarBody::generate_body(float distance_from_orbit_origin, StellarBodyMat
 	add_child(&mesh_instance);
 }
 
-void StellarBody::_input_event(
-		Camera3D *camera, const Ref<InputEvent> &event, const Vector3 &position, const Vector3 &normal, int32_t shape_idx) {
+void StellarBody::_input_event(Camera3D *camera, const Ref<InputEvent> &event, const Vector3 &position, const Vector3 &normal, int32_t shape_idx) {
 	if (event->is_class("InputEventMouseButton")) {
 		InputEventMouseButton *input_event_mouse_button = static_cast<InputEventMouseButton *>(*event);
 		if (input_event_mouse_button->is_pressed() && input_event_mouse_button->get_button_index() == MOUSE_BUTTON_LEFT) {
-			StellarBodyView *view = memnew(StellarBodyView());
-			add_child(view);
+			Ref<PackedScene> ref = ResourceLoader::get_singleton()->load("res://scenes/gui/stellar_body_view.tscn");
 
-			// Ref<PackedScene> ref = ResourceLoader::get_singleton()->load("res://scenes/gui/stellar_body_view.tscn");
-			// if (ref->can_instantiate())
-			// {
-			//     add_child(ref->instantiate());
-			// }
+			if (ref->can_instantiate()) {
+				Node *node = ref->instantiate();
 
-			// StellarBodyView *view = get_stellar_body_view();
-			// if (view != nullptr) {
-			// 	view->set_visible(true);
-			// 	Label* label = view->get_title_label();
-			// 	if (label != nullptr) label->set_text(get_name());
-			// }
+				StellarBodyView *view = Object::cast_to<StellarBodyView>(node);
+				if (view != nullptr) {
+					view->set_data(get_name(), orbit_size);
+					add_child(node);
+				}
+			}
 		}
 	}
 }
@@ -178,21 +172,20 @@ Pair<StellarBody *, Array> StellarBody::deserialize(Ref<FileAccess> file) {
 	Dictionary loaded_body_params = file->get_var();
 	if (loaded_material_type == M_NO_ATMOSPHERE) {
 		StellarBodyMaterial mats = materials->get_material_from_dict_no_atmosphere(loaded_body_params);
-		create_body(system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere,
-				body_id, loaded_position);
+		create_body(system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
 	} else {
 		Dictionary loaded_atmosphere_params = file->get_var();
 
 		if (loaded_material_type == M_ICE or loaded_material_type == M_TERRESTRIAL) {
 			Dictionary loaded_cloud_params = file->get_var();
-			StellarBodyMaterial mats = materials->get_material_with_clouds_from_dict(
-					loaded_body_params, loaded_atmosphere_params, loaded_cloud_params);
-			create_body(system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere,
-					body_id, loaded_position);
+			StellarBodyMaterial mats =
+					materials->get_material_with_clouds_from_dict(loaded_body_params, loaded_atmosphere_params, loaded_cloud_params);
+			create_body(
+					system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
 		} else {
 			StellarBodyMaterial mats = materials->get_material_from_dict(loaded_body_params, loaded_atmosphere_params);
-			create_body(system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere,
-					body_id, loaded_position);
+			create_body(
+					system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
 		}
 	}
 

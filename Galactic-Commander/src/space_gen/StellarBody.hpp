@@ -56,14 +56,12 @@ public:
 	inline static HashMap<uint64_t, StellarBody *> map = HashMap<uint64_t, StellarBody *>();
 	GameObject<StellarBody> game_object;
 
-	void _input_event(Camera3D *camera, const Ref<InputEvent> &event, const Vector3 &position, const Vector3 &normal,
-			int32_t shape_idx) override;
+	void _input_event(Camera3D *camera, const Ref<InputEvent> &event, const Vector3 &position, const Vector3 &normal, int32_t shape_idx) override;
 
-	StellarBody *create_body(uint64_t system_id, StellarBodyType body_type, float distance_from_orbit_origin,
-			StellarBodyMaterial materials, Vector3 body_scale, String body_name, bool atmosphere = true,
-			StellarBodyID new_id = -1, Vector3 load_position = VECTOR_FORWARD);
-	void generate_body(float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 planet_scale,
-			bool has_atmosphere, Vector3 load_position);
+	StellarBody *create_body(uint64_t system_id, StellarBodyType body_type, float distance_from_orbit_origin, StellarBodyMaterial materials,
+			Vector3 body_scale, String body_name, bool atmosphere = true, StellarBodyID new_id = -1, Vector3 load_position = VECTOR_FORWARD);
+	void generate_body(
+			float distance_from_orbit_origin, StellarBodyMaterial materials, Vector3 planet_scale, bool has_atmosphere, Vector3 load_position);
 	void add_body(StellarBody *body);
 	void create_orbit(float orbit_size);
 

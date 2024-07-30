@@ -62,7 +62,7 @@ AllowAllParametersOfDeclarationOnNextLine: false
 # BreakConstructorInitializersBeforeComma: false
 BreakConstructorInitializers: AfterColon
 # BreakStringLiterals: true
-ColumnLimit:     128
+ColumnLimit:     150
 # CommentPragmas:  '^ IWYU pragma:'
 # QualifierAlignment: Leave
 # CompactNamespaces: false

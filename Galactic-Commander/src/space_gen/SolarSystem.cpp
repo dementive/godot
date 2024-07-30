@@ -25,22 +25,19 @@ void SolarSystem::generate_solar_system() {
 
 	StellarBody *star = memnew(StellarBody());
 
-	star->create_body(game_object.get_id(), StellarBodyType(STAR), body_position, materials->get_star_material(star_size),
-			star_scale, "Sun");
+	star->create_body(game_object.get_id(), StellarBodyType(STAR), body_position, materials->get_star_material(star_size), star_scale, "Sun");
 	add_child(star);
 
 	body_position += star_scale.x * 2.5;
 
 	StellarBody *lavatus = memnew(StellarBody());
-	lavatus->create_body(game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_lava_material(),
-			small_scale, "Lavatus");
+	lavatus->create_body(game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_lava_material(), small_scale, "Lavatus");
 	star->add_body(lavatus);
 
 	body_position += small_scale.x * 10;
 
 	StellarBody *sandicus = memnew(StellarBody());
-	sandicus->create_body(game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_sand_material(),
-			small_scale, "Sandicus");
+	sandicus->create_body(game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_sand_material(), small_scale, "Sandicus");
 	star->add_body(sandicus);
 
 	body_position += small_scale.x * 12;
@@ -48,10 +45,8 @@ void SolarSystem::generate_solar_system() {
 	StellarBody *earth = memnew(StellarBody());
 	StellarBody *moon = memnew(StellarBody());
 
-	earth->create_body(game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_terrestrial_material(),
-			mid_scale, "Urth");
-	moon->create_body(game_object.get_id(), StellarBodyType(PLANET), 250.0, materials->get_no_atmosphere_material(),
-			small_scale, "Woon", false);
+	earth->create_body(game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_terrestrial_material(), mid_scale, "Urth");
+	moon->create_body(game_object.get_id(), StellarBodyType(PLANET), 250.0, materials->get_no_atmosphere_material(), small_scale, "Woon", false);
 
 	earth->add_body(moon);
 	earth->create_orbit(300.0);
@@ -60,15 +55,13 @@ void SolarSystem::generate_solar_system() {
 	body_position += mid_scale.x * 15;
 
 	StellarBody *yupiter = memnew(StellarBody());
-	yupiter->create_body(
-			game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_gas_material(), big_scale, "Yupiter");
+	yupiter->create_body(game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_gas_material(), big_scale, "Yupiter");
 	star->add_body(yupiter);
 
 	body_position += big_scale.x * 10;
 
 	StellarBody *veptune = memnew(StellarBody());
-	veptune->create_body(
-			game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_ice_material(), mid_scale, "Veptune");
+	veptune->create_body(game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_ice_material(), mid_scale, "Veptune");
 	star->add_body(veptune);
 
 	stellar_bodies.push_back(star);

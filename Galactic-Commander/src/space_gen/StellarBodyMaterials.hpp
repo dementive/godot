@@ -78,8 +78,7 @@ public:
 			mats.body_params["noise_gaseous"] = mats.body.get_shader_parameter("noise_gaseous");
 			mats.body_params["noise_gaseous_speed"] = mats.body.get_shader_parameter("noise_gaseous_speed");
 			mats.body_params["noise_scale"] = mats.body.get_shader_parameter("noise_scale");
-			mats.body_params["noise"] =
-					noise_texture; // Noise is stored as String because Resource isn't serializable with store_var.
+			mats.body_params["noise"] = noise_texture; // Noise is stored as String because Resource isn't serializable with store_var.
 		} else {
 			mats.body_params["body_texture"] = body_texture;
 			mats.body_params["use_color_mod"] = mats.body.get_shader_parameter("use_color_mod");
@@ -94,8 +93,7 @@ public:
 		mats.atmosphere_params["emit"] = mats.atmosphere.get_shader_parameter("emit");
 	}
 
-	StellarBodyMaterial get_material_with_clouds_from_dict(
-			Dictionary body_params, Dictionary atmosphere_params, Dictionary cloud_params) {
+	StellarBodyMaterial get_material_with_clouds_from_dict(Dictionary body_params, Dictionary atmosphere_params, Dictionary cloud_params) {
 		StellarBodyMaterial mats;
 		set_body_and_atmosphere_parms(mats, body_params, atmosphere_params);
 

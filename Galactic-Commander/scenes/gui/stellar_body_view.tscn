@@ -8,17 +8,8 @@
 font_size = 25
 
 [node name="StellarBodyView" type="StellarBodyView"]
-close_button = NodePath("PanelContainer/Vbox/HBoxContainer/CloseButton")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_edit_vertical_guides_ = [-277.0]
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
-clip_contents = true
-layout_mode = 1
+close_button = NodePath("Vbox/HBoxContainer/CloseButton")
+title_label = NodePath("Vbox/HBoxContainer/StellarBodyNameLabel")
 anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = 22.0
@@ -26,69 +17,69 @@ offset_top = 71.0
 offset_right = 402.0
 offset_bottom = -68.0
 grow_vertical = 2
-theme = ExtResource("1_fqvmf")
+metadata/_edit_vertical_guides_ = [-277.0]
 
-[node name="Vbox" type="VBoxContainer" parent="PanelContainer"]
+[node name="Vbox" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Vbox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Vbox"]
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="PanelContainer/Vbox/HBoxContainer"]
+[node name="Spacer" type="Control" parent="Vbox/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
 
-[node name="PlanetNameLabel" type="Label" parent="PanelContainer/Vbox/HBoxContainer"]
+[node name="StellarBodyNameLabel" type="Label" parent="Vbox/HBoxContainer"]
 layout_mode = 2
 text = "Planet Name"
 label_settings = SubResource("LabelSettings_mhf2a")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer2" type="Control" parent="PanelContainer/Vbox/HBoxContainer"]
+[node name="Spacer2" type="Control" parent="Vbox/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CloseButton" type="Button" parent="PanelContainer/Vbox/HBoxContainer"]
+[node name="CloseButton" type="Button" parent="Vbox/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.0
 theme = ExtResource("1_fqvmf")
 icon = ExtResource("2_2y4v7")
 
-[node name="Spacer3" type="Control" parent="PanelContainer/Vbox/HBoxContainer"]
+[node name="Spacer3" type="Control" parent="Vbox/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/Vbox"]
+[node name="HSeparator" type="HSeparator" parent="Vbox"]
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/Vbox"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Vbox"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/Vbox/HBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="Vbox/HBoxContainer2"]
 custom_minimum_size = Vector2(0, 179.08)
 layout_mode = 2
 size_flags_horizontal = 6
 texture = ExtResource("3_5qkug")
 expand_mode = 3
 
-[node name="HSeparator2" type="HSeparator" parent="PanelContainer/Vbox"]
+[node name="HSeparator2" type="HSeparator" parent="Vbox"]
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/Vbox"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="Vbox"]
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="PanelContainer/Vbox/HBoxContainer3"]
+[node name="Spacer" type="Control" parent="Vbox/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
 
-[node name="DistanceLabel" type="RichTextLabel" parent="PanelContainer/Vbox/HBoxContainer3"]
+[node name="DistanceLabel" type="RichTextLabel" parent="Vbox/HBoxContainer3"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -97,7 +88,7 @@ text = "Orbit Distance: "
 fit_content = true
 autowrap_mode = 0
 
-[node name="Label" type="Label" parent="PanelContainer/Vbox/HBoxContainer3"]
+[node name="Label" type="Label" parent="Vbox/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "0.0"
