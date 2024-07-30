@@ -3,7 +3,9 @@
 
 #include <godot_cpp/classes/control.hpp>
 
-namespace godot {
+using namespace godot;
+
+namespace GC {
 
 class MainMenu : public Control {
 	GDCLASS(MainMenu, Control);
@@ -18,6 +20,6 @@ public:
 	void on_new_game_pressed();
 };
 
-} //namespace godot
+} //namespace GC
 
 #endif

@@ -14,6 +14,7 @@
 #include "Types.hpp"
 #include <GameObject.hpp>
 #include <StellarBodyMaterials.hpp>
+#include <gui/StellarBodyView.hpp>
 
 #define VECTOR_FORWARD Vector3(0, 1, 0) // Used to compare to so we can check if the new position != this
 
@@ -69,7 +70,8 @@ public:
 	void set_location(SolarSystemID new_id);
 	SolarSystemID get_location();
 
-	Control *get_planet_info_panel();
+	StellarBodyView *get_stellar_body_view();
+
 	Vector3 get_scale();
 
 	void set_orbiting_bodies(Dictionary new_orbiting_bodies);

@@ -10,6 +10,7 @@
 #include "MainMenu.hpp"
 
 using namespace godot;
+using namespace GC;
 
 void MainMenu::_bind_methods() { ClassDB::bind_method(D_METHOD("on_new_game_pressed"), &MainMenu::on_new_game_pressed); }
 

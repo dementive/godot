@@ -17,3 +17,6 @@ SolarSystem = "res://gfx/editor_icons/Node3D.svg"
 StellarBody = "res://gfx/editor_icons/StaticBody3D.svg"
 Orbit = "res://gfx/editor_icons/Node3D.svg"
 Commander = "res://gfx/editor_icons/CharacterBody3D.svg"
+
+MainMenu = "res://gfx/editor_icons/Control.svg"
+StellarBodyView = "res://gfx/editor_icons/Control.svg"

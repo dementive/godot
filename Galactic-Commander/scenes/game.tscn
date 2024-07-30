@@ -1,13 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://c4icstrmcyb2a"]
+[gd_scene load_steps=9 format=3 uid="uid://c4icstrmcyb2a"]
 
 [ext_resource type="Texture2D" uid="uid://dn582xgylihnu" path="res://gfx/space_spheremaps/hazy_nebulae_1.png" id="1_c07ln"]
 [ext_resource type="PackedScene" uid="uid://df2twgr1xbl8g" path="res://scenes/player.tscn" id="3_r6thw"]
-[ext_resource type="Theme" uid="uid://bvugnf1c207yk" path="res://gfx/interface/themes/UI_test.theme" id="4_nota4"]
 [ext_resource type="Texture2D" uid="uid://bwjriu6u82xwo" path="res://gfx/interface/hud/crosshair.png" id="4_t1cyf"]
 [ext_resource type="Script" path="res://scripts/pause_panel.gd" id="5_557t5"]
-[ext_resource type="Script" path="res://scripts/PlanetInfoPanel.gd" id="5_fv1jr"]
-[ext_resource type="Texture2D" uid="uid://bsiuknyuktib6" path="res://gfx/interface/core/close.png" id="5_m41hi"]
-[ext_resource type="Texture2D" uid="uid://btcvlriwspobb" path="res://gfx/interface/stellar_body_illustrations/Cloudy Mountains.png" id="5_purci"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_te84f"]
 panorama = ExtResource("1_c07ln")
@@ -22,9 +18,6 @@ glow_enabled = true
 glow_normalized = true
 glow_bloom = 0.2
 glow_blend_mode = 0
-
-[sub_resource type="LabelSettings" id="LabelSettings_hkxnw"]
-font_size = 25
 
 [sub_resource type="LabelSettings" id="LabelSettings_gysny"]
 font_size = 30
@@ -69,69 +62,6 @@ layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("4_t1cyf")
 stretch_mode = 4
-
-[node name="PlanetInfoPanel" type="Panel" parent="HUD" groups=["ui_panels"]]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 75.0
-offset_right = 392.0
-offset_bottom = 575.0
-theme = ExtResource("4_nota4")
-script = ExtResource("5_fv1jr")
-
-[node name="CloseButton" type="Button" parent="HUD/PlanetInfoPanel"]
-layout_mode = 0
-offset_left = 355.0
-offset_top = 1.0
-offset_right = 381.0
-offset_bottom = 27.0
-theme = ExtResource("4_nota4")
-icon = ExtResource("5_m41hi")
-
-[node name="PlanetNameLabel" type="Label" parent="HUD/PlanetInfoPanel"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -100.0
-offset_right = 100.0
-offset_bottom = 43.0
-grow_horizontal = 2
-text = "Planet Name"
-label_settings = SubResource("LabelSettings_hkxnw")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="HUD/PlanetInfoPanel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -179.5
-offset_top = -206.0
-offset_right = 179.5
-offset_bottom = -4.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_purci")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD/PlanetInfoPanel/TextureRect"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="DistanceLabel" type="RichTextLabel" parent="HUD/PlanetInfoPanel"]
-layout_mode = 0
-offset_left = 13.0
-offset_top = 272.0
-offset_right = 200.0
-offset_bottom = 295.0
-text = "Orbit Distance: "
-fit_content = true
 
 [node name="CameraButton" type="Button" parent="HUD"]
 layout_mode = 1
@@ -262,7 +192,6 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "Load"
 
-[connection signal="pressed" from="HUD/PlanetInfoPanel/CloseButton" to="HUD/PlanetInfoPanel" method="_on_close_button_pressed"]
 [connection signal="pressed" from="HUD/CameraButton" to="Player" method="_on_camera_button_pressed"]
 [connection signal="gui_input" from="HUD/PausePanel" to="HUD/PausePanel" method="_on_gui_input"]
 [connection signal="pressed" from="HUD/PausePanel/ButtonsVbox/ResumeButton" to="HUD/PausePanel" method="_on_resume_button_pressed"]
