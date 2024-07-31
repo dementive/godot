@@ -8,10 +8,10 @@
 font_size = 25
 
 [node name="StellarBodyView" type="StellarBodyView"]
-close_button = NodePath("Vbox/HeaderHbox/CloseButton")
-title_label = NodePath("Vbox/HeaderHbox/StellarBodyNameLabel")
-orbit_distance_label = NodePath("Vbox/DistanceHbox/DistanceValueLabel")
-size_label = NodePath("Vbox/SizeHbox/SizeValueLabel")
+button_close = NodePath("Vbox/HeaderHbox/CloseButton")
+label_title = NodePath("Vbox/HeaderHbox/StellarBodyNameLabel")
+label_orbit_distance = NodePath("Vbox/DistanceHbox/DistanceValueLabel")
+label_size = NodePath("Vbox/SizeHbox/SizeValueLabel")
 anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = 22.0

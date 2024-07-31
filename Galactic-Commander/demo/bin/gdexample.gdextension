@@ -20,4 +20,5 @@ Commander = "res://gfx/editor_icons/CharacterBody3D.svg"
 
 MainMenu = "res://gfx/editor_icons/Control.svg"
 LoadingScreen = "res://gfx/editor_icons/Control.svg"
+PauseMenu = "res://gfx/editor_icons/PanelContainer.svg"
 StellarBodyView = "res://gfx/editor_icons/PanelContainer.svg"

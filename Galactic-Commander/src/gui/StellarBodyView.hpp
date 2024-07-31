@@ -1,7 +1,6 @@
 #ifndef StellarBodyView_H
 #define StellarBodyView_H
 
-#include "godot_cpp/variant/node_path.hpp"
 #include <godot_cpp/classes/panel_container.hpp>
 
 #include "GuiMacros.hpp"
@@ -20,10 +19,10 @@ public:
 	StellarBodyView();
 	~StellarBodyView();
 
-	GUI_NODE(close_button)
-	GUI_NODE(title_label)
-	GUI_NODE(orbit_distance_label)
-	GUI_NODE(size_label)
+	GUI_NODE(button_close)
+	GUI_NODE(label_title)
+	GUI_NODE(label_orbit_distance)
+	GUI_NODE(label_size)
 
 	void _ready() override;
 

@@ -23,7 +23,7 @@ public:
 	LoadingScreen();
 	~LoadingScreen();
 
-	GUI_NODE(progress_label)
+	GUI_NODE(label_progress)
 
 	void _ready() override;
 	void _process(const double p_delta) override;

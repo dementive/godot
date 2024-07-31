@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://cu25cg4a6uom4"]
 
-[ext_resource type="Texture2D" uid="uid://c7sucpxigpbh8" path="res://gfx/interface/loadingscreens/logo.png" id="2_fs6w6"]
+[ext_resource type="Texture2D" uid="uid://c7sucpxigpbh8" path="res://gfx/interface/loadingscreens/logo.png" id="1_8na72"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_n0dn5"]
 font_size = 50
 
 [node name="LoadingScreen" type="LoadingScreen"]
-progress_label = NodePath("ProgressLabel")
+label_progress = NodePath("ProgressLabel")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -24,7 +24,7 @@ offset_right = 30.0
 offset_bottom = 38.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_fs6w6")
+texture = ExtResource("1_8na72")
 expand_mode = 3
 
 [node name="ProgressLabel" type="Label" parent="."]

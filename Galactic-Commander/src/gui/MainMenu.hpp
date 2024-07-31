@@ -19,8 +19,8 @@ public:
 	MainMenu();
 	~MainMenu();
 
-	GUI_NODE(new_game_button)
-	GUI_NODE(quit_button)
+	GUI_NODE(button_new_game)
+	GUI_NODE(button_quit)
 
 	void _ready() override;
 
