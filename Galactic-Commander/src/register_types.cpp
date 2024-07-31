@@ -12,6 +12,7 @@
 #include "core/Ship.hpp"
 #include "core/Structure.hpp"
 #include "gui/MainMenu.hpp"
+#include "gui/LoadingScreen.hpp"
 #include "gui/StellarBodyView.hpp"
 #include "register_types.hpp"
 
@@ -29,6 +30,7 @@ void initialize_galactic_commander_module(ModuleInitializationLevel p_level) {
 	ClassDB::register_class<Galaxy>();
 
 	ClassDB::register_class<MainMenu>();
+	ClassDB::register_class<LoadingScreen>();
 	ClassDB::register_class<StellarBodyView>();
 
 	ClassDB::register_class<SaveManager>();
