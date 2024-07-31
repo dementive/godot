@@ -30,8 +30,6 @@ public:
 	GUI_NODE(button_quit)
 	GUI_NODE(button_load)
 
-	GUI_NODE(label_title)
-
 	void _ready() override;
 	void _unhandled_input(const Ref<InputEvent> &event) override;
 
@@ -39,10 +37,6 @@ public:
 	void _on_main_menu_button_pressed();
 	void _on_quit_game_button_pressed();
 	void _on_load_button_pressed();
-
-	void _on_line_edit_text_submitted();
-	void _on_save_game_button_pressed();
-	void _on_load_game_button_pressed();
 };
 
 } //namespace GC

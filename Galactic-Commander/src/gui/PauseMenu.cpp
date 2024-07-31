@@ -1,10 +1,12 @@
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/input_event_key.hpp>
+#include <godot_cpp/classes/resource_loader.hpp>
 
 #include "PauseMenu.hpp"
 #include "godot_cpp/classes/base_button.hpp"
-#include "godot_cpp/classes/label.hpp"
+#include "godot_cpp/classes/packed_scene.hpp"
 #include "godot_cpp/classes/scene_tree.hpp"
+#include "gui/SaveMenu.hpp"
 #include <godot_cpp/classes/v_box_container.hpp>
 
 using namespace godot;
@@ -22,9 +24,6 @@ void PauseMenu::_bind_methods() {
 	BIND_NODE_PATH_PROPERTY(button_main_menu, PauseMenu, BaseButton)
 	BIND_NODE_PATH_PROPERTY(button_quit, PauseMenu, BaseButton)
 	BIND_NODE_PATH_PROPERTY(button_load, PauseMenu, BaseButton)
-
-	ADD_GROUP("Labels", "label_");
-	BIND_NODE_PATH_PROPERTY(label_title, PauseMenu, Label)
 }
 
 PauseMenu::PauseMenu() {}
@@ -64,9 +63,10 @@ void PauseMenu::_unhandled_input(const Ref<InputEvent> &event) {
 	if (key_event and key_event->is_pressed() and key_event->get_keycode() == KEY_ESCAPE) {
 		if (is_visible()) {
 			resume();
+		} else {
+			set_visible(!is_visible());
+			get_tree()->set_pause(!get_tree()->is_paused());
 		}
-		set_visible(!is_visible());
-		get_tree()->set_pause(!get_tree()->is_paused());
 	}
 }
 
@@ -78,11 +78,18 @@ void PauseMenu::_on_main_menu_button_pressed() {
 }
 
 void PauseMenu::_on_quit_game_button_pressed() { get_tree()->quit(); }
-void PauseMenu::_on_load_button_pressed() {
-	Label *label_node = get_node<Label>(label_title);
-	label_node->set_text("Save/Load");
-}
 
-void PauseMenu::_on_line_edit_text_submitted() {}
-void PauseMenu::_on_save_game_button_pressed() {}
-void PauseMenu::_on_load_game_button_pressed() {}
+void PauseMenu::_on_load_button_pressed() {
+	Ref<PackedScene> ref = ResourceLoader::get_singleton()->load("res://scenes/gui/save_menu.tscn");
+
+	if (ref->can_instantiate()) {
+		Node *node = ref->instantiate();
+
+		SaveMenu *view = Object::cast_to<SaveMenu>(node);
+		if (view != nullptr) {
+			get_parent()->add_child(node);
+			//queue_free();
+			set_visible(false);
+		}
+	}
+}

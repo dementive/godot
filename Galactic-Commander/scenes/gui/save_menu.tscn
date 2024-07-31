@@ -1,0 +1,72 @@
+[gd_scene load_steps=2 format=3 uid="uid://qhxfoowhiul2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_gs5aa"]
+font_size = 30
+
+[node name="SaveMenu" type="SaveMenu"]
+button_save = NodePath("Vbox/BottomVbox/ButtonsHbox/SaveGameButton")
+button_load = NodePath("Vbox/BottomVbox/ButtonsHbox/LoadGameButton")
+edit_name = NodePath("Vbox/BottomVbox/EditHbox/LineEdit")
+process_mode = 3
+clip_contents = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.0
+offset_top = -127.0
+offset_right = 130.0
+offset_bottom = 127.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Vbox" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 115
+
+[node name="PausedLabel" type="Label" parent="Vbox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Save/Load"
+label_settings = SubResource("LabelSettings_gs5aa")
+
+[node name="BottomVbox" type="VBoxContainer" parent="Vbox"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="ButtonsHbox" type="HBoxContainer" parent="Vbox/BottomVbox"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Spacer" type="Control" parent="Vbox/BottomVbox/ButtonsHbox"]
+layout_mode = 2
+
+[node name="SaveGameButton" type="Button" parent="Vbox/BottomVbox/ButtonsHbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save"
+
+[node name="LoadGameButton" type="Button" parent="Vbox/BottomVbox/ButtonsHbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Load"
+
+[node name="Spacer2" type="Control" parent="Vbox/BottomVbox/ButtonsHbox"]
+layout_mode = 2
+
+[node name="EditHbox" type="HBoxContainer" parent="Vbox/BottomVbox"]
+layout_mode = 2
+theme_override_constants/separation = 19
+
+[node name="Spacer" type="Control" parent="Vbox/BottomVbox/EditHbox"]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="Vbox/BottomVbox/EditHbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "save name..."
+
+[node name="Spacer2" type="Control" parent="Vbox/BottomVbox/EditHbox"]
+layout_mode = 2

@@ -14,6 +14,7 @@
 #include "gui/LoadingScreen.hpp"
 #include "gui/MainMenu.hpp"
 #include "gui/PauseMenu.hpp"
+#include "gui/SaveMenu.hpp"
 #include "gui/StellarBodyView.hpp"
 #include "register_types.hpp"
 
@@ -33,6 +34,7 @@ void initialize_galactic_commander_module(ModuleInitializationLevel p_level) {
 	ClassDB::register_class<MainMenu>();
 	ClassDB::register_class<LoadingScreen>();
 	ClassDB::register_class<PauseMenu>();
+	ClassDB::register_class<SaveMenu>();
 	ClassDB::register_class<StellarBodyView>();
 
 	ClassDB::register_class<SaveManager>();
