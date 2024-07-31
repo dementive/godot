@@ -3,6 +3,8 @@
 
 #include <godot_cpp/classes/control.hpp>
 
+#include "GuiMacros.hpp"
+
 using namespace godot;
 
 namespace GC {
@@ -17,7 +19,13 @@ public:
 	MainMenu();
 	~MainMenu();
 
+	GUI_NODE(new_game_button)
+	GUI_NODE(quit_button)
+
+	void _ready() override;
+
 	void on_new_game_pressed();
+	void on_quit_pressed();
 };
 
 } //namespace GC

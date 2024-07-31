@@ -20,10 +20,10 @@ public:
 	StellarBodyView();
 	~StellarBodyView();
 
-	UI_NODE(close_button)
-	UI_NODE(title_label)
-	UI_NODE(orbit_distance_label)
-	UI_NODE(size_label)
+	GUI_NODE(close_button)
+	GUI_NODE(title_label)
+	GUI_NODE(orbit_distance_label)
+	GUI_NODE(size_label)
 
 	void _ready() override;
 

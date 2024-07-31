@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cu25cg4a6uom4"]
+[gd_scene load_steps=4 format=3 uid="uid://cu25cg4a6uom4"]
 
 [ext_resource type="Script" path="res://scripts/loading_screen.gd" id="1_moowv"]
+[ext_resource type="Texture2D" uid="uid://c7sucpxigpbh8" path="res://gfx/interface/loadingscreens/logo.png" id="2_fs6w6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_n0dn5"]
 font_size = 50
@@ -22,12 +23,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -18.0
+offset_top = -7.0
+offset_right = 30.0
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_fs6w6")
+expand_mode = 3
+
 [node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 510.0
-offset_top = 289.0
-offset_right = 613.0
-offset_bottom = 358.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -68.0
+offset_top = -60.0
+offset_right = 35.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
 text = " 0%"
 label_settings = SubResource("LabelSettings_n0dn5")

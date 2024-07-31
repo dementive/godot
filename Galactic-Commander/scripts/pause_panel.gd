@@ -18,7 +18,7 @@ func _on_main_menu_button_pressed():
 	visible = false
 	get_child(1).set_visible(true)
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/gui/main_menu.tscn")
 
 func _on_quit_game_button_pressed():
 	get_tree().quit()
