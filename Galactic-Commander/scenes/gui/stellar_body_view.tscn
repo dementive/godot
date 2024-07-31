@@ -8,8 +8,10 @@
 font_size = 25
 
 [node name="StellarBodyView" type="StellarBodyView"]
-close_button = NodePath("Vbox/HBoxContainer/CloseButton")
-title_label = NodePath("Vbox/HBoxContainer/StellarBodyNameLabel")
+close_button = NodePath("Vbox/HeaderHbox/CloseButton")
+title_label = NodePath("Vbox/HeaderHbox/StellarBodyNameLabel")
+orbit_distance_label = NodePath("Vbox/DistanceHbox/DistanceValueLabel")
+size_label = NodePath("Vbox/SizeHbox/SizeValueLabel")
 anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = 22.0
@@ -22,33 +24,33 @@ metadata/_edit_vertical_guides_ = [-277.0]
 [node name="Vbox" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Vbox"]
+[node name="HeaderHbox" type="HBoxContainer" parent="Vbox"]
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="Vbox/HBoxContainer"]
+[node name="Spacer" type="Control" parent="Vbox/HeaderHbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
 
-[node name="StellarBodyNameLabel" type="Label" parent="Vbox/HBoxContainer"]
+[node name="StellarBodyNameLabel" type="Label" parent="Vbox/HeaderHbox"]
 layout_mode = 2
 text = "Planet Name"
 label_settings = SubResource("LabelSettings_mhf2a")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer2" type="Control" parent="Vbox/HBoxContainer"]
+[node name="Spacer2" type="Control" parent="Vbox/HeaderHbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CloseButton" type="Button" parent="Vbox/HBoxContainer"]
+[node name="CloseButton" type="Button" parent="Vbox/HeaderHbox"]
 layout_mode = 2
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.0
 theme = ExtResource("1_fqvmf")
 icon = ExtResource("2_2y4v7")
 
-[node name="Spacer3" type="Control" parent="Vbox/HBoxContainer"]
+[node name="Spacer3" type="Control" parent="Vbox/HeaderHbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
@@ -57,10 +59,10 @@ size_flags_stretch_ratio = 0.0
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Vbox"]
+[node name="ImageHbox" type="HBoxContainer" parent="Vbox"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Vbox/HBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="Vbox/ImageHbox"]
 custom_minimum_size = Vector2(0, 179.08)
 layout_mode = 2
 size_flags_horizontal = 6
@@ -71,15 +73,42 @@ expand_mode = 3
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="Vbox"]
+[node name="SizeHbox" type="HBoxContainer" parent="Vbox"]
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="Vbox/HBoxContainer3"]
+[node name="Spacer" type="Control" parent="Vbox/SizeHbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
 
-[node name="DistanceLabel" type="RichTextLabel" parent="Vbox/HBoxContainer3"]
+[node name="SizeLabel" type="RichTextLabel" parent="Vbox/SizeHbox"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Stellar Body Size: "
+fit_content = true
+autowrap_mode = 0
+
+[node name="Spacer2" type="Control" parent="Vbox/SizeHbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.0
+
+[node name="SizeValueLabel" type="RichTextLabel" parent="Vbox/SizeHbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0.0"
+
+[node name="DistanceHbox" type="HBoxContainer" parent="Vbox"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="Vbox/DistanceHbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.0
+
+[node name="DistanceLabel" type="RichTextLabel" parent="Vbox/DistanceHbox"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -88,7 +117,12 @@ text = "Orbit Distance: "
 fit_content = true
 autowrap_mode = 0
 
-[node name="Label" type="Label" parent="Vbox/HBoxContainer3"]
+[node name="Spacer2" type="Control" parent="Vbox/DistanceHbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.07
+
+[node name="DistanceValueLabel" type="RichTextLabel" parent="Vbox/DistanceHbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "0.0"

@@ -106,7 +106,7 @@ void StellarBody::_input_event(Camera3D *camera, const Ref<InputEvent> &event, c
 
 				StellarBodyView *view = Object::cast_to<StellarBodyView>(node);
 				if (view != nullptr) {
-					view->set_data(get_name(), orbit_size);
+					view->set_data(get_name(), get_position().x, scale.x);
 					add_child(node);
 				}
 			}

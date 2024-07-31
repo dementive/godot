@@ -22,11 +22,13 @@ public:
 
 	UI_NODE(close_button)
 	UI_NODE(title_label)
+	UI_NODE(orbit_distance_label)
+	UI_NODE(size_label)
 
 	void _ready() override;
 
 	void on_close_pressed();
-	void set_data(String planet_name, float orbit_size);
+	void set_data(String planet_name, float orbit_size, float stellar_body_size);
 };
 
 } //namespace GC
