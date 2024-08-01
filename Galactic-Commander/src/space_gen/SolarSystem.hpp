@@ -1,7 +1,6 @@
 #ifndef SolarSystem_H
 #define SolarSystem_H
 
-#include "godot_cpp/templates/hash_map.hpp"
 #include <godot_cpp/classes/node3d.hpp>
 #include <godot_cpp/templates/vector.hpp>
 
@@ -14,6 +13,7 @@ namespace GC {
 
 class SolarSystem : public Node3D {
 	GDCLASS(SolarSystem, Node3D);
+	GAME_OBJECT(SolarSystem)
 
 private:
 	Vector<StellarBody *> stellar_bodies;
@@ -25,9 +25,6 @@ public:
 	SolarSystem();
 	~SolarSystem();
 
-	inline static std::atomic<SolarSystemID> next_id = 0;
-	inline static HashMap<uint64_t, SolarSystem *> map = HashMap<uint64_t, SolarSystem *>();
-	GameObject<SolarSystem> game_object;
 
 	Vector<StellarBody *> get_stellar_bodies();
 	StellarBody *get_stellar_body(int index);

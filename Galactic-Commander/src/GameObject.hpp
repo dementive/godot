@@ -1,3 +1,6 @@
+#include "godot_cpp/templates/hash_map.hpp"
+// ^^^ Used for GAME_OBJECT don't remove clangd is wrong.
+
 #include <cstdint>
 
 #ifndef GAMEOBJECT_HPP
@@ -19,6 +22,14 @@ Godot doesn't allow for multiple inheritance https://forum.godotengine.org/t/gde
 
 but I need common functionality for a large number of the core classes in my game so this is my hacky way of doing it
 */
+
+// Call GAME_OBJECT(ClassName) in the public: block of the class to make a GameObject
+#define GAME_OBJECT(m_class) \
+	public: \
+		inline static std::atomic<uint64_t> next_id = 0; \
+		inline static HashMap<uint64_t, m_class *> map = HashMap<uint64_t, m_class *>(); \
+		GameObject<m_class> game_object; \
+
 template <typename Derived> struct GameObject {
 	uint64_t id;
 	// Used to automatically generate a unique ID for an instance of a GameObject.

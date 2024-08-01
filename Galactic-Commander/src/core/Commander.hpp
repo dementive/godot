@@ -1,7 +1,6 @@
 #ifndef Commander_H
 #define Commander_H
 
-#include "godot_cpp/templates/hash_map.hpp"
 #include "godot_cpp/templates/vector.hpp"
 #include <godot_cpp/classes/character_body3d.hpp>
 #include <godot_cpp/classes/file_access.hpp>
@@ -21,6 +20,7 @@ enum DiplomaticRelation { PARTNERSHIP, ALLY, NEUTRAL, UNKNOWN, ENEMY };
 
 class Commander : public CharacterBody3D {
 	GDCLASS(Commander, CharacterBody3D);
+	GAME_OBJECT(Commander)
 
 private:
 	ShipID active_ship;
@@ -36,10 +36,6 @@ protected:
 public:
 	Commander();
 	~Commander();
-
-	inline static std::atomic<CommanderID> next_id = 0;
-	inline static HashMap<uint64_t, Commander *> map = HashMap<uint64_t, Commander *>();
-	GameObject<Commander> game_object;
 
 	ShipID get_active_ship();
 	void set_active_ship(ShipID new_ship);

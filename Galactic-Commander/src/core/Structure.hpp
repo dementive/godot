@@ -15,6 +15,7 @@ namespace GC {
 
 class Structure : public MeshInstance3D {
 	GDCLASS(Structure, MeshInstance3D);
+	GAME_OBJECT(Structure)
 
 private:
 	StellarBodyID location;
@@ -31,9 +32,6 @@ public:
 	Structure();
 	~Structure();
 
-	inline static std::atomic<StructureID> next_id = 0;
-	inline static HashMap<uint64_t, Structure *> map = HashMap<uint64_t, Structure *>();
-	GameObject<Structure> game_object;
 
 	StructureID get_location();
 

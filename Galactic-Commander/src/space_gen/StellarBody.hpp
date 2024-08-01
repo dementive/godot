@@ -2,7 +2,6 @@
 #define StellarBody_H
 
 #include "godot_cpp/classes/control.hpp"
-#include "godot_cpp/templates/hash_map.hpp"
 #include "godot_cpp/variant/vector3.hpp"
 #include <godot_cpp/classes/camera3d.hpp>
 #include <godot_cpp/classes/file_access.hpp>
@@ -26,6 +25,7 @@ enum StellarBodyType { STAR, PLANET };
 
 class StellarBody : public StaticBody3D {
 	GDCLASS(StellarBody, StaticBody3D);
+	GAME_OBJECT(StellarBody)
 
 private:
 	float planet_collision_size;
@@ -52,9 +52,6 @@ public:
 	StellarBody();
 	~StellarBody();
 
-	inline static std::atomic<StellarBodyID> next_id = 0;
-	inline static HashMap<uint64_t, StellarBody *> map = HashMap<uint64_t, StellarBody *>();
-	GameObject<StellarBody> game_object;
 
 	void _input_event(Camera3D *camera, const Ref<InputEvent> &event, const Vector3 &position, const Vector3 &normal, int32_t shape_idx) override;
 

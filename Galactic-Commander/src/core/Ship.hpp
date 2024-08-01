@@ -1,7 +1,6 @@
 #ifndef Ship_H
 #define Ship_H
 
-#include "godot_cpp/templates/hash_map.hpp"
 #include "godot_cpp/templates/vector.hpp"
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/mesh_instance3d.hpp>
@@ -15,6 +14,7 @@ namespace GC {
 
 class Ship : public MeshInstance3D {
 	GDCLASS(Ship, MeshInstance3D);
+	GAME_OBJECT(Ship)
 
 private:
 	CommanderID owner;
@@ -29,10 +29,6 @@ protected:
 public:
 	Ship();
 	~Ship();
-
-	inline static std::atomic<ShipID> next_id = 0;
-	inline static HashMap<uint64_t, Ship *> map = HashMap<uint64_t, Ship *>();
-	GameObject<Ship> game_object;
 
 	CommanderID get_owner();
 	void set_owner(CommanderID new_owner);

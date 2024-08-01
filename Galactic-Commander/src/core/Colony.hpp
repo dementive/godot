@@ -1,7 +1,6 @@
 #ifndef Colony_H
 #define Colony_H
 
-#include "godot_cpp/templates/hash_map.hpp"
 #include "godot_cpp/templates/vector.hpp"
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/object.hpp>
@@ -15,6 +14,7 @@ namespace GC {
 
 class Colony : public Object {
 	GDCLASS(Colony, Object);
+	GAME_OBJECT(Colony)
 
 private:
 	CommanderID owner;
@@ -28,10 +28,6 @@ protected:
 public:
 	Colony();
 	~Colony();
-
-	inline static std::atomic<ColonyID> next_id = 0;
-	inline static HashMap<uint64_t, Colony *> map = HashMap<uint64_t, Colony *>();
-	GameObject<Colony> game_object;
 
 	void create_colony(CommanderID owner, StellarBodyID location, uint64_t population = 500);
 

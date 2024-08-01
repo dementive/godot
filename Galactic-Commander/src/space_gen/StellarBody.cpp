@@ -51,6 +51,7 @@ StellarBody *StellarBody::create_body(uint64_t system_id, StellarBodyType stella
 		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere, load_position);
 	}
 
+	UtilityFunctions::print(get_name(), " has an ID of: ", game_object.get_id());
 	return this;
 }
 
