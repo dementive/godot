@@ -6,11 +6,10 @@
 font_size = 30
 
 [node name="PauseMenu" type="PauseMenu"]
-button_vbox = NodePath("Vbox/ButtonsVbox")
-button_resume = NodePath("Vbox/ButtonsVbox/ResumeButton")
-button_main_menu = NodePath("Vbox/ButtonsVbox/MainMenuButton")
-button_quit = NodePath("Vbox/ButtonsVbox/QuitGameButton")
 button_load = NodePath("Vbox/ButtonsVbox/LoadButton")
+button_quit = NodePath("Vbox/ButtonsVbox/QuitGameButton")
+button_main_menu = NodePath("Vbox/ButtonsVbox/MainMenuButton")
+button_resume = NodePath("Vbox/ButtonsVbox/ResumeButton")
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

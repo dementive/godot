@@ -1,4 +1,3 @@
-#include <godot_cpp/classes/base_button.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/line_edit.hpp>
 
@@ -14,8 +13,8 @@ using namespace godot;
 using namespace GC;
 
 void SaveMenu::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("on_save_pressed"), &SaveMenu::on_save_pressed);
-	ClassDB::bind_method(D_METHOD("on_load_pressed"), &SaveMenu::on_load_pressed);
+	BIND_CALLBACK(SaveMenu, on_save_pressed)
+	BIND_CALLBACK(SaveMenu, on_load_pressed)
 
 	ADD_GROUP("Buttons", "button_");
 	BIND_NODE_PATH_PROPERTY(button_save, SaveMenu, BaseButton)
@@ -30,14 +29,14 @@ SaveMenu::~SaveMenu() {}
 
 void SaveMenu::_ready() {
 	if (!Engine::get_singleton()->is_editor_hint()) {
-		BaseButton *load_button_node = get_node<BaseButton>(button_load);
-		BaseButton *save_button_node = get_node<BaseButton>(button_save);
+		set_process_mode(Node::PROCESS_MODE_ALWAYS);
 
-		if (load_button_node != nullptr)
-			load_button_node->connect("pressed", Callable(this, "on_load_pressed"));
-
-		if (save_button_node != nullptr)
-			save_button_node->connect("pressed", Callable(this, "on_save_pressed"));
+		CONNECT_CALLBACK(button_load, on_load_pressed)
+		CONNECT_CALLBACK(button_save, on_save_pressed)
+	} else {
+		CHECK_GUI_NODE(button_load)
+		CHECK_GUI_NODE(button_save)
+		CHECK_GUI_NODE(edit_name)
 	}
 }
 

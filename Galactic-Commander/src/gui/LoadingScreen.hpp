@@ -3,7 +3,7 @@
 
 #include <godot_cpp/classes/control.hpp>
 
-#include "GuiMacros.hpp"
+#include "utils/GuiMacros.hpp"
 
 using namespace godot;
 

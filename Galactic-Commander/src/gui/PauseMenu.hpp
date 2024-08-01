@@ -3,7 +3,7 @@
 
 #include <godot_cpp/classes/panel_container.hpp>
 
-#include "GuiMacros.hpp"
+#include "utils/GuiMacros.hpp"
 
 using namespace godot;
 
@@ -24,11 +24,7 @@ public:
 	PauseMenu();
 	~PauseMenu();
 
-	GUI_NODE(button_vbox)
-	GUI_NODE(button_resume)
-	GUI_NODE(button_main_menu)
-	GUI_NODE(button_quit)
-	GUI_NODE(button_load)
+	WIDGETS(button_resume, button_main_menu, button_quit, button_load)
 
 	void _ready() override;
 	void _unhandled_input(const Ref<InputEvent> &event) override;

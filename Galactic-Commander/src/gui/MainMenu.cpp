@@ -1,4 +1,3 @@
-#include "godot_cpp/classes/base_button.hpp"
 #include "godot_cpp/classes/scene_tree.hpp"
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
@@ -9,8 +8,8 @@ using namespace godot;
 using namespace GC;
 
 void MainMenu::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("on_new_game_pressed"), &MainMenu::on_new_game_pressed);
-	ClassDB::bind_method(D_METHOD("on_quit_pressed"), &MainMenu::on_quit_pressed);
+	BIND_CALLBACK(MainMenu, on_new_game_pressed)
+	BIND_CALLBACK(MainMenu, on_quit_pressed)
 
 	ADD_GROUP("Buttons", "button_");
 	BIND_NODE_PATH_PROPERTY(button_new_game, MainMenu, BaseButton)
@@ -23,14 +22,8 @@ MainMenu::~MainMenu() {}
 
 void MainMenu::_ready() {
 	if (!Engine::get_singleton()->is_editor_hint()) {
-		BaseButton *new_game_button_node = get_node<BaseButton>(button_new_game);
-		BaseButton *quit_button_node = get_node<BaseButton>(button_quit);
-
-		if (new_game_button_node != nullptr)
-			new_game_button_node->connect("pressed", Callable(this, "on_new_game_pressed"));
-
-		if (quit_button_node != nullptr)
-			quit_button_node->connect("pressed", Callable(this, "on_quit_pressed"));
+		CONNECT_CALLBACK(button_new_game, on_new_game_pressed)
+		CONNECT_CALLBACK(button_quit, on_quit_pressed)
 	}
 }
 

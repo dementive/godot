@@ -16,10 +16,10 @@ env = SConscript("godot-cpp/SConstruct")
 # - LINKFLAGS are for linking flags
 
 # Tell compiler where header files are
-env.Append(CPPPATH=["src/", "src/space_gen", "src/gui", "src/core"])
+env.Append(CPPPATH=["src/", "src/space_gen", "src/gui", "src/core", "src/utils"])
 
 # Tell compiler where cpp files are
-sources = Glob("src/*.cpp") + Glob("src/space_gen/*.cpp") + Glob("src/gui/*.cpp") + Glob("src/core/*.cpp")
+sources = Glob("src/*.cpp") + Glob("src/space_gen/*.cpp") + Glob("src/gui/*.cpp") + Glob("src/core/*.cpp") + Glob("src/utils/*.cpp")
 
 library = env.SharedLibrary(
     "demo/bin/lib-galactic-commander{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
@@ -43,6 +43,7 @@ if env["disable_exceptions"]:
 elif env.get("is_msvc", False):
    env.Append(CXXFLAGS=["/EHsc"])
 
+# Ignore warnings from godot-cpp since it is written in C++17.
 env.Append(CXXFLAGS=['-Wno-template-id-cdtor'])
 
 Default(library)
