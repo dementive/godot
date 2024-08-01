@@ -1,6 +1,7 @@
 #include "godot_cpp/classes/base_button.hpp"
 #include "godot_cpp/variant/utility_functions.hpp"
 // NOTE: These includes ^^^ are needed. clangd says they aren't used but it is wrong.
+#include <godot_cpp/classes/engine.hpp>
 
 #include "ForEachMacro.hpp"
 
@@ -44,15 +45,66 @@ namespace GC {
 		UtilityFunctions::printerr(                                                                                                                  \
 				ERROR_INFO, #m_name, " NodePath has not been connected in the inspector dock of the editor! This will cause crashes.");
 
-#define WIDGETS(...) FOR_EACH(GUI_NODE, __VA_OPT__(__VA_ARGS__, ))
+/*
+	Define the widgets in this node that have scripted behavior such as callbacks or any UI element that gets updated with code.
+	Creates NodePath parameters with getters and setters for the class given the parameters name.
+	Also creates an _ready function that checks if the NodePath's have properly been added to the editor and warns you for safety.
+	If you need another _ready function for your class use _notification instead of _ready!
 
-// TODO - CHECK_WIDGETS should be inside of WIDGETS somehow. Could maybe create a custom _ready notification function to run it...hmmm....
-#define CHECK_WIDGETS(...) FOR_EACH(CHECK_GUI_NODE, __VA_OPT__(__VA_ARGS__, ))
+*/
+#define WIDGETS(...)                                                                                                                                 \
+	void _ready() override {                                                                                                                         \
+		if (Engine::get_singleton()->is_editor_hint())                                                                                               \
+			FOR_EACH(CHECK_GUI_NODE, __VA_OPT__(__VA_ARGS__, ))                                                                                      \
+	}                                                                                                                                                \
+	FOR_EACH(GUI_NODE, __VA_OPT__(__VA_ARGS__, ))
 
+/*
+	Bind a callback function with no arguments to godot.
+
+	Make sure to also call CONNECT_CALLBACKS in a NOTIFICATION_READY notification so the callback signals actually get created.
+	Otherwise they just won't do anything and it'll fucking suck to debug :)
+
+	Note that these 2 calls result in the same code:
+
+	BIND_CALLBACK(PauseMenu, _on_resume_button_pressed)
+	BIND_CALLBACK(PauseMenu, _on_main_menu_button_pressed)
+	BIND_CALLBACK(PauseMenu, _on_quit_game_button_pressed)
+	BIND_CALLBACK(PauseMenu, _on_load_button_pressed)
+
+	CALLBACKS(PauseMenu, _on_resume_button_pressed, _on_main_menu_button_pressed, _on_quit_game_button_pressed, _on_load_button_pressed)
+*/
 #define CALLBACKS(m_class, ...) FOR_EACH_TWO(BIND_CALLBACK, m_class, __VA_OPT__(__VA_ARGS__, ))
 
+/*
+	Bind the getter and setter functions of a widget to a new editor property.
+	Also takes in the class of the widget as an argument so PROPERTY_HINT_NODE_PATH_VALID_TYPES can be used to only allow selection of valid
+   NodePath's
+
+	You have to be very careful with these, if you type the callback function name wrong it just won't work but clangd and the compiler might not tell
+   you. Then it will crash when you call in in game, ClassDB::bind_method kinda just works like that, so don't make typos :)
+
+	Note that these 2 calls result in the same code:
+
+	BIND_NODE_PATH(PauseMenu, button_quit, BaseButton)
+	BIND_NODE_PATH(PauseMenu, button_load, BaseButton)
+
+	BIND_WIDGETS(PauseMenu, PAIR(button_load, BaseButton), PAIR(button_quit, BaseButton))
+*/
 #define BIND_WIDGETS(m_class, ...) FOR_EACH_THREE(BIND_NODE_PATH, m_class, __VA_OPT__(__VA_ARGS__, ))
 
+/*
+Connect the pressed signal of a button to callback functions
+
+Note that these 3 different calls all result in the same code:
+
+CONNECT_CALLBACK(button_resume, _on_resume_button_pressed)
+CONNECT_CALLBACK(button_main_menu, _on_main_menu_button_pressed)
+
+CONNECT_CALLBACKS(PAIR(button_resume, _on_resume_button_pressed), PAIR(button_main_menu, _on_main_menu_button_pressed))
+
+CONNECT_CALLBACKS(button_resume, _on_resume_button_pressed, button_main_menu, _on_main_menu_button_pressed)
+*/
 #define CONNECT_CALLBACKS(...) FOR_EACH_TWO_ARGS(CONNECT_CALLBACK, __VA_OPT__(__VA_ARGS__, ))
 
 } //namespace GC

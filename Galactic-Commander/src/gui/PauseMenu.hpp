@@ -26,7 +26,7 @@ public:
 
 	WIDGETS(button_resume, button_main_menu, button_quit, button_load)
 
-	void _ready() override;
+	void _notification(int p_what);
 	void _unhandled_input(const Ref<InputEvent> &event) override;
 
 	void _on_resume_button_pressed();

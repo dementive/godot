@@ -1,4 +1,3 @@
-#include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/input_event_key.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 
@@ -12,19 +11,7 @@ using namespace GC;
 
 void PauseMenu::_bind_methods() {
 	CALLBACKS(PauseMenu, _on_resume_button_pressed, _on_main_menu_button_pressed, _on_quit_game_button_pressed, _on_load_button_pressed)
-	// BIND_CALLBACK(PauseMenu, _on_resume_button_pressed)
-	// BIND_CALLBACK(PauseMenu, _on_main_menu_button_pressed)
-	// BIND_CALLBACK(PauseMenu, _on_quit_game_button_pressed)
-	// BIND_CALLBACK(PauseMenu, _on_load_button_pressed)
-
 	ADD_GROUP("Buttons", "button_");
-	//BIND_NODE_PATH_PROPERTY(button_resume, PauseMenu, BaseButton)
-	//BIND_NODE_PATH_PROPERTY(button_main_menu, PauseMenu, BaseButton)
-	//BIND_NODE_PATH_PROPERTY(button_quit, PauseMenu, BaseButton)
-	//BIND_NODE_PATH_PROPERTY(button_load, PauseMenu, BaseButton)
-
-	//BIND_WIDGETS(PauseMenu, button_load, BaseButton, button_quit, BaseButton, button_main_menu, BaseButton, button_resume, BaseButton)
-
 	BIND_WIDGETS(PauseMenu, PAIR(button_load, BaseButton), PAIR(button_quit, BaseButton), PAIR(button_main_menu, BaseButton),
 			PAIR(button_resume, BaseButton))
 }
@@ -37,19 +24,15 @@ void PauseMenu::resume() {
 	get_tree()->set_pause(false);
 }
 
-void PauseMenu::_ready() {
-	if (!Engine::get_singleton()->is_editor_hint()) {
-		set_process_mode(Node::PROCESS_MODE_ALWAYS);
+void PauseMenu::_notification(int p_what) {
+	if (Engine::get_singleton()->is_editor_hint()) {
+		return;
+	}
 
+	if (p_what == NOTIFICATION_READY) {
+		set_process_mode(Node::PROCESS_MODE_ALWAYS);
 		CONNECT_CALLBACKS(PAIR(button_resume, _on_resume_button_pressed), PAIR(button_main_menu, _on_main_menu_button_pressed),
 				PAIR(button_quit, _on_quit_game_button_pressed), PAIR(button_load, _on_load_button_pressed))
-		//CONNECT_CALLBACK(button_resume, _on_resume_button_pressed)
-		// CONNECT_CALLBACK(button_main_menu, _on_main_menu_button_pressed)
-		// CONNECT_CALLBACK(button_quit, _on_quit_game_button_pressed)
-		//CONNECT_CALLBACK(button_load, _on_load_button_pressed)
-	} else {
-		// CHECK_GUI_NODE(button_load)
-		CHECK_WIDGETS(button_resume, button_main_menu, button_quit, button_load)
 	}
 }
 
