@@ -8,22 +8,22 @@ using namespace godot;
 using namespace GC;
 
 void MainMenu::_bind_methods() {
-	BIND_CALLBACK(MainMenu, on_new_game_pressed)
-	BIND_CALLBACK(MainMenu, on_quit_pressed)
-
 	ADD_GROUP("Buttons", "button_");
-	BIND_NODE_PATH_PROPERTY(button_new_game, MainMenu, BaseButton)
-	BIND_NODE_PATH_PROPERTY(button_quit, MainMenu, BaseButton)
+	CALLBACKS(MainMenu, on_new_game_pressed, on_quit_pressed)
+	BIND_WIDGETS(MainMenu, PAIR(button_new_game, BaseButton), PAIR(button_quit, BaseButton))
 }
 
 MainMenu::MainMenu() {}
-
 MainMenu::~MainMenu() {}
 
-void MainMenu::_ready() {
-	if (!Engine::get_singleton()->is_editor_hint()) {
-		CONNECT_CALLBACK(button_new_game, on_new_game_pressed)
-		CONNECT_CALLBACK(button_quit, on_quit_pressed)
+void MainMenu::_notification(int p_what) {
+	if (Engine::get_singleton()->is_editor_hint()) {
+		return;
+	}
+
+	if (p_what == NOTIFICATION_READY) {
+		set_process_mode(Node::PROCESS_MODE_ALWAYS);
+		CONNECT_CALLBACKS(PAIR(button_new_game, on_new_game_pressed), PAIR(button_quit, on_quit_pressed))
 	}
 }
 

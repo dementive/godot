@@ -19,11 +19,9 @@ public:
 	MainMenu();
 	~MainMenu();
 
-	GUI_NODE(button_new_game)
-	GUI_NODE(button_quit)
+	WIDGETS(button_new_game, button_quit)
 
-	void _ready() override;
-
+	void _notification(int p_what);
 	void on_new_game_pressed();
 	void on_quit_pressed();
 };

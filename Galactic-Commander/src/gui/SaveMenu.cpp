@@ -13,30 +13,24 @@ using namespace godot;
 using namespace GC;
 
 void SaveMenu::_bind_methods() {
-	BIND_CALLBACK(SaveMenu, on_save_pressed)
-	BIND_CALLBACK(SaveMenu, on_load_pressed)
-
 	ADD_GROUP("Buttons", "button_");
-	BIND_NODE_PATH_PROPERTY(button_save, SaveMenu, BaseButton)
-	BIND_NODE_PATH_PROPERTY(button_load, SaveMenu, BaseButton)
-
 	ADD_GROUP("EditBoxes", "edit_");
-	BIND_NODE_PATH_PROPERTY(edit_name, SaveMenu, LineEdit)
+
+	CALLBACKS(SaveMenu, on_save_pressed, on_load_pressed)
+	BIND_WIDGETS(SaveMenu, PAIR(button_save, BaseButton), PAIR(button_load, BaseButton), PAIR(edit_name, LineEdit))
 }
 
 SaveMenu::SaveMenu() {}
 SaveMenu::~SaveMenu() {}
 
-void SaveMenu::_ready() {
-	if (!Engine::get_singleton()->is_editor_hint()) {
-		set_process_mode(Node::PROCESS_MODE_ALWAYS);
+void SaveMenu::_notification(int p_what) {
+	if (Engine::get_singleton()->is_editor_hint()) {
+		return;
+	}
 
-		CONNECT_CALLBACK(button_load, on_load_pressed)
-		CONNECT_CALLBACK(button_save, on_save_pressed)
-	} else {
-		CHECK_GUI_NODE(button_load)
-		CHECK_GUI_NODE(button_save)
-		CHECK_GUI_NODE(edit_name)
+	if (p_what == NOTIFICATION_READY) {
+		set_process_mode(Node::PROCESS_MODE_ALWAYS);
+		CONNECT_CALLBACKS(PAIR(button_load, on_load_pressed), PAIR(button_save, on_save_pressed))
 	}
 }
 

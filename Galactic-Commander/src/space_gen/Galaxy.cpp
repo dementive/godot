@@ -3,7 +3,7 @@
 #include <godot_cpp/classes/engine.hpp>
 
 #include "Galaxy.hpp"
-#include <Types.hpp>
+#include "utils/Types.hpp"
 
 using namespace godot;
 using namespace GC;

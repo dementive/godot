@@ -23,8 +23,8 @@ StellarBody::StellarBody() {}
 StellarBody::~StellarBody() {}
 void StellarBody::_bind_methods() {}
 
-StellarBody *StellarBody::create_body(uint64_t system_id, StellarBodyType stellar_body_type, float distance_from_orbit_origin,
-		StellarBodyMaterial materials, Vector3 body_scale, String body_name, bool atmosphere, StellarBodyID new_id, Vector3 load_position) {
+StellarBody *StellarBody::create_body(uint64_t system_id, StellarBodyType stellar_body_type, float distance_from_orbit_origin, StellarBodyMaterial materials,
+		Vector3 body_scale, String body_name, bool atmosphere, StellarBodyID new_id, Vector3 load_position) {
 	// This code should be in the constructor but this isn't possible currently
 	// https://github.com/godotengine/godot-cpp/issues/953
 
@@ -178,14 +178,11 @@ Pair<StellarBody *, Array> StellarBody::deserialize(Ref<FileAccess> file) {
 
 		if (loaded_material_type == M_ICE or loaded_material_type == M_TERRESTRIAL) {
 			Dictionary loaded_cloud_params = file->get_var();
-			StellarBodyMaterial mats =
-					materials->get_material_with_clouds_from_dict(loaded_body_params, loaded_atmosphere_params, loaded_cloud_params);
-			create_body(
-					system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
+			StellarBodyMaterial mats = materials->get_material_with_clouds_from_dict(loaded_body_params, loaded_atmosphere_params, loaded_cloud_params);
+			create_body(system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
 		} else {
 			StellarBodyMaterial mats = materials->get_material_from_dict(loaded_body_params, loaded_atmosphere_params);
-			create_body(
-					system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
+			create_body(system_id, StellarBodyType(loaded_body_type), 0.0, mats, body_scale, body_name, body_has_atmosphere, body_id, loaded_position);
 		}
 	}
 

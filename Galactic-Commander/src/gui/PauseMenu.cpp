@@ -10,10 +10,9 @@ using namespace godot;
 using namespace GC;
 
 void PauseMenu::_bind_methods() {
-	CALLBACKS(PauseMenu, _on_resume_button_pressed, _on_main_menu_button_pressed, _on_quit_game_button_pressed, _on_load_button_pressed)
 	ADD_GROUP("Buttons", "button_");
-	BIND_WIDGETS(PauseMenu, PAIR(button_load, BaseButton), PAIR(button_quit, BaseButton), PAIR(button_main_menu, BaseButton),
-			PAIR(button_resume, BaseButton))
+	CALLBACKS(PauseMenu, _on_resume_button_pressed, _on_main_menu_button_pressed, _on_quit_game_button_pressed, _on_load_button_pressed)
+	BIND_WIDGETS(PauseMenu, PAIR(button_load, BaseButton), PAIR(button_quit, BaseButton), PAIR(button_main_menu, BaseButton), PAIR(button_resume, BaseButton))
 }
 
 PauseMenu::PauseMenu() {}

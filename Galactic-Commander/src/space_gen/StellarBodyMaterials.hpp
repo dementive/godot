@@ -5,7 +5,7 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 
 #include <StellarBodyColors.hpp>
-#include <Utils.hpp>
+#include <utils/Utils.hpp>
 
 using namespace godot;
 

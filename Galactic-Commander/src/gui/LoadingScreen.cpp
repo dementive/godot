@@ -11,7 +11,7 @@ using namespace GC;
 
 void LoadingScreen::_bind_methods() {
 	ADD_GROUP("Labels", "label_");
-	BIND_NODE_PATH_PROPERTY(label_progress, LoadingScreen, Label)
+	BIND_NODE_PATH(LoadingScreen, label_progress, Label)
 }
 
 LoadingScreen::LoadingScreen() {}
@@ -21,6 +21,8 @@ LoadingScreen::~LoadingScreen() {}
 void LoadingScreen::_ready() {
 	if (!Engine::get_singleton()->is_editor_hint()) {
 		ResourceLoader::get_singleton()->load_threaded_request(scene_to_load);
+	} else {
+		CHECK_GUI_NODE(label_progress)
 	}
 }
 

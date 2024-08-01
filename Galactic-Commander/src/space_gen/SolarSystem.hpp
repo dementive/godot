@@ -6,7 +6,7 @@
 #include <godot_cpp/templates/vector.hpp>
 
 #include "StellarBody.hpp"
-#include <Types.hpp>
+#include "utils/Types.hpp"
 
 using namespace godot;
 

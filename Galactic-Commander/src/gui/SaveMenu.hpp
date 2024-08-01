@@ -19,12 +19,9 @@ public:
 	SaveMenu();
 	~SaveMenu();
 
-	GUI_NODE(button_save)
-	GUI_NODE(button_load)
+	WIDGETS(button_save, button_load, edit_name)
 
-	GUI_NODE(edit_name)
-
-	void _ready() override;
+	void _notification(int p_what);
 	void _unhandled_input(const Ref<InputEvent> &event) override;
 
 	void on_save_pressed();

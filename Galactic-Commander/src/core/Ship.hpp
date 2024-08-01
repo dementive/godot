@@ -7,7 +7,7 @@
 #include <godot_cpp/classes/mesh_instance3d.hpp>
 
 #include "GameObject.hpp"
-#include "Types.hpp"
+#include "utils/Types.hpp"
 
 using namespace godot;
 

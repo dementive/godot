@@ -5,7 +5,7 @@
 #include <godot_cpp/variant/string.hpp>
 
 #include "Resource.hpp"
-#include <Types.hpp>
+#include "utils/Types.hpp"
 
 using namespace godot;
 

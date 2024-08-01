@@ -9,23 +9,24 @@ using namespace godot;
 using namespace GC;
 
 void StellarBodyView::_bind_methods() {
-	BIND_CALLBACK(StellarBodyView, on_close_pressed)
-
 	ADD_GROUP("Buttons", "button_");
-	BIND_NODE_PATH_PROPERTY(button_close, StellarBodyView, BaseButton)
-
 	ADD_GROUP("Labels", "label_");
-	BIND_NODE_PATH_PROPERTY(label_title, StellarBodyView, Label)
-	BIND_NODE_PATH_PROPERTY(label_orbit_distance, StellarBodyView, RichTextLabel)
-	BIND_NODE_PATH_PROPERTY(label_size, StellarBodyView, RichTextLabel)
+
+	CALLBACKS(StellarBodyView, on_close_pressed)
+	BIND_WIDGETS(StellarBodyView, PAIR(button_close, BaseButton), PAIR(label_title, Label), PAIR(label_orbit_distance, RichTextLabel),
+			PAIR(label_size, RichTextLabel))
 }
 
 StellarBodyView::StellarBodyView() {}
 
 StellarBodyView::~StellarBodyView() {}
 
-void StellarBodyView::_ready() {
-	if (!Engine::get_singleton()->is_editor_hint()) {
+void StellarBodyView::_notification(int p_what) {
+	if (Engine::get_singleton()->is_editor_hint()) {
+		return;
+	}
+
+	if (p_what == NOTIFICATION_READY) {
 		CONNECT_CALLBACK(button_close, on_close_pressed)
 	}
 }

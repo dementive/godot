@@ -11,7 +11,7 @@
 #include "GameObject.hpp"
 #include "Resource.hpp"
 #include "TradeRoute.hpp"
-#include "Types.hpp"
+#include "utils/Types.hpp"
 
 using namespace godot;
 

@@ -19,13 +19,9 @@ public:
 	StellarBodyView();
 	~StellarBodyView();
 
-	GUI_NODE(button_close)
-	GUI_NODE(label_title)
-	GUI_NODE(label_orbit_distance)
-	GUI_NODE(label_size)
+	WIDGETS(button_close, label_title, label_orbit_distance, label_size)
 
-	void _ready() override;
-
+	void _notification(int p_what);
 	void on_close_pressed();
 	void set_data(String planet_name, float orbit_size, float stellar_body_size);
 };

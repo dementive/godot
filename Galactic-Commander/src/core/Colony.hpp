@@ -6,7 +6,7 @@
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/object.hpp>
 
-#include "Types.hpp"
+#include "utils/Types.hpp"
 #include <GameObject.hpp>
 
 using namespace godot;
