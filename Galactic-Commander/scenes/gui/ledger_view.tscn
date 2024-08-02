@@ -1,0 +1,85 @@
+[gd_scene load_steps=3 format=3 uid="uid://df3l445t4laqq"]
+
+[ext_resource type="Texture2D" uid="uid://7627hsqoaf3" path="res://gfx/interface/core/placeholder.png" id="1_lxq8l"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_n0r0r"]
+font_size = 25
+
+[node name="LedgerView" type="PanelContainer"]
+anchors_preset = -1
+anchor_right = 0.542
+anchor_bottom = 0.85
+offset_left = 30.0
+offset_top = 60.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer" type="CenterContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Ledger"
+label_settings = SubResource("LabelSettings_n0r0r")
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+size_flags_stretch_ratio = 20.0
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 20.0
+
+[node name="Commanders" type="MarginContainer" parent="VBoxContainer/TabContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/Commanders"]
+layout_mode = 2
+texture = ExtResource("1_lxq8l")
+
+[node name="Systems" type="MarginContainer" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/Systems"]
+layout_mode = 2
+texture = ExtResource("1_lxq8l")
+flip_h = true
+
+[node name="StellarBodies" type="MarginContainer" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/StellarBodies"]
+layout_mode = 2
+texture = ExtResource("1_lxq8l")
+flip_v = true
+
+[node name="Colonies" type="MarginContainer" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/Colonies"]
+layout_mode = 2
+texture = ExtResource("1_lxq8l")
+
+[node name="Structures" type="MarginContainer" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/Structures"]
+layout_mode = 2
+texture = ExtResource("1_lxq8l")
+
+[node name="Ships" type="MarginContainer" parent="VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/Ships"]
+layout_mode = 2
+texture = ExtResource("1_lxq8l")
