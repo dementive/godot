@@ -11,12 +11,14 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[node name="TopBar" type="HBoxContainer"]
+[node name="TopBar" type="TopBar"]
+button_menu = NodePath("RightPanel/HBoxContainer/MarginContainer/HBoxContainer/MenuButton")
+button_ledger = NodePath("RightPanel/HBoxContainer/MarginContainer/HBoxContainer/LedgerButton")
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 50.0
 grow_horizontal = 2
-theme_override_constants/separation = 348
+theme = ExtResource("1_vvp5f")
 
 [node name="LeftMargin" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -50,6 +52,7 @@ theme_override_constants/separation = 8
 
 [node name="LedgerButton" type="Button" parent="RightPanel/HBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
+tooltip_text = "ledger"
 theme_override_constants/icon_max_width = 32
 icon = ExtResource("1_a8xnp")
 

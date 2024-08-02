@@ -1,6 +1,4 @@
 #include "godot_cpp/classes/scene_tree.hpp"
-#include <godot_cpp/classes/engine.hpp>
-#include <godot_cpp/classes/resource_loader.hpp>
 
 #include "MainMenu.hpp"
 
@@ -22,7 +20,6 @@ void MainMenu::_notification(int p_what) {
 	}
 
 	if (p_what == NOTIFICATION_READY) {
-		set_process_mode(Node::PROCESS_MODE_ALWAYS);
 		CONNECT_CALLBACKS(PAIR(button_new_game, on_new_game_pressed), PAIR(button_quit, on_quit_pressed))
 	}
 }

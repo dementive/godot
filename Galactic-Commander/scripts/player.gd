@@ -53,7 +53,7 @@ func switch_camera_mode():
 			var tween2 : Tween = create_tween()
 			var tween3 : Tween = create_tween()
 			tween.tween_property(camera, "position", Vector3(0, 5.466, -24.284), 1.0)
-			tween2.tween_property(find_child("ShipBody"), "scale", Vector3(1,1,1), 1.0)
+			tween2.tween_property(find_child("ShipBody"), "scale", Vector3(0.25, 0.25, 0.25), 1.0)
 			tween3.tween_property(camera, "rotation_degrees", Vector3(0, 180, 0), 1.0)
 			tween.tween_callback(Callable(self, "on_camera_tween_in_finished"))
 
