@@ -32,7 +32,6 @@ public:
 	Structure();
 	~Structure();
 
-
 	StructureID get_location();
 
 	void serialize(Ref<FileAccess> file);

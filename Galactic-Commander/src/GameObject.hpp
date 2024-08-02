@@ -24,11 +24,11 @@ but I need common functionality for a large number of the core classes in my gam
 */
 
 // Call GAME_OBJECT(ClassName) in the public: block of the class to make a GameObject
-#define GAME_OBJECT(m_class) \
-	public: \
-		inline static std::atomic<uint64_t> next_id = 0; \
-		inline static HashMap<uint64_t, m_class *> map = HashMap<uint64_t, m_class *>(); \
-		GameObject<m_class> game_object; \
+#define GAME_OBJECT(m_class)                                                                                                                                   \
+public:                                                                                                                                                        \
+	inline static std::atomic<uint64_t> next_id = 0;                                                                                                           \
+	inline static HashMap<uint64_t, m_class *> map = HashMap<uint64_t, m_class *>();                                                                           \
+	GameObject<m_class> game_object;
 
 template <typename Derived> struct GameObject {
 	uint64_t id;

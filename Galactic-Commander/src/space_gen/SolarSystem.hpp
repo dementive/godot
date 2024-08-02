@@ -25,7 +25,6 @@ public:
 	SolarSystem();
 	~SolarSystem();
 
-
 	Vector<StellarBody *> get_stellar_bodies();
 	StellarBody *get_stellar_body(int index);
 	void generate_solar_system();
