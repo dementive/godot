@@ -1,10 +1,9 @@
-#include "godot_cpp/templates/hash_map.hpp"
-// ^^^ Used for GAME_OBJECT don't remove clangd is wrong.
-
-#include <cstdint>
-
 #ifndef GAMEOBJECT_HPP
 #define GAMEOBJECT_HPP
+
+#include "godot_cpp/templates/hash_map.hpp"
+#include <cstdint>
+// ^^^ Used for GAME_OBJECT don't remove clangd is wrong.
 
 namespace GC {
 
@@ -28,29 +27,18 @@ but I need common functionality for a large number of the core classes in my gam
 public:                                                                                                                                                        \
 	inline static std::atomic<uint64_t> next_id = 0;                                                                                                           \
 	inline static HashMap<uint64_t, m_class *> map = HashMap<uint64_t, m_class *>();                                                                           \
-	GameObject<m_class> game_object;
-
-template <typename Derived> struct GameObject {
-	uint64_t id;
-	// Used to automatically generate a unique ID for an instance of a GameObject.
-	// This MUST be called when a game object is constructed or it will not get an ID.
-	void set_id(Derived *object) {
-		id = Derived::next_id;
-		Derived::next_id++;
-		Derived::map[id] = object;
-	}
-
-	// Used to set a game object ID, should only be used when deserializing GameObject.
-	void set_new_id(uint64_t new_id, Derived *object) {
-		id = new_id;
-		Derived::map[id] = object;
-	}
-
-	// Get the unique ID for this GameObject.
-	uint64_t get_id() { return id; }
-
-	void remove_id(uint64_t id_to_remove) { Derived::map.erase(id_to_remove); }
-};
+	uint64_t id;                                                                                                                                               \
+	void set_id(m_class *object) {                                                                                                                             \
+		id = m_class::next_id;                                                                                                                                 \
+		m_class::next_id++;                                                                                                                                    \
+		m_class::map[id] = object;                                                                                                                             \
+	}                                                                                                                                                          \
+	void set_new_id(uint64_t new_id, m_class *object) {                                                                                                        \
+		id = new_id;                                                                                                                                           \
+		m_class::map[id] = object;                                                                                                                             \
+	}                                                                                                                                                          \
+	uint64_t get_id() { return id; }                                                                                                                           \
+	void remove_id(uint64_t id_to_remove) { m_class::map.erase(id_to_remove); }
 
 } //namespace GC
 

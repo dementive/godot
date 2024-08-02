@@ -23,6 +23,11 @@ void PauseMenu::resume() {
 	get_tree()->set_pause(false);
 }
 
+void PauseMenu::open() {
+	set_visible(true);
+	get_tree()->set_pause(true);
+}
+
 void PauseMenu::_notification(int p_what) {
 	if (Engine::get_singleton()->is_editor_hint()) {
 		return;
@@ -41,8 +46,7 @@ void PauseMenu::_unhandled_input(const Ref<InputEvent> &event) {
 		if (is_visible()) {
 			resume();
 		} else {
-			set_visible(!is_visible());
-			get_tree()->set_pause(!get_tree()->is_paused());
+			open();
 		}
 	}
 }

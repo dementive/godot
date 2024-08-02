@@ -10,7 +10,8 @@ using namespace godot;
 namespace GC {
 
 class TopBar : public HBoxContainer {
-	GDCLASS(TopBar, HBoxContainer);
+	GDCLASS(TopBar, HBoxContainer)
+	WIDGETS(button_menu, button_ledger)
 
 protected:
 	static void _bind_methods();
@@ -18,8 +19,6 @@ protected:
 public:
 	TopBar();
 	~TopBar();
-
-	WIDGETS(button_menu, button_ledger)
 
 	void _notification(int p_what);
 	void on_menu_pressed();

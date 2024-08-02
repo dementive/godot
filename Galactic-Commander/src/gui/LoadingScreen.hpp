@@ -10,7 +10,7 @@ using namespace godot;
 namespace GC {
 
 class LoadingScreen : public Control {
-	GDCLASS(LoadingScreen, Control);
+	GDCLASS(LoadingScreen, Control)
 
 private:
 	Array progress;

@@ -12,7 +12,7 @@ SolarSystem::~SolarSystem() {}
 void SolarSystem::_bind_methods() {}
 
 void SolarSystem::generate_solar_system() {
-	game_object.set_id(this);
+	set_id(this);
 	Vector3 small_scale = Vector3(1500.0, 1500.0, 1500.0);
 	Vector3 mid_scale = Vector3(2000.0, 2000.0, 2000.0);
 	Vector3 big_scale = Vector3(3500.0, 3500.0, 3500.0);
@@ -25,19 +25,19 @@ void SolarSystem::generate_solar_system() {
 
 	StellarBody *star = memnew(StellarBody());
 
-	star->create_body(game_object.get_id(), StellarBodyType(STAR), body_position, materials->get_star_material(star_size), star_scale, "Sun");
+	star->create_body(get_id(), StellarBodyType(STAR), body_position, materials->get_star_material(star_size), star_scale, "Sun");
 	add_child(star);
 
 	body_position += star_scale.x * 2.5;
 
 	StellarBody *lavatus = memnew(StellarBody());
-	lavatus->create_body(game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_lava_material(), small_scale, "Lavatus");
+	lavatus->create_body(get_id(), StellarBodyType(PLANET), body_position, materials->get_lava_material(), small_scale, "Lavatus");
 	star->add_body(lavatus);
 
 	body_position += small_scale.x * 10;
 
 	StellarBody *sandicus = memnew(StellarBody());
-	sandicus->create_body(game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_sand_material(), small_scale, "Sandicus");
+	sandicus->create_body(get_id(), StellarBodyType(PLANET), body_position, materials->get_sand_material(), small_scale, "Sandicus");
 	star->add_body(sandicus);
 
 	body_position += small_scale.x * 12;
@@ -45,8 +45,8 @@ void SolarSystem::generate_solar_system() {
 	StellarBody *earth = memnew(StellarBody());
 	StellarBody *moon = memnew(StellarBody());
 
-	earth->create_body(game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_terrestrial_material(), mid_scale, "Urth");
-	moon->create_body(game_object.get_id(), StellarBodyType(PLANET), 250.0, materials->get_no_atmosphere_material(), small_scale, "Woon", false);
+	earth->create_body(get_id(), StellarBodyType(PLANET), body_position, materials->get_terrestrial_material(), mid_scale, "Urth");
+	moon->create_body(get_id(), StellarBodyType(PLANET), 250.0, materials->get_no_atmosphere_material(), small_scale, "Woon", false);
 
 	earth->add_body(moon);
 	earth->create_orbit(300.0);
@@ -55,13 +55,13 @@ void SolarSystem::generate_solar_system() {
 	body_position += mid_scale.x * 15;
 
 	StellarBody *yupiter = memnew(StellarBody());
-	yupiter->create_body(game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_gas_material(), big_scale, "Yupiter");
+	yupiter->create_body(get_id(), StellarBodyType(PLANET), body_position, materials->get_gas_material(), big_scale, "Yupiter");
 	star->add_body(yupiter);
 
 	body_position += big_scale.x * 10;
 
 	StellarBody *veptune = memnew(StellarBody());
-	veptune->create_body(game_object.get_id(), StellarBodyType(PLANET), body_position, materials->get_ice_material(), mid_scale, "Veptune");
+	veptune->create_body(get_id(), StellarBodyType(PLANET), body_position, materials->get_ice_material(), mid_scale, "Veptune");
 	star->add_body(veptune);
 
 	stellar_bodies.push_back(star);
@@ -80,7 +80,7 @@ StellarBody *SolarSystem::get_stellar_body(int index) { return stellar_bodies[in
 Vector<StellarBody *> SolarSystem::get_stellar_bodies() { return stellar_bodies; }
 
 void SolarSystem::serialize(Ref<FileAccess> file) {
-	file->store_64(game_object.id);
+	file->store_64(id);
 	file->store_16(get_stellar_bodies().size());
 	for (int i = 0; i < get_stellar_bodies().size(); ++i) {
 		StellarBody *body = get_stellar_bodies()[i];
@@ -93,7 +93,7 @@ void SolarSystem::serialize(Ref<FileAccess> file) {
 
 void SolarSystem::deserialize(Ref<FileAccess> file) {
 	uint64_t system_id = file->get_64();
-	game_object.set_new_id(system_id, this);
+	set_new_id(system_id, this);
 
 	uint16_t bodies_in_solar_system = file->get_16();
 
@@ -113,7 +113,7 @@ void SolarSystem::deserialize(Ref<FileAccess> file) {
 
 			// Save Stellar bodies in a Dictionary like this: Dictionary<uint32_t, StellarBody*>
 			// This way we can iterate over the dictionary and assign the orbiting bodies to their parents from their ID.
-			loaded_stellar_bodies[new_body_data.first->game_object.get_id()] = new_body_data.first;
+			loaded_stellar_bodies[new_body_data.first->get_id()] = new_body_data.first;
 			loaded_orbiting_bodies[i] = new_body_data.second;
 		}
 	}

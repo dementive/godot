@@ -1,4 +1,5 @@
 #include "godot_cpp/classes/scene_tree.hpp"
+#include "gui/PauseMenu.hpp"
 
 #include "TopBar.hpp"
 
@@ -25,9 +26,9 @@ void TopBar::_notification(int p_what) {
 }
 
 void TopBar::on_menu_pressed() {
-	Control *node = get_parent()->get_node<Control>("PauseMenu");
+	PauseMenu *node = get_parent()->get_node<PauseMenu>("PauseMenu");
 	if (node != nullptr)
-		node->set_visible(true);
+		node->open();
 }
 
 void TopBar::on_ledger_pressed() {}

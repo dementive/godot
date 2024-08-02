@@ -35,9 +35,9 @@ StellarBody *StellarBody::create_body(uint64_t system_id, StellarBodyType stella
 	material_type = materials.type;
 
 	if (new_id == -1) {
-		game_object.set_id(this);
+		set_id(this);
 	} else {
-		game_object.set_new_id(new_id, this);
+		set_new_id(new_id, this);
 	}
 	set_location(system_id);
 	set_name(body_name);
@@ -51,7 +51,6 @@ StellarBody *StellarBody::create_body(uint64_t system_id, StellarBodyType stella
 		generate_body(distance_from_orbit_origin, materials, body_scale, atmosphere, load_position);
 	}
 
-	UtilityFunctions::print(get_name(), " has an ID of: ", game_object.get_id());
 	return this;
 }
 
@@ -123,7 +122,7 @@ void StellarBody::create_orbit(float new_orbit_size) {
 }
 
 void StellarBody::add_body(StellarBody *body) {
-	orbiting_bodies[body->game_object.get_id()] = body;
+	orbiting_bodies[body->get_id()] = body;
 	add_child(body);
 }
 
@@ -135,7 +134,7 @@ void StellarBody::serialize(Ref<FileAccess> file) {
 	file->store_pascal_string(get_name());
 	file->store_8(material_type);
 	file->store_8(body_type);
-	file->store_64(game_object.id);
+	file->store_64(id);
 	file->store_64(location);
 	file->store_float(scale.x); // Scale is actually a Vector3 but we can store just 1 float because all the values should
 								// always be the same.

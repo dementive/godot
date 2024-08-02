@@ -52,6 +52,7 @@ namespace GC {
 	If you need another _ready function for your class use _notification instead of _ready!
 */
 #define WIDGETS(...)                                                                                                                                           \
+public:                                                                                                                                                        \
 	void _ready() override {                                                                                                                                   \
 		if (Engine::get_singleton()->is_editor_hint())                                                                                                         \
 			FOR_EACH(CHECK_GUI_NODE, __VA_OPT__(__VA_ARGS__, ))                                                                                                \

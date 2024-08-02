@@ -10,7 +10,8 @@ using namespace godot;
 namespace GC {
 
 class StellarBodyView : public PanelContainer {
-	GDCLASS(StellarBodyView, PanelContainer);
+	GDCLASS(StellarBodyView, PanelContainer)
+	WIDGETS(button_close, label_title, label_orbit_distance, label_size)
 
 protected:
 	static void _bind_methods();
@@ -18,8 +19,6 @@ protected:
 public:
 	StellarBodyView();
 	~StellarBodyView();
-
-	WIDGETS(button_close, label_title, label_orbit_distance, label_size)
 
 	void _notification(int p_what);
 	void on_close_pressed();

@@ -10,7 +10,8 @@ using namespace godot;
 namespace GC {
 
 class SaveMenu : public PanelContainer {
-	GDCLASS(SaveMenu, PanelContainer);
+	GDCLASS(SaveMenu, PanelContainer)
+	WIDGETS(button_save, button_load, edit_name)
 
 protected:
 	static void _bind_methods();
@@ -18,8 +19,6 @@ protected:
 public:
 	SaveMenu();
 	~SaveMenu();
-
-	WIDGETS(button_save, button_load, edit_name)
 
 	void _notification(int p_what);
 	void _unhandled_input(const Ref<InputEvent> &event) override;
