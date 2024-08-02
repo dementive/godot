@@ -24,6 +24,10 @@ void TopBar::_notification(int p_what) {
 	}
 }
 
-void TopBar::on_menu_pressed() { UtilityFunctions::print("Menu pressed!"); }
+void TopBar::on_menu_pressed() {
+	Control *node = get_parent()->get_node<Control>("PauseMenu");
+	if (node != nullptr)
+		node->set_visible(true);
+}
 
 void TopBar::on_ledger_pressed() {}

@@ -22,7 +22,8 @@ config/icon="res://gfx/interface/loadingscreens/icon.png"
 folder_colors={
 "res://gfx/": "purple",
 "res://scenes/": "green",
-"res://scripts/": "orange"
+"res://scripts/": "orange",
+"res://src/": "red"
 }
 
 [filesystem]
