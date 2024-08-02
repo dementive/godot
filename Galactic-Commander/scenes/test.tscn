@@ -1,14 +1,14 @@
-[gd_scene load_steps=17 format=3 uid="uid://davbk81ykc68n"]
+[gd_scene load_steps=19 format=3 uid="uid://davbk81ykc68n"]
 
 [ext_resource type="Script" path="res://scripts/test.gd" id="1_1pvri"]
 [ext_resource type="Shader" path="res://gfx/shaders/simple_body.gdshader" id="2_0kv70"]
 [ext_resource type="Texture2D" uid="uid://0lhxowh5d4tg" path="res://gfx/planet_textures/Grassland/Grassland_05-1024x512.png" id="3_1rbga"]
-[ext_resource type="Texture2D" uid="uid://3a7lj1cxk4g" path="res://gfx/space_spheremaps/blue_nebulae_1.png" id="3_sogj6"]
 [ext_resource type="ArrayMesh" uid="uid://dgx8h4sb1ixy6" path="res://gfx/models/Farm.obj" id="4_kk5v5"]
 [ext_resource type="PackedScene" uid="uid://df2twgr1xbl8g" path="res://scenes/player.tscn" id="4_rr7qo"]
 [ext_resource type="Shader" path="res://gfx/shaders/structure.gdshader" id="5_xuytw"]
 [ext_resource type="Texture2D" uid="uid://hcs4m8ws5x34" path="res://gfx/models/common_textures/T_Spase_white.png" id="6_q07dj"]
 [ext_resource type="Texture2D" uid="uid://ehmorv8kj6cl" path="res://gfx/models/common_textures/NormalMap.png" id="6_sdvhl"]
+[ext_resource type="Texture2D" uid="uid://dn582xgylihnu" path="res://gfx/space_spheremaps/hazy_nebulae_1.png" id="9_rvn31"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tqe1t"]
 render_priority = 0
@@ -35,15 +35,23 @@ shader_parameter/texture_normal = ExtResource("6_sdvhl")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_xonq4"]
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_5vkpq"]
-panorama = ExtResource("3_sogj6")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r5ksc"]
+emission_enabled = true
+emission = Color(0.641633, 0.605458, 0, 1)
+emission_energy_multiplier = 7.23
 
-[sub_resource type="Sky" id="Sky_g7n5n"]
-sky_material = SubResource("PanoramaSkyMaterial_5vkpq")
+[sub_resource type="SphereMesh" id="SphereMesh_fkam8"]
+material = SubResource("StandardMaterial3D_r5ksc")
 
-[sub_resource type="Environment" id="Environment_3brjn"]
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ceblf"]
+panorama = ExtResource("9_rvn31")
+
+[sub_resource type="Sky" id="Sky_41ape"]
+sky_material = SubResource("PanoramaSkyMaterial_ceblf")
+
+[sub_resource type="Environment" id="Environment_u4q2d"]
 background_mode = 2
-sky = SubResource("Sky_g7n5n")
+sky = SubResource("Sky_41ape")
 glow_enabled = true
 glow_normalized = true
 glow_bloom = 0.2
@@ -53,6 +61,7 @@ glow_blend_mode = 0
 script = ExtResource("1_1pvri")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 862.254)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
 transform = Transform3D(300, 0, 0, 0, 300, 0, 0, 0, 300, 0, 0, 0)
@@ -69,20 +78,21 @@ surface_material_override/0 = SubResource("ShaderMaterial_qmtnv")
 transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, 0.643921, -2.35104, 0.138062)
 shape = SubResource("SphereShape3D_xonq4")
 
+[node name="Player" parent="." instance=ExtResource("4_rr7qo")]
+transform = Transform3D(-0.396878, -0.0646098, -0.915595, 0.276934, -0.959462, -0.052336, -0.875097, -0.274331, 0.398683, 0, 0, -914.649)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(500, 0, 0, 0, 500, 0, 0, 0, 500, 0, 0, 0)
+mesh = SubResource("SphereMesh_fkam8")
+
 [node name="SpaceEnvironment" type="Node3D" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SpaceEnvironment"]
-environment = SubResource("Environment_3brjn")
+environment = SubResource("Environment_u4q2d")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SpaceEnvironment"]
-transform = Transform3D(-0.997213, 0, -0.0746132, 0, 1, 0, 0.0746132, 0, -0.997213, -12.1132, 268.633, -815.163)
-light_cull_mask = 4294967293
-sky_mode = 1
-
-[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="SpaceEnvironment"]
-transform = Transform3D(0.995171, 0, 0.0981561, 0, 1, 0, -0.0981561, 0, 0.995171, -12.1132, 268.633, 949.284)
-light_cull_mask = 4294967293
-sky_mode = 1
-
-[node name="Player" parent="." instance=ExtResource("4_rr7qo")]
-transform = Transform3D(-0.396878, -0.0646098, -0.915595, 0.276934, -0.959462, -0.052336, -0.875097, -0.274331, 0.398683, 0, 0, -914.649)
+[node name="OmniLight3D" type="OmniLight3D" parent="SpaceEnvironment"]
+light_specular = 8.0
+light_bake_mode = 1
+omni_range = 200000.0
+omni_attenuation = 0.148651
+omni_shadow_mode = 0
