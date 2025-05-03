@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgyvugklvhdy4"]
+
+[ext_resource type="Script" path="res://2d_map.gd" id="1_ef227"]
+[ext_resource type="Shader" path="res://Shaders/MapShader.gdshader" id="2_spw1g"]
+[ext_resource type="Texture2D" uid="uid://c4lrappohhij7" path="res://Assets/provinces.png" id="3_4u0jy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_catxq"]
+shader = ExtResource("2_spw1g")
+shader_parameter/selected_area = null
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_ef227")
+
+[node name="Map" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_catxq")
+scale = Vector2(0.545, 0.545)
+texture = ExtResource("3_4u0jy")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 1024, 1024)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -73.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="CanvasLayer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "StateID:
+"
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "StateName
+"
+
+[connection signal="gui_input" from="CanvasLayer/Control" to="." method="_on_control_gui_input"]

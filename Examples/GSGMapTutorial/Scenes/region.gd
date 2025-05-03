@@ -23,6 +23,5 @@ func _on_mouse_entered():
 
 
 func _on_input_event(viewport, event, shape_idx):
-	print("INPUT EVENT")
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
 		print("Clicked on: ", region_name)

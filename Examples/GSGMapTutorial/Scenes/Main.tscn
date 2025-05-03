@@ -10,6 +10,7 @@ script = ExtResource("1_4vqlq")
 
 [node name="MapTexture" type="Sprite2D" parent="."]
 texture = SubResource("CompressedTexture2D_0fw5r")
+centered = false
 
 [node name="Regions" type="Node2D" parent="."]
 

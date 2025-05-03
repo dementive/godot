@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://bua4ekkmhkklg"]
+
+[ext_resource type="Script" path="res://camera_3d.gd" id="1_4mko7"]
+[ext_resource type="Shader" path="res://Shaders/3d_map.gdshader" id="1_xe1rl"]
+[ext_resource type="Texture2D" uid="uid://c4lrappohhij7" path="res://Assets/provinces.png" id="2_rcman"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ithb"]
+render_priority = 0
+shader = ExtResource("1_xe1rl")
+shader_parameter/selected_area = null
+shader_parameter/texture_albedo = ExtResource("2_rcman")
+
+[sub_resource type="QuadMesh" id="QuadMesh_m2ube"]
+material = SubResource("ShaderMaterial_2ithb")
+size = Vector2(1024, 1024)
+orientation = 1
+
+[node name="3DMap" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 512, 0, 512)
+
+[node name="MapMesh" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+mesh = SubResource("QuadMesh_m2ube")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 810.442, -1.39545)
+script = ExtResource("1_4mko7")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 197.246, 0)
+omni_range = 577.784
+omni_attenuation = 0.0

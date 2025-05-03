@@ -14,8 +14,6 @@ func load_regions():
 	var image = mapImage.get_texture().get_image()
 	var pixel_colors = get_pixel_colors(image)
 	var regions = import_file("res://map_data/regions.json")
-	print(pixel_colors)
-	
 	print(regions)
 	for color in regions:
 		var region = load("res://Scenes/region.tscn").instantiate()
@@ -43,7 +41,8 @@ func get_pixel_colors(image):
 			if pixel_color not in pixel_colors:
 				pixel_colors[pixel_color] = []
 			pixel_colors[pixel_color].append(Vector2(x,y))
-		return pixel_colors
+
+	return pixel_colors
 
 func get_polygons(image, color, pixel_colors):
 	var target_image = Image.create(image.get_size().x, image.get_size().y, false, Image.FORMAT_RGBA8)
