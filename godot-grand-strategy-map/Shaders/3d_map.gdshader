@@ -5,9 +5,9 @@ render_mode cull_back, depth_draw_never, depth_test_disabled;
 //#define SHOW_LOOKUP_TEXTURE
 
 uniform sampler2D texture_albedo : source_color, filter_linear;
-uniform sampler2D lookup_texture : filter_nearest;
-uniform sampler2D color_texture : filter_nearest;
-uniform vec4 selected_area;
+uniform sampler2D lookup_texture : source_color, filter_nearest;
+uniform sampler2D color_texture : source_color, filter_nearest;
+uniform vec4 selected_area: source_color;
 
 bool is_same_color(vec3 a, vec3 b) {
 	vec3 diff = abs(a - b);

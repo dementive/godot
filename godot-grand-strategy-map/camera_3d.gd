@@ -20,10 +20,8 @@ func _physics_process(delta: float) -> void:
 		var pos = Vector3(xz_pos.x, 1.0, xz_pos.z)
 		var click_position: Vector2i = Vector2i(pos.x, pos.z)
 
-		print("Click Position: ", click_position)
 		var state_color = loader.get_lookup_image().get_pixelv(click_position)
 		var state_id  = loader.get_state_uvs().get(state_color)
 		
 		if state_id:
-			print("Setting selected_area shader param to: ", state_color)
-			map.get_mesh().surface_get_material(0).set_shader_parameter('selected_area', state_color)
+			map.get_mesh().surface_get_material(0).set_shader_parameter('selected_area', state_color.linear_to_srgb())
