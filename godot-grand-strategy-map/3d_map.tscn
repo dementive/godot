@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bua4ekkmhkklg"]
 
-[ext_resource type="Script" path="res://camera_3d.gd" id="1_4mko7"]
+[ext_resource type="Script" path="res://scripts/camera_3d.gd" id="1_4mko7"]
 [ext_resource type="Shader" path="res://Shaders/3d_map.gdshader" id="1_xe1rl"]
 [ext_resource type="Texture2D" uid="uid://c4lrappohhij7" path="res://Assets/provinces.png" id="2_rcman"]
 

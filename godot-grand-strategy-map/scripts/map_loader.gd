@@ -40,7 +40,11 @@ func load_map() -> void:
 	for x in range(image_dimensions.x):
 		for y in range(image_dimensions.y):
 			var province_id = states[province_image.get_pixel(x, y)];
-			var color = Color((float(province_id % DIM)/ (DIM - 1)), (floor(float(province_id)/DIM) / (DIM - 1)), 0.0);
+			var color = Color(
+				(float(province_id % DIM)/ (DIM - 1)),
+				(floor(float(province_id)/DIM) / (DIM - 1)),
+				0.0
+			);
 			look_up_image.set_pixel(x, y, color);
 
 	#look_up_image.save_exr("res://Assets/lookup.exr")
