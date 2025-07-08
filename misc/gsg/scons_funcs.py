@@ -27,7 +27,7 @@ def enable_all_warnings(env):
 
 		if using_clang(env):
 			env.Append(CXXFLAGS=["-glldb"])
-			env.Append(CXXFLAGS=["-Wimplicit-fallthrough", "-Wno-deprecated-volatile", "-Wno-missing-designated-field-initializers",])
+			env.Append(CXXFLAGS=["-Wimplicit-fallthrough", "-Wno-deprecated-volatile", "-Wno-missing-field-initializers",])
 			env.Append(CXXFLAGS=["-pedantic", "-Wno-nested-anon-types", "-Wno-gnu-anonymous-struct", "-Wno-extra-semi"])
 			env.Append(CPPDEFINES=["_LIBCPP_REMOVE_TRANSITIVE_INCLUDES"])
 
