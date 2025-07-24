@@ -180,7 +180,7 @@ class GodotClassDocumentation:
         )
 
         # Combine everything into one Markdown string
-        markdown_content = f"# {to_markdown(self.class_name)}\n\n{to_markdown(self.inherits_from)}\n\n## Brief Description\n{to_markdown(self.brief_description)}\n\n## Full Description\n{to_markdown(self.full_description)}\n\n## Tutorials\n{tutorials_md}\n\n## {to_markdown(self.class_name)}.Signals\n{signals_md}\n\n## {to_markdown(self.class_name)}.Methods\n{methods_md}\n\n## {to_markdown(self.class_name)}.Annotations\n{annotations_md}\n\n## {to_markdown(self.class_name)}.Members\n{members_md}\n\n## {to_markdown(self.class_name)}.Constants\n{constants_md}"
+        markdown_content = f"# {to_markdown(self.class_name)} : public {to_markdown(self.inherits_from)}\n\n## Brief Description\n{to_markdown(self.brief_description)}\n\n## Full Description\n{to_markdown(self.full_description)}\n\n## Tutorials\n{tutorials_md}\n\n## {to_markdown(self.class_name)}.Signals\n{signals_md}\n\n## {to_markdown(self.class_name)}.Methods\n{methods_md}\n\n## {to_markdown(self.class_name)}.Annotations\n{annotations_md}\n\n## {to_markdown(self.class_name)}.Members\n{members_md}\n\n## {to_markdown(self.class_name)}.Constants\n{constants_md}"
 
         # Trim leading and trailing whitespace from each line
         markdown_content = "\n".join(line for line in markdown_content.split("\n"))
