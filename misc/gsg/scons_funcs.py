@@ -56,10 +56,11 @@ def set_flecs_defines(env):
             "FLECS_META",
             "FLECS_STATS",
             "FLECS_LOG",
+            "FLECS_MODULE",
         ]
     )
     if env.debug_features:
-        env.Append(CPPDEFINES=["FLECS_KEEP_ASSERT", "FLECS_NO_ALWAYS_INLINE"])
+        env.Append(CPPDEFINES=["FLECS_KEEP_ASSERT", "FLECS_NO_ALWAYS_INLINE", "FLECS_REST"])
 
 
 def find_cpp_files(env):
