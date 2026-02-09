@@ -1218,6 +1218,11 @@
 		<member name="gui/common/default_scroll_deadzone" type="int" setter="" getter="" default="0">
 			Default value for [member ScrollContainer.scroll_deadzone], which will be used for all [ScrollContainer]s unless overridden.
 		</member>
+		<member name="gui/common/default_tooltip_scene" type="String" setter="" getter="" default="&quot;&quot;">
+			Path to a [PackedScene] used as the default tooltip popup for [Control] nodes when [method Control._make_custom_tooltip] does not provide one.
+			The root node of the scene must inherit [PopupPanel]. The instantiated popup receives the tooltip text through [member Control.tooltip_text], and through a [code]text[/code] property if present.
+			If this setting is empty or invalid, the built-in [PopupPanel] + [Label] tooltip is used instead.
+		</member>
 		<member name="gui/common/drag_threshold" type="int" setter="" getter="" default="10">
 			The minimum distance the mouse cursor must move while pressed before a drag operation begins in the default viewport. For custom viewports see [member Viewport.gui_drag_threshold].
 		</member>

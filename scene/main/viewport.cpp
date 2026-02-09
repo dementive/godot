@@ -31,6 +31,7 @@
 #include "viewport.h"
 
 #include "core/config/project_settings.h"
+#include "core/io/resource_loader.h"
 #include "core/debugger/engine_debugger.h"
 #include "core/input/input.h"
 #include "core/templates/pair.h"
@@ -44,6 +45,7 @@
 #include "scene/main/window.h"
 #include "scene/resources/dpi_texture.h"
 #include "scene/resources/mesh.h"
+#include "scene/resources/packed_scene.h"
 #include "scene/resources/text_line.h"
 #include "scene/resources/world_2d.h"
 #include "servers/audio/audio_server.h"
@@ -1573,6 +1575,33 @@ String Viewport::_gui_get_tooltip(Control *p_control, const Vector2 &p_pos, Cont
 	return tooltip;
 }
 
+PopupPanel *Viewport::_gui_make_project_tooltip(Control *p_tooltip_owner) {
+	const String tooltip_scene_path = GLOBAL_GET("gui/common/default_tooltip_scene");
+	if (tooltip_scene_path.is_empty()) {
+		return nullptr;
+	}
+
+	Ref<PackedScene> tooltip_scene = ResourceLoader::load(tooltip_scene_path, "PackedScene");
+	if (!tooltip_scene.is_valid()) {
+		return nullptr;
+	}
+
+	Node *tooltip_node = tooltip_scene->instantiate();
+	PopupPanel *scene_tooltip = Object::cast_to<PopupPanel>(tooltip_node);
+	if (!scene_tooltip) {
+		WARN_PRINT_ONCE("Project setting 'gui/common/default_tooltip_scene' must point to a scene with a PopupPanel root.");
+		memdelete(tooltip_node);
+		return nullptr;
+	}
+
+	scene_tooltip->set_auto_translate_mode(p_tooltip_owner->get_tooltip_auto_translate_mode());
+	scene_tooltip->set_tooltip_text(gui.tooltip_text);
+
+	bool is_text_property_valid = false;
+	scene_tooltip->set(SNAME("text"), gui.tooltip_text, &is_text_property_valid);
+	return scene_tooltip;
+}
+
 void Viewport::cancel_tooltip() {
 	_gui_cancel_tooltip();
 }
@@ -1633,29 +1662,41 @@ void Viewport::_gui_show_tooltip_at(const Point2i &p_pos) {
 		return;
 	}
 
-	// Popup window which houses the tooltip content.
-	PopupPanel *panel = memnew(PopupPanel);
-	panel->set_theme_type_variation(SNAME("TooltipPanel"));
+	PopupPanel *panel = nullptr;
+	bool use_project_tooltip_panel = false;
 
-	// If no custom tooltip is given, use a default implementation.
+	// If no custom tooltip is given, use the project-wide tooltip popup scene or default implementation.
 	if (!base_tooltip) {
-		gui.tooltip_label = memnew(Label);
-		gui.tooltip_label->set_theme_type_variation(SNAME("TooltipLabel"));
-		gui.tooltip_label->set_text(gui.tooltip_text);
-		gui.tooltip_label->set_auto_translate_mode(tooltip_owner->get_tooltip_auto_translate_mode());
-		base_tooltip = gui.tooltip_label;
-		panel->connect(SceneStringName(mouse_entered), callable_mp(this, &Viewport::_gui_cancel_tooltip));
+		panel = _gui_make_project_tooltip(tooltip_owner);
+		use_project_tooltip_panel = panel != nullptr;
 	}
 
-	base_tooltip->set_anchors_and_offsets_preset(Control::PRESET_FULL_RECT);
+	if (!panel) {
+		// Popup window which houses the tooltip content.
+		panel = memnew(PopupPanel);
+		panel->set_theme_type_variation(SNAME("TooltipPanel"));
 
-	panel->set_flag(Window::FLAG_NO_FOCUS, true);
-	panel->set_flag(Window::FLAG_POPUP, false);
-	panel->set_flag(Window::FLAG_MOUSE_PASSTHROUGH, true);
-	panel->set_wrap_controls(true);
-	panel->set_default_canvas_item_texture_filter(get_default_canvas_item_texture_filter());
-	panel->set_default_canvas_item_texture_repeat(get_default_canvas_item_texture_repeat());
-	panel->add_child(base_tooltip);
+		if (!base_tooltip) {
+			gui.tooltip_label = memnew(Label);
+			gui.tooltip_label->set_theme_type_variation(SNAME("TooltipLabel"));
+			gui.tooltip_label->set_text(gui.tooltip_text);
+			gui.tooltip_label->set_auto_translate_mode(tooltip_owner->get_tooltip_auto_translate_mode());
+			base_tooltip = gui.tooltip_label;
+			panel->connect(SceneStringName(mouse_entered), callable_mp(this, &Viewport::_gui_cancel_tooltip));
+		}
+
+		base_tooltip->set_anchors_and_offsets_preset(Control::PRESET_FULL_RECT);
+		panel->add_child(base_tooltip);
+	}
+
+	if (!use_project_tooltip_panel) {
+		panel->set_flag(Window::FLAG_NO_FOCUS, true);
+		panel->set_flag(Window::FLAG_POPUP, false);
+		panel->set_flag(Window::FLAG_MOUSE_PASSTHROUGH, true);
+		panel->set_wrap_controls(true);
+		panel->set_default_canvas_item_texture_filter(get_default_canvas_item_texture_filter());
+		panel->set_default_canvas_item_texture_repeat(get_default_canvas_item_texture_repeat());
+	}
 	panel->gui_parent = this;
 
 	gui.tooltip_popup = panel;

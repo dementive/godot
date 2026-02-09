@@ -1805,6 +1805,7 @@ ProjectSettings::ProjectSettings() {
 #endif
 
 	GLOBAL_DEF("gui/common/drag_threshold", 10);
+	GLOBAL_DEF_BASIC(PropertyInfo(Variant::STRING, "gui/common/default_tooltip_scene", PROPERTY_HINT_FILE, "*.tscn,*.scn,*.res"), "");
 	GLOBAL_DEF_BASIC("gui/common/snap_controls_to_pixels", true);
 	GLOBAL_DEF(PropertyInfo(Variant::INT, "gui/common/show_focus_state_on_pointer_event", PROPERTY_HINT_ENUM, "Never,Control Supports Keyboard Input,Always"), 1);
 	GLOBAL_DEF_BASIC("gui/fonts/dynamic_fonts/use_oversampling", true);

@@ -1155,7 +1155,8 @@
 		<member name="tooltip_text" type="String" setter="set_tooltip_text" getter="get_tooltip_text" default="&quot;&quot;">
 			The default tooltip text. The tooltip appears when the user's mouse cursor stays idle over this control for a few moments, provided that the [member mouse_filter] property is not [constant MOUSE_FILTER_IGNORE]. The time required for the tooltip to appear can be changed with the [member ProjectSettings.gui/timers/tooltip_delay_sec] setting.
 			This string is the default return value of [method get_tooltip]. Override [method _get_tooltip] to generate tooltip text dynamically. Override [method _make_custom_tooltip] to customize the tooltip interface and behavior.
-			The tooltip popup will use either a default implementation, or a custom one that you can provide by overriding [method _make_custom_tooltip]. The default tooltip includes a [PopupPanel] and [Label] whose theme properties can be customized using [Theme] methods with the [code]"TooltipPanel"[/code] and [code]"TooltipLabel"[/code] respectively. For example:
+			The tooltip popup will use either a default implementation, or a custom one that you can provide by overriding [method _make_custom_tooltip]. You can also define a project-wide tooltip [PackedScene] with [member ProjectSettings.gui/common/default_tooltip_scene] (the scene root must inherit [PopupPanel]).
+			The default tooltip includes a [PopupPanel] and [Label] whose theme properties can be customized using [Theme] methods with the [code]"TooltipPanel"[/code] and [code]"TooltipLabel"[/code] respectively. For example:
 			[codeblocks]
 			[gdscript]
 			var style_box = StyleBoxFlat.new()

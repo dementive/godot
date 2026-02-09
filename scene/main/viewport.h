@@ -47,6 +47,7 @@ class CanvasItem;
 class CanvasLayer;
 class Control;
 class Label;
+class PopupPanel;
 class SceneTreeTimer;
 class Viewport;
 class Window;
@@ -443,6 +444,7 @@ private:
 	void _gui_remove_root_control(List<Control *>::Element *RI);
 
 	String _gui_get_tooltip(Control *p_control, const Vector2 &p_pos, Control **r_tooltip_owner = nullptr);
+	PopupPanel *_gui_make_project_tooltip(Control *p_tooltip_owner);
 	void _gui_cancel_tooltip();
 	void _gui_show_tooltip();
 	void _gui_show_tooltip_at(const Point2i &p_pos);
